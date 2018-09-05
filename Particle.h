@@ -13,10 +13,14 @@ private:
 
 
 public:
-	Particle(Vect3D, float);
-	Particle(const Particle &);
+	Particle(Vect3D, Vect3D, float); /* Constructeur par défaut */
+	Particle(const Particle &);      /* Constructeur de recopie */
+	Particle(const Particle *);      /* Constructeur par pointeur */
 
-	void update();
+	void applyForce(Vect3D);
+	void applyGrav(Vect3D);
+
+	void update(float);
 };
 
 
