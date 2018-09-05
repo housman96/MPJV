@@ -19,14 +19,10 @@ Vect3D::Vect3D(const Vect3D &other) {
 	z = other.z;
 }
 
-
-// ============================================================
-// METHODES OUTIL
-// ============================================================
-
-Vect3D Vect3D::copy() {
-	Vect3D newVect(*this);
-	return newVect;
+Vect3D::Vect3D(const Vect3D * other) {
+	x = other->x;
+	y = other->y;
+	z = other->z;
 }
 
 
