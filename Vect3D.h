@@ -18,6 +18,8 @@ public:
 	Vect3D(float = 0, float = 0, float = 0); /* Constructeur par défaut */
 	Vect3D(const Vect3D &);                  /* Constructeur de recopie */
 
+	Vect3D copy();
+
 	Vect3D add(const Vect3D &);   /* Addition de deux vecteurs */
 	Vect3D scale(const float);    /* Multiplication par un scalaire */
 	Vect3D mult(const Vect3D &);  /* Multiplication des composantes */
