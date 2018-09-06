@@ -1,6 +1,8 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
+#include <iostream>
+#include <cmath>
 #include "Vect3D.h"
 
 
@@ -10,6 +12,7 @@ private:
 	Vect3D velocity;
 	Vect3D acceleration;
 	float inverseMass;
+	float damping;
 
 
 public:
@@ -17,10 +20,13 @@ public:
 	Particle(const Particle &);      /* Constructeur de recopie */
 	Particle(const Particle *);      /* Constructeur par pointeur */
 
+	void setDamping(float);
+
 	void applyForce(Vect3D);
-	void applyGrav(Vect3D);
 
 	void update(float);
+
+	void log();
 };
 
 
