@@ -1,16 +1,20 @@
+# Declaration of variables
+CC = g++
+CC_FLAGS = -Wall -lGL -lGLU -lglut
 
-all : moteurJeu
+# File names
+EXEC = moteurJeu 
+SOURCES = $(wildcard *.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
 
-clean :
-	rm *.o moteurJeu
+# Main target
+$(EXEC): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(EXEC) $(CC_FLAGS)
 
+# To obtain object files
+%.o: %.cpp %.h
+	$(CC) -c $(CC_FLAGS) $< -o $@
 
-moteurJeu: Vect3D.o moteurJeu.o
-	$(CXX) -o moteurJeu Vect3D.o moteurJeu.o
-
-
-Vect3D.o: Vect3D.cpp
-	$(CXX) -c Vect3D.cpp
-
-moteurJeu.o: moteurJeu.cpp
-	$(CXX) -c moteurJeu.cpp
+# To remove generated files
+clean:
+	rm -f $(EXEC) $(OBJECTS)
