@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <vector>
 #include "Affichage.h"
 
 using namespace std;
@@ -13,10 +14,10 @@ void Affichage::Display(void)
 
     glPushMatrix();
 
-    // for (Particle part : list)
-    // {
-    //     glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
-    // }
+    for (Particle part : Affichage::list)
+    {
+        glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
+    }
     glutSolidSphere(1.0, 50, 50);
 
     glPopMatrix();
@@ -45,7 +46,7 @@ void Affichage::redim(int width, int height)
 Affichage::Affichage(int argc, char **argv, Particle part)
 {
 
-    list.push_back(part);
+    Affichage::list.push_back(part);
 
     /* Initialisation de GLUT */
 
