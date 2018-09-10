@@ -19,6 +19,15 @@ public:
 	Vect3D(const Vect3D &);                  /* Constructeur de recopie */
 	Vect3D(const Vect3D *);                  /* Constructeur par pointeur */
 
+	float getX();
+	float getY();
+	float getZ();
+	void setX(float);
+	void setY(float);
+	void setZ(float);
+
+	void log(); /* Affichage dans la console */
+
 	Vect3D add(const Vect3D &);   /* Addition de deux vecteurs */
 	Vect3D scale(const float);    /* Multiplication par un scalaire */
 	Vect3D mult(const Vect3D &);  /* Multiplication des composantes */
@@ -32,8 +41,6 @@ public:
 	static Vect3D proj(Vect3D &, Vect3D &);        /* Projection d'un vecteur sur un autre */
 	static float dist(Vect3D &, Vect3D &);         /* Distance entre deux points */
 	static float angleBetween(Vect3D &, Vect3D &); /* Angle entre deux vecteurs */
-
-	void log(); /* Affichage dans la console */
 };
 
 

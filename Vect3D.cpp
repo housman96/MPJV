@@ -27,6 +27,42 @@ Vect3D::Vect3D(const Vect3D * other) {
 
 
 // ============================================================
+// ASCESSEURS
+// ============================================================
+
+float Vect3D::getX() {
+	return x;
+}
+
+float Vect3D::getY() {
+	return y;
+}
+float Vect3D::getZ() {
+	return z;
+}
+
+void Vect3D::setX(float x) {
+	this->x = x;
+}
+
+void Vect3D::setY(float y) {
+	this->y = y;
+}
+void Vect3D::setZ(float z) {
+	this->z = z;
+}
+
+
+// ============================================================
+// AFFICHAGE
+// ============================================================
+
+void Vect3D::log() {
+	cout << "Vect3D : (" << x << "," << y << "," << z << ")" << endl;
+}
+
+
+// ============================================================
 // OPERATIONS
 // ============================================================
 
@@ -104,13 +140,4 @@ float Vect3D::dist(Vect3D &u, Vect3D &v) {
 
 float Vect3D::angleBetween(Vect3D &u, Vect3D &v) {
 	return acos(u.dot(v) / (u.mag() * v.mag()));
-}
-
-
-// ============================================================
-// AFFICHAGE
-// ============================================================
-
-void Vect3D::log() {
-	cout << "Vect3D : (" << x << "," << y << "," << z << ")" << endl;
 }
