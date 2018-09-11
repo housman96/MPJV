@@ -26,7 +26,7 @@ public:
 	void refresh(void);
 	void setList(vector<Particle> list);
 	vector<Particle> getList();
-	static void Display();
+	static void display();
 	static void redim(int width, int height);
 };
 
