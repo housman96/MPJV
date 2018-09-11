@@ -5,8 +5,8 @@
 #include <cmath>
 #include "Vect3D.h"
 
-class Particle
-{
+
+class Particle {
 private:
 	Vect3D position;
 	Vect3D velocity;
