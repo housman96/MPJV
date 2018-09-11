@@ -2,12 +2,12 @@
 
 using namespace std;
 
-
 // ============================================================
 // CONSTRUCTEURS
 // ============================================================
 
-Particle::Particle(Vect3D pos, Vect3D vel, float m) {
+Particle::Particle(Vect3D pos, Vect3D vel, float m)
+{
 	position = pos;
 	velocity = vel;
 	acceleration = new Vect3D(0, 0, 0);
@@ -15,7 +15,8 @@ Particle::Particle(Vect3D pos, Vect3D vel, float m) {
 	damping = 1.0;
 }
 
-Particle::Particle(const Particle &other) {
+Particle::Particle(const Particle &other)
+{
 	position = other.position;
 	velocity = other.velocity;
 	acceleration = other.acceleration;
@@ -23,14 +24,14 @@ Particle::Particle(const Particle &other) {
 	damping = other.damping;
 }
 
-Particle::Particle(const Particle * other) {
+Particle::Particle(const Particle *other)
+{
 	position = other->position;
 	velocity = other->velocity;
 	acceleration = other->acceleration;
 	inverseMass = other->inverseMass;
 	damping = other->damping;
 }
-
 
 // ============================================================
 // ASCESSEURS
@@ -75,4 +76,18 @@ void Particle::update(float t) {
 	velocity = velocity.add(acceleration.scale(t));
 	position = position.add(velocity.scale(t));
 	acceleration = acceleration.scale(0);
+}
+
+// ============================================================
+// ASCESSEUR
+// ============================================================
+
+Vect3D Particle::getPosition(void)
+{
+	return position;
+}
+
+void Particle::setPosition(Vect3D position)
+{
+	this->position = position;
 }
