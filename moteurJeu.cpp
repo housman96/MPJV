@@ -3,6 +3,7 @@
 #include "Affichage.h"
 #include "vector"
 
+
 using namespace std;
 
 const float T = 1.6;
@@ -11,6 +12,7 @@ const int G = 5;
 vector<Particle> Affichage::list = vector<Particle>();
 float Affichage::lastLoopTime = 0.;
 float Affichage::timeAccumulatedMs = 0.;
+
 
 int main(int argc, char **argv)
 {
