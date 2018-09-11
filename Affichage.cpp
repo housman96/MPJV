@@ -11,177 +11,161 @@ using namespace std;
 // METHODE GLUT
 // ============================================================
 
-void Affichage::Display(void)
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
+void Affichage::Display(void) {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
 
-    glPushMatrix();
-    cout << "Display" << Affichage::list.size() << endl;
-    for (Particle part : Affichage::list)
-    {
-        glPushMatrix();
-        glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
-        glutSolidSphere(1.0, 50, 50);
-        glPopMatrix();
-    }
+	glPushMatrix();
+	cout << "Display" << Affichage::list.size() << endl;
+	for (Particle part : Affichage::list) {
+		glPushMatrix();
+		glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
+		glutSolidSphere(1.0, 50, 50);
+		glPopMatrix();
+	}
 
-    glPopMatrix();
+	glPopMatrix();
 
-    glutSwapBuffers();
+	glutSwapBuffers();
 }
 
-/* la fonction "redim" est appelée : une fois a la creation de la fenêtre ;
- ensuite à chaque fois que la fenêtre est redimmensionnée
- width et height representent la taille de la fenêtre */
-void Affichage::redim(int width, int height)
-{
-    glViewport(0, 0, width, height); /* Oups ! on reviendra sur la notion de viewport plus tard, on va simplement retenir ici que cette instruction veut dire :
-                                    on affiche dans toute la fenêtre */
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(2., 2.0, 2.0,
-              0.0, 0.0, 0.0,
-              0.0, 1.0, 0.0);
+/*  La fonction "redim" est appelée :
+ *   une fois a la creation de la fenêtre ;
+ *  ensuite à chaque fois que la fenêtre est redimmensionnée
+ *  width et height representent la taille de la fenêtre
+ */
+void Affichage::redim(int width, int height) {
+	glViewport(0, 0, width, height);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(2., 2.0, 2.0,
+	          0.0, 0.0, 0.0,
+	          0.0, 1.0, 0.0);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(70.0, 1.0, 1.0, 10.0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(70.0, 1.0, 1.0, 10.0);
 }
 
-void Affichage::idle(void)
-{
-    double now = glutGet(GLUT_ELAPSED_TIME);
-    double timeElapsedMs = ((now - Affichage::lastLoopTime) * 1000) / (CLOCKS_PER_SEC);
-    Affichage::timeAccumulatedMs += timeElapsedMs;
+void Affichage::idle(void) {
+	double now = glutGet(GLUT_ELAPSED_TIME);
+	double timeElapsedMs = ((now - Affichage::lastLoopTime) * 1000) / (CLOCKS_PER_SEC);
+	Affichage::timeAccumulatedMs += timeElapsedMs;
 
-    while (Affichage::timeAccumulatedMs >= Affichage::T)
-    {
-        for (Particle p : Affichage::list)
-        {
-            Vect3D grav = new Vect3D(0, -G, 0);
-            p = new Particle(Vect3D(0, 0, 0), Vect3D(1, 1, 0), 10);
-            p.setDamping(D);
+	while (Affichage::timeAccumulatedMs >= Affichage::T) {
+		for (Particle p : Affichage::list) {
+			Vect3D grav = new Vect3D(0, -Affichage::G, 0);
+			p = new Particle(Vect3D(0, 0, 0), Vect3D(1, 1, 0), 10);
+			p.setDamping(Affichage::D);
 
-            for (int i = 0; i < 10; i++)
-            {
-                p.applyForce(grav);
-                p.update(T);
-            }
-        }
-        glutPostRedisplay();
-    }
+			for (int i = 0; i < 10; i++) {
+				p.applyForce(grav);
+				p.update(Affichage::T);
+			}
+		}
+		glutPostRedisplay();
+	}
 
-    Affichage::lastLoopTime = now;
+	Affichage::lastLoopTime = now;
 }
 
-void Affichage::refresh(void)
-{
-    glutPostRedisplay();
+void Affichage::refresh(void) {
+	glutPostRedisplay();
 }
+
 
 // ============================================================
 // CONSTRUCTEURS
 // ============================================================
 
-Affichage::Affichage(int argc, char **argv, Particle part)
-{
+Affichage::Affichage(int argc, char ** argv, Particle part) {
+	Affichage::list.push_back(part);
 
-    Affichage::list.push_back(part);
+	/* Initialisation de GLUT */
+	glutInit(&argc, argv);
 
-    /* Initialisation de GLUT */
+	/* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
+	   et d'un double buffer */
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
 
-    glutInit(&argc, argv);
+	/* Taille et emplacement de la fenêtre */
+	glutInitWindowSize(400, 400);
+	glutInitWindowPosition(200, 100);
 
-    /* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
-    et d'un double buffer */
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	/* Création de la fenêtre */
+	glutCreateWindow("GLUTfenetre");
+	glEnable(GL_DEPTH_TEST);
 
-    /* Taille et emplacement de la fenêtre */
-    glutInitWindowSize(400, 400);
-    glutInitWindowPosition(200, 100);
+	/* Association des callback pour cette fenêtre */
+	glutDisplayFunc(Affichage::Display);
+	glutReshapeFunc(Affichage::redim);
+	glutIdleFunc(Affichage::idle);
 
-    /* Création de la fenêtre */
-    glutCreateWindow("GLUTfenetre");
-    glEnable(GL_DEPTH_TEST);
-
-    /* Association des callback pour cette fenêtre */
-    glutDisplayFunc(Affichage::Display);
-    glutReshapeFunc(Affichage::redim);
-    glutIdleFunc(Affichage::idle);
-    glutMainLoop(); /* On entre dans la boucle d'événements */
+	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-Affichage::Affichage(int argc, char **argv)
-{
+Affichage::Affichage(int argc, char ** argv) {
+	/* Initialisation de GLUT */
+	glutInit(&argc, argv);
 
-    /* Initialisation de GLUT */
+	/* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
+	   et d'un double buffer */
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
 
-    glutInit(&argc, argv);
+	/* Taille et emplacement de la fenêtre */
+	glutInitWindowSize(400, 400);
+	glutInitWindowPosition(200, 100);
 
-    /* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
-    et d'un double buffer */
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	/* Création de la fenêtre */
+	glutCreateWindow("GLUTfenetre");
+	glEnable(GL_DEPTH_TEST);
 
-    /* Taille et emplacement de la fenêtre */
-    glutInitWindowSize(400, 400);
-    glutInitWindowPosition(200, 100);
+	/* Association des callback pour cette fenêtre */
+	glutDisplayFunc(Affichage::Display);
+	glutReshapeFunc(Affichage::redim);
 
-    /* Création de la fenêtre */
-    glutCreateWindow("GLUTfenetre");
-    glEnable(GL_DEPTH_TEST);
-
-    /* Association des callback pour cette fenêtre */
-    glutDisplayFunc(Affichage::Display);
-    glutReshapeFunc(Affichage::redim);
-
-    glutMainLoop(); /* On entre dans la boucle d'événements */
+	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-Affichage::Affichage(int argc, char **argv, vector<Particle> list)
-{
-    Affichage::list = list;
-    /* Initialisation de GLUT */
+Affichage::Affichage(int argc, char ** argv, vector<Particle> list) {
+	Affichage::list = list;
+	/* Initialisation de GLUT */
 
-    glutInit(&argc, argv);
+	glutInit(&argc, argv);
 
-    /* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
-    et d'un double buffer */
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	/* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
+	   et d'un double buffer */
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
 
-    /* Taille et emplacement de la fenêtre */
-    glutInitWindowSize(400, 400);
-    glutInitWindowPosition(200, 100);
+	/* Taille et emplacement de la fenêtre */
+	glutInitWindowSize(400, 400);
+	glutInitWindowPosition(200, 100);
 
-    /* Création de la fenêtre */
-    glutCreateWindow("GLUTfenetre");
-    glEnable(GL_DEPTH_TEST);
+	/* Création de la fenêtre */
+	glutCreateWindow("GLUTfenetre");
+	glEnable(GL_DEPTH_TEST);
 
-    /* Association des callback pour cette fenêtre */
-    glutDisplayFunc(Affichage::Display);
-    glutReshapeFunc(Affichage::redim);
+	/* Association des callback pour cette fenêtre */
+	glutDisplayFunc(Affichage::Display);
+	glutReshapeFunc(Affichage::redim);
 
-    glutMainLoop(); /* On entre dans la boucle d'événements */
+	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-Affichage::~Affichage()
-{
-    // Deallocate the memory that was previously reserved
-    //  for this list.
-    if (list.data())
-        delete[] & list;
+Affichage::~Affichage() {
+	if (list.data())
+		delete[] & list;
 }
+
 
 // ============================================================
 // ASCESSEUR
 // ============================================================
 
-vector<Particle> Affichage::getList()
-{
-    return Affichage::list;
+vector<Particle> Affichage::getList() {
+	return Affichage::list;
 }
 
-void Affichage::setList(vector<Particle> newList)
-{
-    Affichage::list = newList;
+void Affichage::setList(vector<Particle> newList) {
+	Affichage::list = newList;
 }
