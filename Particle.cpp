@@ -2,12 +2,12 @@
 
 using namespace std;
 
-
 // ============================================================
 // CONSTRUCTEURS
 // ============================================================
 
-Particle::Particle(Vect3D pos, Vect3D vel, float m) {
+Particle::Particle(Vect3D pos, Vect3D vel, float m)
+{
 	position = pos;
 	velocity = vel;
 	acceleration = new Vect3D(0, 0, 0);
@@ -15,7 +15,8 @@ Particle::Particle(Vect3D pos, Vect3D vel, float m) {
 	damping = 1.0;
 }
 
-Particle::Particle(const Particle &other) {
+Particle::Particle(const Particle &other)
+{
 	position = other.position;
 	velocity = other.velocity;
 	acceleration = other.acceleration;
@@ -23,7 +24,8 @@ Particle::Particle(const Particle &other) {
 	damping = other.damping;
 }
 
-Particle::Particle(const Particle * other) {
+Particle::Particle(const Particle *other)
+{
 	position = other->position;
 	velocity = other->velocity;
 	acceleration = other->acceleration;
@@ -31,46 +33,53 @@ Particle::Particle(const Particle * other) {
 	damping = other->damping;
 }
 
-
 // ============================================================
 // ASCESSEURS
 // ============================================================
 
-void Particle::setDamping(float d) {
+void Particle::setDamping(float d)
+{
 	this->damping = d;
 }
 
-Vect3D Particle::getPosition() {
+Vect3D Particle::getPosition()
+{
 	return position;
 }
 
-void Particle::setPosition(Vect3D position) {
+void Particle::setPosition(Vect3D position)
+{
 	this->position = position;
 }
-
 
 // ============================================================
 // AFFICHAGE
 // ============================================================
 
-void Particle::log() {
+void Particle::log()
+{
 	cout << "Particle : " << endl;
 	cout << "\tPos => ";
 	position.log();
 	cout << endl;
 }
 
-
 // ============================================================
 // METHODES DE MISE A JOUR
 // ============================================================
 
-void Particle::applyForce(Vect3D force) {
+void Particle::applyForce(Vect3D force)
+{
 	Vect3D f = force.scale(inverseMass);
 	acceleration = acceleration.add(f);
 }
 
-void Particle::update(float t) {
+void Particle::update(float t)
+{
+	if (position.getY() < 1. && velocity.getY() < 0)
+	{
+		velocity.setY(-velocity.getY());
+	}
 	velocity = velocity.scale(pow(damping, t));
 	velocity = velocity.add(acceleration.scale(t));
 	position = position.add(velocity.scale(t));
