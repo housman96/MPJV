@@ -104,7 +104,7 @@ Vect3D Vect3D::cross(const Vect3D &other) {
 
 
 // ============================================================
-// METHODES LIEES A LA NORME
+// MANIPULATION DE LA NORME
 // ============================================================
 
 float Vect3D::mag() {
