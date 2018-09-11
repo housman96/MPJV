@@ -76,7 +76,7 @@ void Particle::applyForce(Vect3D force)
 
 void Particle::update(float t)
 {
-	if (position.getY() < 0)
+	if (position.getY() < 1. && velocity.getY() < 0)
 	{
 		velocity.setY(-velocity.getY());
 	}

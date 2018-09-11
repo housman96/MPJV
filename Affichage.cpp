@@ -15,11 +15,25 @@ void Affichage::Display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-
+	glClearColor(1.f, 1.f, 1.f, 1.f);
 	glPushMatrix();
+	glPushMatrix();
+	glBegin(GL_POLYGON);
+	glColor3b(50, 50, 50);
+	glVertex3f(100, 0, 100);
+
+	glVertex3f(100, 0, -100.0);
+
+	glVertex3f(-100, 0, -100.0);
+
+	glVertex3f(-100, 0., 100.0);
+
+	glEnd();
+	glPopMatrix();
 	for (Particle part : Affichage::list)
 	{
 		glPushMatrix();
+		glColor3b(0, 0, 50);
 		glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
 		glutSolidSphere(1.0, 50, 50);
 		glPopMatrix();
@@ -43,6 +57,11 @@ void Affichage::redim(int width, int height)
 	gluLookAt(0., 1.0, 90.0,
 			  0.0, 0.0, 0.0,
 			  0.0, 1.0, 0.0);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
+	GLfloat Lambiant[4] = {0.4, 0.4, 0.4, 10.0};
+	glLightfv(GL_LIGHT0, GL_AMBIENT, Lambiant);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
