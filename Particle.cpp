@@ -77,17 +77,3 @@ void Particle::update(float t) {
 	position = position.add(velocity.scale(t));
 	acceleration = acceleration.scale(0);
 }
-
-// ============================================================
-// ASCESSEUR
-// ============================================================
-
-Vect3D Particle::getPosition(void)
-{
-	return position;
-}
-
-void Particle::setPosition(Vect3D position)
-{
-	this->position = position;
-}
