@@ -1,33 +1,39 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-#include <vector>
+#include "constants.h"
 #include "Particle.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <GL/glut.h>
+#include <vector>
 
 using namespace std;
 
 
 class Affichage {
 private:
-	static vector<Particle> list;
+	static vector<Particle> list; /* Liste des particules à afficher */
 	static float lastLoopTime;
 	static float timeAccumulatedMs;
-	static const int T;
-	static const float D;
-	static const int G;
+	static constexpr float deltaT = 16.f; /* Temps entre 2 images en ms */
 
 public:
-	Affichage(int argc, char ** argv, Particle part);
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	Affichage(int argc, char ** argv);
-	~Affichage();
+	Affichage(int argc, char ** argv, Particle part);
 	Affichage(int argc, char ** argv, vector<Particle> list);
+	~Affichage();
 
-	static void idle(void);
-	void refresh(void);
-	void setList(vector<Particle> list);
+	/* ASCESSEURS */
 	vector<Particle> getList();
-	static void Display();
+	void setList(vector<Particle> list);
+
+	/* CALLBACKS D'AFFICHAGE */
+	static void display();
 	static void redim(int width, int height);
+	static void idle();
 };
 
 
