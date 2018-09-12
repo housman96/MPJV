@@ -2,12 +2,12 @@
 
 using namespace std;
 
-
 // ============================================================
 // CONSTRUCTEURS
 // ============================================================
 
-Affichage::Affichage(int argc, char ** argv) {
+Affichage::Affichage(int argc, char **argv)
+{
 	/* Initialisation de GLUT */
 	glutInit(&argc, argv);
 
@@ -31,43 +31,46 @@ Affichage::Affichage(int argc, char ** argv) {
 	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-
-Affichage::Affichage(int argc, char ** argv, Particle part) {
+Affichage::Affichage(int argc, char **argv, Particle part)
+{
 	Affichage::list.push_back(part);
 	Affichage(argc, argv);
 }
 
-Affichage::Affichage(int argc, char ** argv, vector<Particle> list) {
+Affichage::Affichage(int argc, char **argv, vector<Particle> list)
+{
 	Affichage::list = list;
 	Affichage(argc, argv);
 }
 
-
-Affichage::~Affichage() {
-	if (list.data()) {
+Affichage::~Affichage()
+{
+	if (list.data())
+	{
 		delete[] & list;
 	}
 }
-
 
 // ============================================================
 // ASCESSEUR
 // ============================================================
 
-vector<Particle> Affichage::getList() {
+vector<Particle> Affichage::getList()
+{
 	return Affichage::list;
 }
 
-void Affichage::setList(vector<Particle> newList) {
+void Affichage::setList(vector<Particle> newList)
+{
 	Affichage::list = newList;
 }
-
 
 // ============================================================
 // CALLBACKS D'AFFICHAGE
 // ============================================================
 
-void Affichage::display() {
+void Affichage::display()
+{
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glClearColor(1.f, 1.f, 1.f, 1.f);
@@ -84,7 +87,8 @@ void Affichage::display() {
 	glPopMatrix();
 
 	// Affichage des particules
-	for (Particle part : Affichage::list) {
+	for (Particle part : Affichage::list)
+	{
 		glPushMatrix();
 		glColor3b(0, 0, 50);
 		glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
@@ -100,17 +104,19 @@ void Affichage::display() {
  *    ensuite à chaque fois que la fenêtre est redimmensionnée
  *  width et height representent la taille de la fenêtre
  */
-void Affichage::redim(int width, int height) {
+void Affichage::redim(int width, int height)
+{
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(0., 1.0, 90.0,
-	          0.0, 0.0, 0.0,
-	          0.0, 1.0, 0.0);
+			  0.0, 0.0, 0.0,
+			  0.0, 1.0, 0.0);
 
+	/*Eclairage*/
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	GLfloat Lambiant[4] = { 0.4, 0.4, 0.4, 10.0 };
+	GLfloat Lambiant[4] = {0.4, 0.4, 0.4, 10.0};
 	glLightfv(GL_LIGHT0, GL_AMBIENT, Lambiant);
 
 	glMatrixMode(GL_PROJECTION);
@@ -118,13 +124,17 @@ void Affichage::redim(int width, int height) {
 	gluPerspective(70.0, 1.7, 1.0, 100.0);
 }
 
-void Affichage::idle(void) {
+/*La fonction IDLE calcul en arrière plan, toute la physique du moteur*/
+void Affichage::idle(void)
+{
 	double now = glutGet(GLUT_ELAPSED_TIME);
 	double timeElapsedMs = (now - lastLoopTime);
 	timeAccumulatedMs += timeElapsedMs;
 
-	if (timeAccumulatedMs >= deltaT) {
-		for (Particle &p : Affichage::list) {
+	if (timeAccumulatedMs >= deltaT)
+	{
+		for (Particle &p : Affichage::list)
+		{
 			Vect3D grav = new Vect3D(0, -G, 0);
 			p.applyForce(grav);
 			p.rebound();
