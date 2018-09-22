@@ -1,4 +1,5 @@
 #include "Affichage.h"
+#include "RegisterForce.h"
 
 using namespace std;
 
@@ -133,15 +134,22 @@ void Affichage::idle(void)
 
 	if (timeAccumulatedMs >= deltaT)
 	{
+		glutPostRedisplay();
+		for (RegisterForce::ForceRecord record : r)
+		{
+
+			record.pfg->updateForce(record.p, deltaT / 1000.);
+		}
 		for (Particle &p : Affichage::list)
 		{
-			Vect3D grav = new Vect3D(0, -G, 0);
-			p.applyForce(grav);
+			p.log();
 			p.rebound();
 			p.update(deltaT / 1000.);
+
+			p.clearAccum();
 		}
+
 		timeAccumulatedMs = 0.;
-		glutPostRedisplay();
 	}
 
 	lastLoopTime = now;
