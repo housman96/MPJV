@@ -155,7 +155,6 @@ void Affichage::idle(void)
 		for (Particle *p : Affichage::list)
 		{
 
-			p->log();
 			p->rebound();
 			p->update(deltaT / 1000.);
 

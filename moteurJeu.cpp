@@ -19,14 +19,15 @@ float Affichage::timeAccumulatedMs = 0.;
 int main(int argc, char **argv)
 {
 	/*DECLARATION DES PARTICULES*/
-	Particle p1 = new Particle(2., 1.);
-	Particle p2 = new Particle(3., 1.);
-	p1.init(Vect3D(-1, 10, 0), Vect3D(-1, 2, 0), Vect3D(0, 0, 0));
-	p2.init(Vect3D(1, 10, 0), Vect3D(1, 2, 0), Vect3D(0, 0, 0));
+	Particle p1 = new Particle(1., 1.);
+	Particle p2 = new Particle(2000., 1.);
+	p1.init(Vect3D(-1, 10, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
+	p2.init(Vect3D(1, 10, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
 
 	/*DECLARATION DES GENERATEURS DE FORCES*/
 	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
-	DragGenerator dg = new DragGenerator(0.5f, 0.2f);
+	DragGenerator dg = new DragGenerator(50.f, 30.f);
+	DragGenerator dg2 = new DragGenerator(50.f, 30.f);
 
 	/*REMPLISSAGE DU REGISTRE DE FORCE*/
 	RegisterForce::ForceRecord fr1;
@@ -41,7 +42,7 @@ int main(int argc, char **argv)
 	fr3.p = &p1;
 	fr3.pfg = &dg;
 	fr4.p = &p2;
-	fr4.pfg = &dg;
+	fr4.pfg = &dg2;
 
 	r.push_back(fr1);
 	r.push_back(fr2);

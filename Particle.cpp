@@ -150,6 +150,7 @@ void Particle::rebound()
 	float velY = velocity.getY();
 	if (position.getY() - radius < 0 && velY < 0)
 	{
+		position.setY(radius);
 		velocity.setY(-velY);
 	}
 }
