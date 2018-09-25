@@ -6,15 +6,17 @@
 
 class DragGenerator : public ParticleForceGenerator
 {
-  private:
-    float k1;
-    float k2;
+private:
+  float k1;
+  float k2;
 
-  public:
-    /* CONSTRUCTEURS ET DESTRUCTEUR */
-    DragGenerator(const float &, const float &);
+public:
+  /* CONSTRUCTEURS ET DESTRUCTEUR */
+  DragGenerator(const float &, const float &);
+  DragGenerator(const DragGenerator &other);
+  DragGenerator(const DragGenerator *other);
 
-    virtual void updateForce(Particle *p, float duration);
+  virtual void updateForce(Particle *p, float duration);
 };
 
 #endif

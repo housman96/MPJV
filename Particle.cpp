@@ -142,9 +142,7 @@ void Particle::init(Vect3D pos, Vect3D vel, Vect3D acc)
 
 void Particle::applyForce(Vect3D &force)
 {
-	force.log();
 	accumForce = accumForce.add(force);
-	// this->log();
 }
 
 void Particle::rebound()

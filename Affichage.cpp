@@ -32,15 +32,27 @@ Affichage::Affichage(int argc, char **argv)
 	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-Affichage::Affichage(int argc, char **argv, Particle part)
+Affichage::Affichage(int argc, char **argv, Particle &part)
+{
+	Affichage::list.push_back(&part);
+	Affichage(argc, argv);
+}
+
+Affichage::Affichage(int argc, char **argv, Particle *part)
 {
 	Affichage::list.push_back(part);
 	Affichage(argc, argv);
 }
 
-Affichage::Affichage(int argc, char **argv, vector<Particle> list)
+Affichage::Affichage(int argc, char **argv, vector<Particle *> &list)
 {
 	Affichage::list = list;
+	Affichage(argc, argv);
+}
+
+Affichage::Affichage(int argc, char **argv, vector<Particle *> *list)
+{
+	Affichage::list = *list;
 	Affichage(argc, argv);
 }
 
@@ -56,12 +68,12 @@ Affichage::~Affichage()
 // ASCESSEUR
 // ============================================================
 
-vector<Particle> Affichage::getList()
+vector<Particle *> Affichage::getList()
 {
 	return Affichage::list;
 }
 
-void Affichage::setList(vector<Particle> newList)
+void Affichage::setList(vector<Particle *> newList)
 {
 	Affichage::list = newList;
 }
@@ -140,13 +152,14 @@ void Affichage::idle(void)
 
 			record.pfg->updateForce(record.p, deltaT / 1000.);
 		}
-		for (Particle &p : Affichage::list)
+		for (Particle *p : Affichage::list)
 		{
-			p.log();
-			p.rebound();
-			p.update(deltaT / 1000.);
 
-			p.clearAccum();
+			p->log();
+			p->rebound();
+			p->update(deltaT / 1000.);
+
+			p->clearAccum();
 		}
 
 		timeAccumulatedMs = 0.;

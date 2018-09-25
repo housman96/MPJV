@@ -12,40 +12,47 @@ using namespace std;
 int G = 15;
 RegisterForce::Register r;
 
-vector<Particle> Affichage::list = vector<Particle>();
+vector<Particle *> Affichage::list = vector<Particle *>();
 float Affichage::lastLoopTime = 0.;
 float Affichage::timeAccumulatedMs = 0.;
 
 int main(int argc, char **argv)
 {
-
+	/*DECLARATION DES PARTICULES*/
 	Particle p1 = new Particle(2., 1.);
-	// Particle p2 = new Particle(3., 1.);
+	Particle p2 = new Particle(3., 1.);
 	p1.init(Vect3D(-1, 10, 0), Vect3D(-1, 2, 0), Vect3D(0, 0, 0));
-	// p2.init(Vect3D(1, 10, 0), Vect3D(1, 2, 0), Vect3D(0, 0, 0));
+	p2.init(Vect3D(1, 10, 0), Vect3D(1, 2, 0), Vect3D(0, 0, 0));
 
+	/*DECLARATION DES GENERATEURS DE FORCES*/
 	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
+	DragGenerator dg = new DragGenerator(0.5f, 0.2f);
+
+	/*REMPLISSAGE DU REGISTRE DE FORCE*/
 	RegisterForce::ForceRecord fr1;
 	RegisterForce::ForceRecord fr2;
 	RegisterForce::ForceRecord fr3;
 	RegisterForce::ForceRecord fr4;
+
 	fr1.p = &p1;
 	fr1.pfg = &gg;
-	// fr2.p = &p2;
-	// fr2.pfg = &gg;
-
-	// fr3.p = &p1;
-	// fr3.pfg=
-	// fr4.p = &p2;
+	fr2.p = &p2;
+	fr2.pfg = &gg;
+	fr3.p = &p1;
+	fr3.pfg = &dg;
+	fr4.p = &p2;
+	fr4.pfg = &dg;
 
 	r.push_back(fr1);
-	// r.push_back(fr2);
+	r.push_back(fr2);
+	r.push_back(fr3);
+	r.push_back(fr4);
 
-	cout << r.size() << endl;
+	/*CREATION DE L'AFFICHAGE*/
+	vector<Particle *> particules;
 
-	vector<Particle> particules;
-	particules.push_back(p1);
-	// particules.push_back(p2);
+	particules.push_back(&p1);
+	particules.push_back(&p2);
 
 	Affichage a(argc, argv, particules);
 
