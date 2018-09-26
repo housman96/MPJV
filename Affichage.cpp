@@ -28,6 +28,8 @@ Affichage::Affichage(int argc, char **argv)
 	glutDisplayFunc(Affichage::display);
 	glutReshapeFunc(Affichage::redim);
 	glutIdleFunc(Affichage::idle);
+	// TimerPhysiqueLoop(0);
+	TimerDrawLoop(0);
 
 	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
@@ -142,27 +144,51 @@ void Affichage::idle(void)
 {
 	double now = glutGet(GLUT_ELAPSED_TIME);
 	double timeElapsedMs = (now - lastLoopTime);
-	timeAccumulatedMs += timeElapsedMs;
+	timeAccumulatedMs +=timeElapsedMs;
 
-	if (timeAccumulatedMs >= deltaT)
-	{
-		glutPostRedisplay();
+	if(timeAccumulatedMs>=deltaT/10){
 		for (RegisterForce::ForceRecord record : r)
 		{
-
-			record.pfg->updateForce(record.p, deltaT / 1000.);
+			record.pfg->updateForce(record.p, timeAccumulatedMs/1000.);
 		}
 		for (Particle *p : Affichage::list)
 		{
 
 			p->rebound();
-			p->update(deltaT / 1000.);
+			p->update(timeAccumulatedMs/1000.);
 
 			p->clearAccum();
 		}
-
-		timeAccumulatedMs = 0.;
+		timeAccumulatedMs=0;
 	}
 
+	
 	lastLoopTime = now;
+}
+
+void Affichage::TimerPhysiqueLoop(int value)
+{
+
+	for (RegisterForce::ForceRecord record : r)
+	{
+
+		record.pfg->updateForce(record.p, deltaT / 1000.);
+	}
+	for (Particle *p : Affichage::list)
+	{
+
+		p->rebound();
+		p->update(deltaT / 10000.f);
+
+		p->clearAccum();
+	}
+
+	glutTimerFunc(deltaT / 10.f, TimerPhysiqueLoop, 0);
+}
+
+void Affichage::TimerDrawLoop(int value)
+{
+
+	glutPostRedisplay();
+	glutTimerFunc(deltaT, TimerDrawLoop, 0);
 }

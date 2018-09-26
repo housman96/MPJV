@@ -55,6 +55,24 @@ int main(int argc, char **argv)
 	particules.push_back(&p1);
 	particules.push_back(&p2);
 
+	for (int i = 1; i < 10; i++)
+	{
+		Particle *p = new Particle(i * 100., 1.);
+		p->init(Vect3D(i * 3 - 20, 8, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
+		RegisterForce::ForceRecord fri1;
+		RegisterForce::ForceRecord fri2;
+
+		fri1.p = p;
+		fri1.pfg = &gg;
+		fri2.p = p;
+		fri2.pfg = &dg;
+
+		r.push_back(fri1);
+		r.push_back(fri2);
+
+		particules.push_back(p);
+	}
+
 	Affichage a(argc, argv, particules);
 
 	return 0;
