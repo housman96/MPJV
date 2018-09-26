@@ -6,13 +6,14 @@ using namespace std;
 // CONSTRUCTEURS
 // ============================================================
 
-Particle::Particle(Vect3D pos, Vect3D vel, float m)
+Particle::Particle(float m, float r)
 {
-	position = pos;
-	velocity = vel;
+	position = new Vect3D(0, 0, 0);
+	velocity = new Vect3D(0, 0, 0);
 	acceleration = new Vect3D(0, 0, 0);
-	inverseMass = 1.0 / m;
-	damping = 1.0;
+	mass = m;
+	inverseMass = (m != 0. ? 1.0 / m : 1.);
+	radius = r;
 }
 
 Particle::Particle(const Particle &other)
@@ -21,7 +22,8 @@ Particle::Particle(const Particle &other)
 	velocity = other.velocity;
 	acceleration = other.acceleration;
 	inverseMass = other.inverseMass;
-	damping = other.damping;
+	mass = other.mass;
+	radius = other.radius;
 }
 
 Particle::Particle(const Particle *other)
@@ -30,26 +32,82 @@ Particle::Particle(const Particle *other)
 	velocity = other->velocity;
 	acceleration = other->acceleration;
 	inverseMass = other->inverseMass;
-	damping = other->damping;
+	mass = other->mass;
+	radius = other->radius;
 }
 
 // ============================================================
 // ASCESSEURS
 // ============================================================
 
-void Particle::setDamping(float d)
-{
-	this->damping = d;
-}
-
 Vect3D Particle::getPosition()
 {
 	return position;
 }
 
-void Particle::setPosition(Vect3D position)
+Vect3D Particle::getVelocity()
 {
-	this->position = position;
+	return velocity;
+}
+
+Vect3D Particle::getAcceleration()
+{
+	return acceleration;
+}
+
+Vect3D Particle::getAccumForce()
+{
+	return accumForce;
+}
+
+float Particle::getMass()
+{
+	return mass;
+}
+
+float Particle::getInverseMass()
+{
+	return inverseMass;
+}
+
+float Particle::getRadius()
+{
+	return radius;
+}
+
+void Particle::setPosition(Vect3D pos)
+{
+	this->position = pos;
+}
+
+void Particle::setVelocity(Vect3D vel)
+{
+	this->velocity = vel;
+}
+
+void Particle::setAcceleration(Vect3D acc)
+{
+	this->acceleration = acc;
+}
+
+void Particle::setAccumForce(Vect3D accf)
+{
+	this->accumForce = accf;
+}
+
+void Particle::setMass(float m)
+{
+	this->mass = m;
+}
+
+void Particle::setInverseMass(float invm)
+{
+	this->inverseMass = invm;
+}
+
+void Particle::setRadius(float r)
+{
+	this->radius = r;
 }
 
 // ============================================================
@@ -62,26 +120,49 @@ void Particle::log()
 	cout << "\tPos => ";
 	position.log();
 	cout << endl;
+	cout << "\tAccum => ";
+	accumForce.log();
+	cout << endl;
 }
 
 // ============================================================
-// METHODES DE MISE A JOUR
+// INITIALISATION
 // ============================================================
 
-void Particle::applyForce(Vect3D force)
+void Particle::init(Vect3D pos, Vect3D vel, Vect3D acc)
 {
-	Vect3D f = force.scale(inverseMass);
-	acceleration = acceleration.add(f);
+	this->setPosition(pos);
+	this->setVelocity(vel);
+	this->setAcceleration(acc);
+}
+
+// ============================================================
+// MISE A JOUR
+// ============================================================
+
+void Particle::applyForce(Vect3D &force)
+{
+	accumForce = accumForce.add(force);
+}
+
+void Particle::rebound()
+{
+	float velY = velocity.getY();
+	if (position.getY() - radius < 0 && velY < 0)
+	{
+		position.setY(radius);
+		velocity.setY(-velY);
+	}
 }
 
 void Particle::update(float t)
 {
-	if (position.getY() < 1. && velocity.getY() < 0)
-	{
-		velocity.setY(-velocity.getY());
-	}
-	velocity = velocity.scale(pow(damping, t));
+	acceleration = accumForce.scale(inverseMass);
 	velocity = velocity.add(acceleration.scale(t));
 	position = position.add(velocity.scale(t));
-	acceleration = acceleration.scale(0);
+}
+
+void Particle::clearAccum()
+{
+	accumForce = accumForce.scale(0.);
 }

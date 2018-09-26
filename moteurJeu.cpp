@@ -1,23 +1,61 @@
+#include "constants.h"
 #include "Vect3D.h"
 #include "Particle.h"
 #include "Affichage.h"
-#include "vector"
+#include "RegisterForce.h"
+#include "GravityGenerator.h"
+#include "DragGenerator.h"
+#include <vector>
 
 using namespace std;
 
-vector<Particle> Affichage::list = vector<Particle>();
+int G = 15;
+RegisterForce::Register r;
+
+vector<Particle *> Affichage::list = vector<Particle *>();
 float Affichage::lastLoopTime = 0.;
 float Affichage::timeAccumulatedMs = 0.;
 
 int main(int argc, char **argv)
 {
-	Particle p = new Particle(Vect3D(-1, 0, 0), Vect3D(1, 25, 12), 20);
-	Particle p2 = new Particle(Vect3D(1, 0, 0), Vect3D(-1, 25, 12), 30);
-	vector<Particle> tampon;
-	tampon.push_back(p2);
-	tampon.push_back(p);
-	Affichage a(argc, argv, tampon);
-	a.setList(tampon);
-	a.refresh();
+	/*DECLARATION DES PARTICULES*/
+	Particle p1 = new Particle(1., 1.);
+	Particle p2 = new Particle(2000., 1.);
+	p1.init(Vect3D(-1, 10, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
+	p2.init(Vect3D(1, 10, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
+
+	/*DECLARATION DES GENERATEURS DE FORCES*/
+	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
+	DragGenerator dg = new DragGenerator(50.f, 30.f);
+	DragGenerator dg2 = new DragGenerator(50.f, 30.f);
+
+	/*REMPLISSAGE DU REGISTRE DE FORCE*/
+	RegisterForce::ForceRecord fr1;
+	RegisterForce::ForceRecord fr2;
+	RegisterForce::ForceRecord fr3;
+	RegisterForce::ForceRecord fr4;
+
+	fr1.p = &p1;
+	fr1.pfg = &gg;
+	fr2.p = &p2;
+	fr2.pfg = &gg;
+	fr3.p = &p1;
+	fr3.pfg = &dg;
+	fr4.p = &p2;
+	fr4.pfg = &dg2;
+
+	r.push_back(fr1);
+	r.push_back(fr2);
+	r.push_back(fr3);
+	r.push_back(fr4);
+
+	/*CREATION DE L'AFFICHAGE*/
+	vector<Particle *> particules;
+
+	particules.push_back(&p1);
+	particules.push_back(&p2);
+
+	Affichage a(argc, argv, particules);
+
 	return 0;
 }
