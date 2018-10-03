@@ -110,7 +110,7 @@ void Affichage::display()
 		glutSolidSphere(part.getRadius(), 50, 50);
 		glPopMatrix();
 	}
-
+	glFlush();
 	glutSwapBuffers();
 }
 
@@ -144,25 +144,25 @@ void Affichage::idle(void)
 {
 	double now = glutGet(GLUT_ELAPSED_TIME);
 	double timeElapsedMs = (now - lastLoopTime);
-	timeAccumulatedMs +=timeElapsedMs;
+	timeAccumulatedMs += timeElapsedMs;
 
-	if(timeAccumulatedMs>=deltaT/10){
+	if (timeAccumulatedMs >= deltaT / 10)
+	{
 		for (RegisterForce::ForceRecord record : r)
 		{
-			record.pfg->updateForce(record.p, timeAccumulatedMs/1000.);
+			record.pfg->updateForce(record.p, timeAccumulatedMs / 1000.);
 		}
 		for (Particle *p : Affichage::list)
 		{
 
 			p->rebound();
-			p->update(timeAccumulatedMs/1000.);
+			p->update(timeAccumulatedMs / 1000.);
 
 			p->clearAccum();
 		}
-		timeAccumulatedMs=0;
+		timeAccumulatedMs = 0;
 	}
 
-	
 	lastLoopTime = now;
 }
 
