@@ -14,7 +14,7 @@ Affichage::Affichage(int argc, char **argv)
 
 	/* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
 	   et d'un double buffer */
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | /*GLUT_DOUBLE*/ GLUT_SINGLE);
 
 	/* Taille et emplacement de la fenêtre */
 	glutInitWindowSize(1920, 1080);
@@ -110,8 +110,8 @@ void Affichage::display()
 		glutSolidSphere(part.getRadius(), 50, 50);
 		glPopMatrix();
 	}
-	glFlush();
 	glutSwapBuffers();
+	// glFinish();
 }
 
 /*  La fonction "redim" est appelée :
