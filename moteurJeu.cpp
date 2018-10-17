@@ -26,8 +26,8 @@ int main(int argc, char **argv)
 
 	/*DECLARATION DES GENERATEURS DE FORCES*/
 	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
-	DragGenerator dg = new DragGenerator(50.f, 30.f);
-	DragGenerator dg2 = new DragGenerator(50.f, 30.f);
+	DragGenerator dg = new DragGenerator(.9f, .7f);
+	DragGenerator dg2 = new DragGenerator(.9f, .7f);
 
 	/*REMPLISSAGE DU REGISTRE DE FORCE*/
 	RegisterForce::ForceRecord fr1;
@@ -54,6 +54,24 @@ int main(int argc, char **argv)
 
 	particules.push_back(&p1);
 	particules.push_back(&p2);
+
+	for (int i = 1; i < 30; i++)
+	{
+		Particle *p = new Particle(i * 100., 1.);
+		p->init(Vect3D(i * 3 - 20, 8, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
+		RegisterForce::ForceRecord fri1;
+		RegisterForce::ForceRecord fri2;
+
+		fri1.p = p;
+		fri1.pfg = &gg;
+		fri2.p = p;
+		fri2.pfg = &dg;
+
+		r.push_back(fri1);
+		r.push_back(fri2);
+
+		particules.push_back(p);
+	}
 
 	Affichage a(argc, argv, particules);
 
