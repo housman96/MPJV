@@ -40,6 +40,6 @@ void ParticleContact::resolveInterpenetration() {
 	Vect3D pos0 = n.mult(d * particles[1]->getMass() / (particles[1]->getMass()*particles[0]->getMass()));
 	Vect3D pos1 = n.mult(-d * particles[0]->getMass() / (particles[1]->getMass()*particles[0]->getMass()));
 
-	particles[0]->setPosition(particles[0]->getPosition + pos0);
-	particles[1]->setPosition(particles[1]->getPosition + pos1);
+	particles[0]->setPosition(particles[0]->getPosition().add(pos0));
+	particles[1]->setPosition(particles[1]->getPosition().add(pos1));
 }
