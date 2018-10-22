@@ -3,7 +3,6 @@
 
 #include "RegisterForce.h"
 
-extern int G;
 extern RegisterForce::Register r;
 
 #endif

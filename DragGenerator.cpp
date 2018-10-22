@@ -13,7 +13,7 @@ DragGenerator::DragGenerator(const DragGenerator &other)
 DragGenerator::DragGenerator(const DragGenerator *other)
 {
     this->k1 = other->k1;
-    this->k1 = other->k2;
+    this->k2 = other->k2;
 }
 
 void DragGenerator::updateForce(Particle *p, float duration)

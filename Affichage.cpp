@@ -7,14 +7,13 @@ using namespace std;
 // CONSTRUCTEURS
 // ============================================================
 
-Affichage::Affichage(int argc, char **argv)
-{
+Affichage::Affichage(int argc, char **argv) {
 	/* Initialisation de GLUT */
 	glutInit(&argc, argv);
 
-	/* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon de profondeur
-	   et d'un double buffer */
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | /*GLUT_DOUBLE*/ GLUT_SINGLE);
+	/* Choix du type et d'affichage RGBA (mode couleur le plus fréquent), tampon
+	   de profondeur et d'un double buffer */
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
 
 	/* Taille et emplacement de la fenêtre */
 	glutInitWindowSize(1920, 1080);
@@ -27,41 +26,35 @@ Affichage::Affichage(int argc, char **argv)
 	/* Association des callback pour cette fenêtre */
 	glutDisplayFunc(Affichage::display);
 	glutReshapeFunc(Affichage::redim);
-	glutIdleFunc(Affichage::idle);
-	// TimerPhysiqueLoop(0);
+	//glutIdleFunc(Affichage::idle);
+	TimerPhysiqueLoop(0);
 	TimerDrawLoop(0);
 
 	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-Affichage::Affichage(int argc, char **argv, Particle &part)
-{
+Affichage::Affichage(int argc, char **argv, Particle &part) {
 	Affichage::list.push_back(&part);
 	Affichage(argc, argv);
 }
 
-Affichage::Affichage(int argc, char **argv, Particle *part)
-{
+Affichage::Affichage(int argc, char **argv, Particle *part) {
 	Affichage::list.push_back(part);
 	Affichage(argc, argv);
 }
 
-Affichage::Affichage(int argc, char **argv, vector<Particle *> &list)
-{
+Affichage::Affichage(int argc, char **argv, vector<Particle *> &list) {
 	Affichage::list = list;
 	Affichage(argc, argv);
 }
 
-Affichage::Affichage(int argc, char **argv, vector<Particle *> *list)
-{
+Affichage::Affichage(int argc, char **argv, vector<Particle *> *list) {
 	Affichage::list = *list;
 	Affichage(argc, argv);
 }
 
-Affichage::~Affichage()
-{
-	if (list.data())
-	{
+Affichage::~Affichage() {
+	if (list.data()) {
 		delete[] & list;
 	}
 }
@@ -70,13 +63,9 @@ Affichage::~Affichage()
 // ASCESSEUR
 // ============================================================
 
-vector<Particle *> Affichage::getList()
-{
-	return Affichage::list;
-}
+vector<Particle *> Affichage::getList() { return Affichage::list; }
 
-void Affichage::setList(vector<Particle *> newList)
-{
+void Affichage::setList(vector<Particle *> newList) {
 	Affichage::list = newList;
 }
 
@@ -84,8 +73,7 @@ void Affichage::setList(vector<Particle *> newList)
 // CALLBACKS D'AFFICHAGE
 // ============================================================
 
-void Affichage::display()
-{
+void Affichage::display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glClearColor(1.f, 1.f, 1.f, 1.f);
@@ -102,11 +90,11 @@ void Affichage::display()
 	glPopMatrix();
 
 	// Affichage des particules
-	for (Particle part : Affichage::list)
-	{
+	for (Particle part : Affichage::list) {
 		glPushMatrix();
 		glColor3b(0, 0, 50);
-		glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
+		glTranslatef(part.getPosition().getX(), part.getPosition().getY(),
+			part.getPosition().getZ());
 		glutSolidSphere(part.getRadius(), 50, 50);
 		glPopMatrix();
 	}
@@ -119,19 +107,16 @@ void Affichage::display()
  *    ensuite à chaque fois que la fenêtre est redimmensionnée
  *  width et height representent la taille de la fenêtre
  */
-void Affichage::redim(int width, int height)
-{
+void Affichage::redim(int width, int height) {
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0., 1.0, 90.0,
-			  0.0, 0.0, 0.0,
-			  0.0, 1.0, 0.0);
+	gluLookAt(0., 1.0, 90.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	GLfloat Lambiant[4] = {0.4, 0.4, 0.4, 10.0};
+	GLfloat Lambiant[4] = { 0.4, 0.4, 0.4, 10.0 };
 	glLightfv(GL_LIGHT0, GL_AMBIENT, Lambiant);
 
 	glMatrixMode(GL_PROJECTION);
@@ -140,20 +125,16 @@ void Affichage::redim(int width, int height)
 }
 
 /*La fonction IDLE calcul en arrière plan, toute la physique du moteur*/
-void Affichage::idle(void)
-{
+void Affichage::idle(void) {
 	double now = glutGet(GLUT_ELAPSED_TIME);
 	double timeElapsedMs = (now - lastLoopTime);
 	timeAccumulatedMs += timeElapsedMs;
 
-	if (timeAccumulatedMs >= deltaT / 10)
-	{
-		for (RegisterForce::ForceRecord record : r)
-		{
+	if (timeAccumulatedMs >= deltaT / 10) {
+		for (RegisterForce::ForceRecord record : r) {
 			record.pfg->updateForce(record.p, timeAccumulatedMs / 1000.);
 		}
-		for (Particle *p : Affichage::list)
-		{
+		for (Particle *p : Affichage::list) {
 
 			p->rebound();
 			p->update(timeAccumulatedMs / 1000.);
@@ -166,29 +147,34 @@ void Affichage::idle(void)
 	lastLoopTime = now;
 }
 
-void Affichage::TimerPhysiqueLoop(int value)
-{
+void Affichage::TimerPhysiqueLoop(int value) {
 
-	for (RegisterForce::ForceRecord record : r)
-	{
+	double now = glutGet(GLUT_ELAPSED_TIME);
+	double timeElapsedMs = (now - lastLoopTime);
+	lastLoopTime = now;
 
-		record.pfg->updateForce(record.p, deltaT / 1000.);
+	glutTimerFunc(deltaT / 10.f, TimerPhysiqueLoop, 0);
+
+	if (timeElapsedMs > deltaT / 10.) {
+		timeElapsedMs = deltaT / 10.;
 	}
-	for (Particle *p : Affichage::list)
-	{
 
+
+	for (RegisterForce::ForceRecord record : r) {
+		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
+	}
+
+	for (Particle *p : Affichage::list) {
 		p->rebound();
-		p->update(deltaT / 10000.f);
-
+		p->update(timeElapsedMs / 1000.);
 		p->clearAccum();
 	}
 
-	glutTimerFunc(deltaT / 10.f, TimerPhysiqueLoop, 0);
+
+
 }
 
-void Affichage::TimerDrawLoop(int value)
-{
-
+void Affichage::TimerDrawLoop(int value) {
 	glutPostRedisplay();
 	glutTimerFunc(deltaT, TimerDrawLoop, 0);
 }

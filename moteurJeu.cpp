@@ -26,8 +26,8 @@ int main(int argc, char **argv)
 
 	/*DECLARATION DES GENERATEURS DE FORCES*/
 	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
-	DragGenerator dg = new DragGenerator(50.f, 30.f);
-	DragGenerator dg2 = new DragGenerator(50.f, 30.f);
+	DragGenerator dg = new DragGenerator(.9f, .7f);
+	DragGenerator dg2 = new DragGenerator(.9f, .7f);
 
 	/*REMPLISSAGE DU REGISTRE DE FORCE*/
 	RegisterForce::ForceRecord fr1;
