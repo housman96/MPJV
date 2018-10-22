@@ -106,7 +106,10 @@
     <ClCompile Include="GravityGenerator.cpp" />
     <ClCompile Include="moteurJeu.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleCable.cpp" />
     <ClCompile Include="ParticleContact.cpp" />
+    <ClCompile Include="ParticleContactGenerator.cpp" />
+    <ClCompile Include="ParticleLink.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StiffSpringForceGenerator.cpp" />
     <ClCompile Include="Vect3D.cpp" />
@@ -120,8 +123,11 @@
     <ClInclude Include="FloatingSpringForceGenerator.h" />
     <ClInclude Include="GravityGenerator.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleCable.h" />
     <ClInclude Include="ParticleContact.h" />
+    <ClInclude Include="ParticleContactGenerator.h" />
     <ClInclude Include="ParticleForceGenerator.h" />
+    <ClInclude Include="ParticleLink.h" />
     <ClInclude Include="RegisterForce.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="StiffSpringForceGenerator.h" />
