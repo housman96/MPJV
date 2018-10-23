@@ -10,6 +10,7 @@
 #include <vector>
 #include "ParticleContact.h"
 #include "ParticleContactGenerator.h"
+#include "ParticleContactResolver.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ private:
 	static float lastLoopTime;
 	static float timeAccumulatedMs;
 	static constexpr float deltaT = 16.f; /* Temps entre 2 images en ms */
+	static ParticleContactResolver resolver;
 
 
 public:

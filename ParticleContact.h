@@ -15,7 +15,7 @@ private:
 public:
 	ParticleContact(Particle &, Particle &, float);
 	ParticleContact(Particle &, float, Vect3D, float);
-	void resolve(float);
+	void resolve();
 	float calcVs();
 	void resolveVelocity();
 	void resolveInterpenetration();

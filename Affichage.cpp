@@ -30,6 +30,8 @@ Affichage::Affichage(int argc, char **argv) {
 	TimerPhysiqueLoop(0);
 	TimerDrawLoop(0);
 
+
+
 	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
@@ -159,6 +161,29 @@ void Affichage::TimerPhysiqueLoop(int value) {
 		timeElapsedMs = deltaT / 10.;
 	}
 
+	for (int i = 0; i < Affichage::listContactGenerator.size(); i++)
+	{
+		Affichage::listContactGenerator[i]->addContact();
+	}
+	for (int i = 0; i < Affichage::list.size(); i++)
+	{
+		for (int j = i + 1; j < Affichage::list.size(); j++)
+		{
+			float dist = Vect3D::dist(Affichage::list[i]->getPosition(), Affichage::list[j]->getPosition());
+			float distColision = Affichage::list[i]->getRadius() + Affichage::list[j]->getRadius();
+			if (dist < distColision)
+			{
+				Affichage::listContact.push_back(new ParticleContact(*Affichage::list[i], *Affichage::list[j], 0.5));
+			}
+		}
+	}
+	printf("%d \n", Affichage::listContact.size());
+
+	Affichage::resolver.setIter(Affichage::listContact.size());
+	Affichage::resolver.setVector(Affichage::listContact);
+	Affichage::resolver.resolveContact();
+
+	Affichage::listContact.clear();
 
 	for (RegisterForce::ForceRecord record : r) {
 		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);

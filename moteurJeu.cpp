@@ -5,6 +5,7 @@
 #include "RegisterForce.h"
 #include "GravityGenerator.h"
 #include "DragGenerator.h"
+#include "ParticleContactResolver.h"
 #include <vector>
 
 using namespace std;
@@ -16,16 +17,17 @@ RegisterForce::Register r;
 vector<Particle *> Affichage::list = vector<Particle *>();
 vector<ParticleContact*> Affichage::listContact = vector<ParticleContact*>();
 vector<ParticleContactGenerator*> Affichage::listContactGenerator = vector<ParticleContactGenerator*>();
+ParticleContactResolver Affichage::resolver = ParticleContactResolver();
 float Affichage::lastLoopTime = 0.;
 float Affichage::timeAccumulatedMs = 0.;
 
 int main(int argc, char **argv)
 {
 	/*DECLARATION DES PARTICULES*/
-	Particle p1 = new Particle(1., 1.);
-	Particle p2 = new Particle(2000., 1.);
-	p1.init(Vect3D(-1, 10, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
-	p2.init(Vect3D(1, 10, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
+	Particle p1 = new Particle(200., 2.);
+	Particle p2 = new Particle(200., 2.);
+	p1.init(Vect3D(-3, 11, 0), Vect3D(5, 0, 0), Vect3D(0, 0, 0));
+	p2.init(Vect3D(3, 10, 0), Vect3D(-5, 0, 0), Vect3D(0, 0, 0));
 
 	/*DECLARATION DES GENERATEURS DE FORCES*/
 	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
@@ -58,23 +60,23 @@ int main(int argc, char **argv)
 	particules.push_back(&p1);
 	particules.push_back(&p2);
 
-	for (int i = 1; i < 30; i++)
-	{
-		Particle *p = new Particle(i * 100., 1.);
-		p->init(Vect3D(i * 3 - 20, 8, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
-		RegisterForce::ForceRecord fri1;
-		RegisterForce::ForceRecord fri2;
+	//for (int i = 1; i < 30; i++)
+	//{
+	//	Particle *p = new Particle(i * 100., 1.);
+	//	p->init(Vect3D(i * 3 - 20, 8, 0), Vect3D(0, 2, 0), Vect3D(0, 0, 0));
+	//	RegisterForce::ForceRecord fri1;
+	//	RegisterForce::ForceRecord fri2;
 
-		fri1.p = p;
-		fri1.pfg = &gg;
-		fri2.p = p;
-		fri2.pfg = &dg;
+	//	fri1.p = p;
+	//	fri1.pfg = &gg;
+	//	fri2.p = p;
+	//	fri2.pfg = &dg;
 
-		r.push_back(fri1);
-		r.push_back(fri2);
+	//	r.push_back(fri1);
+	//	r.push_back(fri2);
 
-		particules.push_back(p);
-	}
+	//	particules.push_back(p);
+	//}
 
 	Affichage a(argc, argv, particules);
 

@@ -26,7 +26,8 @@ ParticleContact::ParticleContact(Particle &p1, float c_, Vect3D n, float d) {
 	Vs = calcVs();
 }
 
-void ParticleContact::resolve(float duree) {
+void ParticleContact::resolve() {
+	printf("hello");
 	if (calcVs() < 0) {
 		resolveInterpenetration();
 		resolveVelocity();
@@ -50,9 +51,9 @@ float ParticleContact::calcVs() {
 
 
 void ParticleContact::resolveVelocity() {
-	particles[0]->setVelocity(Vs.mult(-c));
+	particles[0]->setVelocity(particles[0]->getVelocity().add(Vs.scale(-1 - c)));
 	if (particles[1] != NULL) {
-		particles[1]->setVelocity(Vs.mult(c));
+		particles[1]->setVelocity(particles[1]->getVelocity().add(Vs.scale(1 + c)));
 	}
 }
 
