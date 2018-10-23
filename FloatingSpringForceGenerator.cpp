@@ -26,7 +26,7 @@ FloatingSpringForceGenerator::FloatingSpringForceGenerator(const FloatingSpringF
 
 void FloatingSpringForceGenerator::updateForce(Particle* p, float duration)
 {
-	// Changement de la formule :
+	// Changement de la formule, car résultats incohérents
 	// d = - (y0 - yw - s) / 2s
 	//     ^
     float submersion = -(p->getPosition().getY() - waterPos.getY() - maxObjectDepth) / (2 * maxObjectDepth);

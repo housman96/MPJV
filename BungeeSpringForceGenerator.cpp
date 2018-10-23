@@ -1,6 +1,6 @@
 #include "BungeeSpringForceGenerator.h"
 
-BungeeSpringForceGenerator::BungeeSpringForceGenerator(const Particle& p, const float k_, const float l0_)
+BungeeSpringForceGenerator::BungeeSpringForceGenerator(Particle* p, const float k_, const float l0_)
 {
     this->otherP = p;
     this->k = k_;
@@ -21,16 +21,22 @@ BungeeSpringForceGenerator::BungeeSpringForceGenerator(const BungeeSpringForceGe
     l0 = other->l0;
 }
 
+BungeeSpringForceGenerator::~BungeeSpringForceGenerator()
+{
+    delete otherP;
+}
+
 void BungeeSpringForceGenerator::updateForce(Particle* p, float duration)
 {
-    Vect3D d = p->getPosition().sub(otherP.getPosition());
     Vect3D springForce;
+    Vect3D d = p->getPosition().sub(otherP->getPosition());
+    float mag = d.mag();
 
-    if (d.mag() <= l0) {
+    if (mag <= l0) {
         springForce = new Vect3D(0, 0, 0);
     } else {
         springForce = d.normalize();
-        springForce = springForce.scale(-k * (d.mag() - l0));
+        springForce = springForce.scale(-k * (mag - l0));
     }
 
     p->applyForce(springForce);

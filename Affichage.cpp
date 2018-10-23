@@ -144,12 +144,12 @@ void Affichage::TimerPhysiqueLoop(int value)
     }
 
     for (RegisterForce::ForceRecord record : records) {
-        record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
+        record.pfg->updateForce(record.p, timeElapsedMs / 100.);
     }
 
     for (Particle* p : Affichage::list) {
         //p->rebound();
-        p->update(timeElapsedMs / 1000.);
+        p->update(timeElapsedMs / 100.);
         p->clearAccum();
     }
 }

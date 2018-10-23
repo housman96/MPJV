@@ -7,15 +7,16 @@
 
 class SpringForceGenerator : public ParticleForceGenerator {
 private:
-    Particle otherP;
+    Particle * otherP;
     float k;
     float l0;
 
 public:
     /* CONSTRUCTEURS ET DESTRUCTEUR */
-    SpringForceGenerator(const Particle&, const float, const float); /* Constructeur par dÃ©faut */
+    SpringForceGenerator(Particle*, const float, const float); /* Constructeur par defaut */
     SpringForceGenerator(const SpringForceGenerator&); /* Constructeur de recopie */
     SpringForceGenerator(const SpringForceGenerator*); /* Constructeur par pointeur */
+    ~SpringForceGenerator();
 
     virtual void updateForce(Particle*, float);
 };
