@@ -12,7 +12,10 @@ using namespace std;
 int G = 15;
 RegisterForce::Register r;
 
+
 vector<Particle *> Affichage::list = vector<Particle *>();
+vector<ParticleContact*> Affichage::listContact = vector<ParticleContact*>();
+vector<ParticleContactGenerator*> Affichage::listContactGenerator = vector<ParticleContactGenerator*>();
 float Affichage::lastLoopTime = 0.;
 float Affichage::timeAccumulatedMs = 0.;
 

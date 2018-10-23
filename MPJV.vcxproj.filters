@@ -72,6 +72,9 @@
     <ClCompile Include="ParticleCable.cpp">
       <Filter>Source Files\ContactHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="ParicleRod.cpp">
+      <Filter>Source Files\ContactHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Affichage.h">
@@ -123,6 +126,9 @@
       <Filter>Header Files\ContactHandlers</Filter>
     </ClInclude>
     <ClInclude Include="ParticleCable.h">
+      <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRod.h">
       <Filter>Header Files\ContactHandlers</Filter>
     </ClInclude>
   </ItemGroup>

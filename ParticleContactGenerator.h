@@ -1,4 +1,7 @@
-#pragma once
+#ifndef PARTICLECONTACTGENERATOR_H
+#define PARTICLECONTACTGENERATOR_H
+
+
 class ParticleContactGenerator
 {
 public:
@@ -9,4 +12,6 @@ public:
 	/*Fonction d'ajout de contact*/
 	virtual void addContact();
 };
+
+#endif
 

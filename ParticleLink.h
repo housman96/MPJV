@@ -1,11 +1,15 @@
-#pragma once
+#ifndef PARTICLELINK_H
+#define PARTICLELINK_H
+
 #include "Particle.h"
 #include "ParticleContactGenerator.h"
 
 class ParticleLink : public ParticleContactGenerator
 {
-private:
+protected:
 	Particle *particles[2];
+
+
 public:
 	/*Constructeur et destructeur*/
 	ParticleLink(Particle &, Particle &);
@@ -13,4 +17,6 @@ public:
 
 	float currentLenght()const;
 };
+
+#endif
 
