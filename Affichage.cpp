@@ -131,27 +131,54 @@ void Affichage::redim(int width, int height)
     gluPerspective(70.0, 1.7, 1.0, 100.0);
 }
 
-void Affichage::TimerPhysiqueLoop(int value)
-{
-    double now = glutGet(GLUT_ELAPSED_TIME);
-    double timeElapsedMs = (now - lastLoopTime);
-    lastLoopTime = now;
+void Affichage::TimerPhysiqueLoop(int value) {
 
-    glutTimerFunc(deltaT / 10.f, TimerPhysiqueLoop, 0);
+	double now = glutGet(GLUT_ELAPSED_TIME);
+	double timeElapsedMs = (now - lastLoopTime);
+	lastLoopTime = now;
 
-    if (timeElapsedMs > deltaT / 10.) {
-        timeElapsedMs = deltaT / 10.;
-    }
+	glutTimerFunc(deltaT / 10.f, TimerPhysiqueLoop, 0);
 
-    for (RegisterForce::ForceRecord record : records) {
-        record.pfg->updateForce(record.p, timeElapsedMs / 100.);
-    }
+	if (timeElapsedMs > deltaT / 10.) {
+		timeElapsedMs = deltaT / 10.;
+	}
 
-    for (Particle* p : Affichage::list) {
-        //p->rebound();
-        p->update(timeElapsedMs / 100.);
-        p->clearAccum();
-    }
+	for (int i = 0; i < Affichage::listContactGenerator.size(); i++)
+	{
+		Affichage::listContactGenerator[i]->addContact();
+	}
+	for (int i = 0; i < Affichage::list.size(); i++)
+	{
+		for (int j = i + 1; j < Affichage::list.size(); j++)
+		{
+			float dist = Vect3D::dist(Affichage::list[i]->getPosition(), Affichage::list[j]->getPosition());
+			float distColision = Affichage::list[i]->getRadius() + Affichage::list[j]->getRadius();
+			if (dist < distColision)
+			{
+				Affichage::listContact.push_back(new ParticleContact(Affichage::list[i], Affichage::list[j], 0.5));
+			}
+		}
+	}
+	printf("%d \n", Affichage::listContact.size());
+
+	Affichage::resolver.setIter(Affichage::listContact.size());
+	Affichage::resolver.setVector(Affichage::listContact);
+	Affichage::resolver.resolveContact();
+
+	Affichage::listContact.clear();
+
+	for (RegisterForce::ForceRecord record : r) {
+		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
+	}
+
+	for (Particle *p : Affichage::list) {
+		p->rebound();
+		p->update(timeElapsedMs / 1000.);
+		p->clearAccum();
+	}
+
+
+
 }
 
 void Affichage::TimerDrawLoop(int value)

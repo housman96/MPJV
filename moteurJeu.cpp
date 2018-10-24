@@ -2,6 +2,9 @@
 #include "AnchoredSpringForceGenerator.h"
 #include "BungeeSpringForceGenerator.h"
 #include "DragGenerator.h"
+#include "ParticleContactResolver.h"
+#include "ParticleCable.h"
+#include "ParticleRod.h"
 #include "FloatingSpringForceGenerator.h"
 #include "GravityGenerator.h"
 #include "Particle.h"
@@ -10,6 +13,7 @@
 #include "StiffSpringForceGenerator.h"
 #include "Vect3D.h"
 #include "constants.h"
+
 #include <vector>
 
 using namespace std;
@@ -17,12 +21,19 @@ using namespace std;
 int G = 15;
 RegisterForce::Register records;
 
-vector<Particle*> Affichage::list = vector<Particle*>();
+
+
+vector<Particle *> Affichage::list = vector<Particle *>();
+vector<ParticleContact*> Affichage::listContact = vector<ParticleContact*>();
+vector<ParticleContactGenerator*> Affichage::listContactGenerator = vector<ParticleContactGenerator*>();
+ParticleContactResolver Affichage::resolver = ParticleContactResolver();
+
 float Affichage::lastLoopTime = 0.;
 float Affichage::timeAccumulatedMs = 0.;
 
 int main(int argc, char** argv)
 {
+
     /* DECLARATION DES PARTICULES */
     Particle p1 = new Particle(500., 1.);
     Particle p2 = new Particle(20., 1.);
