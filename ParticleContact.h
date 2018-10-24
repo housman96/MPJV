@@ -10,7 +10,7 @@ private:
 	float c;                /* Coefficient de restitution */
 	float d;                /* Interpenetration */
 	Vect3D n;               /* Normale au point de contact */
-	Vect3D Vs;
+	float Vs;
 
 public:
 	ParticleContact(Particle *, Particle *, float);

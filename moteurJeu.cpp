@@ -7,6 +7,7 @@
 #include "DragGenerator.h"
 #include "ParticleContactResolver.h"
 #include "ParticleCable.h"
+#include "ParticleRod.h"
 #include <vector>
 
 using namespace std;
@@ -34,7 +35,7 @@ int main(int argc, char **argv)
 	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
 	DragGenerator dg = new DragGenerator(.9f, .7f);
 	DragGenerator dg2 = new DragGenerator(.9f, .7f);
-	ParticleCable cable = ParticleCable(&p1, &p2, 6.f, 0.5f);
+	ParticleCable cable = ParticleCable(&p1, &p2, 15.f, 0.5f);
 
 	Affichage::listContactGenerator.push_back(&cable);
 

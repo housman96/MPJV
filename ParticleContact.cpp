@@ -13,6 +13,8 @@ ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_) {
 	Vs = calcVs();
 }
 
+
+
 ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d) {
 	particles[0] = p1;
 	particles[1] = NULL;
@@ -23,13 +25,14 @@ ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d) {
 	this->n = n;
 
 	this->d = d; //d = 2*r - dist pa pb
-	Vs = calcVs();
+	this->Vs = calcVs();
 }
 
 void ParticleContact::resolve() {
 	printf("hello");
+	resolveInterpenetration();
 	if (calcVs() < 0) {
-		resolveInterpenetration();
+
 		resolveVelocity();
 	}
 }
@@ -51,9 +54,17 @@ float ParticleContact::calcVs() {
 
 
 void ParticleContact::resolveVelocity() {
-	particles[0]->setVelocity(particles[0]->getVelocity().add(Vs.scale(1 + c)));
+
 	if (particles[1] != NULL) {
-		particles[1]->setVelocity(particles[1]->getVelocity().add(Vs.scale(-1 - c)));
+		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(Vs*(-1 - c))));
+		particles[1]->setVelocity(particles[1]->getVelocity().add(n.scale(Vs*(1 + c))));
+	}
+	else {
+		if (Vs < 0) {
+			Vs = -Vs;
+		}
+		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(Vs*(1 + c))));
+		std::cout << "test" << std::endl;
 	}
 }
 
@@ -61,14 +72,14 @@ void ParticleContact::resolveVelocity() {
 
 void ParticleContact::resolveInterpenetration() {
 	if (particles[1] != NULL) {
-		Vect3D pos0 = n.mult(d * particles[1]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
-		Vect3D pos1 = n.mult(-d * particles[0]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
+		Vect3D pos0 = n.scale(d * particles[1]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
+		Vect3D pos1 = n.scale(-d * particles[0]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
 
 		particles[0]->setPosition(particles[0]->getPosition().add(pos0));
 		particles[1]->setPosition(particles[1]->getPosition().add(pos1));
 	}
 	else {
-		particles[0]->setPosition(particles[0]->getPosition().add(n.mult(d)));
+		particles[0]->setPosition(particles[0]->getPosition().add(n.scale(d)));
 	}
 
 }
