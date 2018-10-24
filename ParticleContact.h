@@ -4,7 +4,9 @@
 #include "Particle.h"
 #include "Vect3D.h"
 
-class ParticleContact {
+
+class ParticleContact
+{
 private:
 	Particle *particles[2]; /* Les deux particules en contact */
 	float c;                /* Coefficient de restitution */
@@ -13,8 +15,11 @@ private:
 	float Vs;
 
 public:
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	ParticleContact(Particle *, Particle *, float);
 	ParticleContact(Particle *, float, Vect3D, float);
+
+	/* MISE A JOUR */
 	void resolve();
 	float calcVs();
 	void resolveVelocity();

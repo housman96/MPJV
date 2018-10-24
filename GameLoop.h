@@ -40,7 +40,7 @@ public:
 	/* CALLBACKS D'AFFICHAGE */
 	static void display();
 	static void redim(int, int);
-	static void TimerPhysiqueLoop(int);
+	static void TimerPhysicsLoop(int);
 	static void TimerDrawLoop(int);
 };
 

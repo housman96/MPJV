@@ -3,7 +3,9 @@
 
 #include <vector>
 #include "ParticleContact.h"
+
 using namespace std;
+
 
 class ParticleContactResolver
 {
@@ -13,11 +15,15 @@ private:
 	vector<ParticleContact*> listContact;
 
 public:
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	ParticleContactResolver();
 	~ParticleContactResolver();
 
+	/* ASCESSEURS */
 	void setVector(vector<ParticleContact*>);
 	void setIter(int);
+
+	/* MISE A JOUR */
 	void resolveContact();
 };
 
