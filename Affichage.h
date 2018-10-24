@@ -39,7 +39,6 @@ public:
 	/* CALLBACKS D'AFFICHAGE */
 	static void display();
 	static void redim(int width, int height);
-	static void idle();
 	static void TimerPhysiqueLoop(int value);
 	static void TimerDrawLoop(int value);
 
@@ -47,6 +46,7 @@ public:
 
 	static vector<ParticleContact*> listContact;
 	static vector<ParticleContactGenerator*> listContactGenerator;
+
 };
 
 #endif
