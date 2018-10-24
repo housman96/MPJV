@@ -1,5 +1,10 @@
 #include "FloatingSpringForceGenerator.h"
 
+
+// ============================================================
+// CONSTRUCTEURS
+// ============================================================
+
 FloatingSpringForceGenerator::FloatingSpringForceGenerator(const Vect3D pos, const float density, const float objDepth, const float objVolume)
 {
     this->waterPos = pos;
@@ -24,6 +29,11 @@ FloatingSpringForceGenerator::FloatingSpringForceGenerator(const FloatingSpringF
     objectVolume = other->objectVolume;
 }
 
+
+// ============================================================
+// MISE A JOUR
+// ============================================================
+
 void FloatingSpringForceGenerator::updateForce(Particle* p, float duration)
 {
 	// Changement de la formule, car résultats incohérents
@@ -31,8 +41,6 @@ void FloatingSpringForceGenerator::updateForce(Particle* p, float duration)
 	//     ^
     float submersion = -(p->getPosition().getY() - waterPos.getY() - maxObjectDepth) / (2 * maxObjectDepth);
     Vect3D floatingForce;
-
-	std::cout << submersion << std::endl;
 
     if (submersion <= 0) {
         floatingForce = new Vect3D(0, 0, 0);
