@@ -3,6 +3,6 @@
 
 #include "RegisterForce.h"
 
-extern RegisterForce::Register r;
+extern RegisterForce::Register records;
 
 #endif
