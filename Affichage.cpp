@@ -167,7 +167,7 @@ void Affichage::TimerPhysiqueLoop(int value) {
 
 	Affichage::listContact.clear();
 
-	for (RegisterForce::ForceRecord record : r) {
+	for (RegisterForce::ForceRecord record : records) {
 		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
 	}
 
