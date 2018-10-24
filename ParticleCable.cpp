@@ -1,5 +1,5 @@
 #include "ParticleCable.h"
-#include "Affichage.h"
+#include "GameLoop.h"
 
 ParticleCable::ParticleCable(Particle *p1, Particle *p2, float maxLenght, float restitution) : ParticleLink(p1, p2)
 {
@@ -20,8 +20,8 @@ void ParticleCable::addContact() {
 		Vect3D p1_vel = particles[0]->getVelocity();
 		Vect3D p2_vel = particles[1]->getVelocity();
 		//float Vs = p1_vel.sub(p2_vel).dot(p1_pos.sub(p2_pos).normalize());
-		Affichage::listContact.push_back(new ParticleContact(particles[0], restitution, p2_pos.sub(p1_pos).normalize(), (currentLenght() - maxLenght) / 2));
-		Affichage::listContact.push_back(new ParticleContact(particles[1], restitution, p1_pos.sub(p2_pos).normalize(), (currentLenght() - maxLenght) / 2));
+		GameLoop::listContact.push_back(new ParticleContact(particles[0], restitution, p2_pos.sub(p1_pos).normalize(), (currentLenght() - maxLenght) / 2));
+		GameLoop::listContact.push_back(new ParticleContact(particles[1], restitution, p1_pos.sub(p2_pos).normalize(), (currentLenght() - maxLenght) / 2));
 
 	}
 

@@ -98,7 +98,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Affichage.cpp" />
+    <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="BungeeSpringForceGenerator.cpp" />
     <ClCompile Include="DragGenerator.cpp" />
@@ -117,7 +117,7 @@
     <ClCompile Include="Vect3D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Affichage.h" />
+    <ClInclude Include="GameLoop.h" />
     <ClInclude Include="AnchoredSpringForceGenerator.h" />
     <ClInclude Include="BungeeSpringForceGenerator.h" />
     <ClInclude Include="constants.h" />

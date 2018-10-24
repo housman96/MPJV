@@ -21,14 +21,14 @@ void ParticleRod::addContact() {
 		//Vect3D p2_vel = particles[1]->getVelocity();
 		//float Vs = p1_vel.sub(p2_vel).dot(p2_pos.sub(p1_pos).normalize());
 
-		Affichage::listContact.push_back(new ParticleContact(particles[0], 0, p2_pos.sub(p1_pos).normalize(), (currentLenght() - lenght) / 2));
-		Affichage::listContact.push_back(new ParticleContact(particles[1], 0, p1_pos.sub(p2_pos).normalize(), (currentLenght() - lenght) / 2));
+		GameLoop::listContact.push_back(new ParticleContact(particles[0], 0, p2_pos.sub(p1_pos).normalize(), (currentLenght() - lenght) / 2));
+		GameLoop::listContact.push_back(new ParticleContact(particles[1], 0, p1_pos.sub(p2_pos).normalize(), (currentLenght() - lenght) / 2));
 	}
 
 	else {
 		if (lenght > currentLenght()) {
-			Affichage::listContact.push_back(new ParticleContact(particles[0], 0, p1_pos.sub(p2_pos).normalize(), -(currentLenght() - lenght) / 2));
-			Affichage::listContact.push_back(new ParticleContact(particles[1], 0, p2_pos.sub(p1_pos).normalize(), -(currentLenght() - lenght) / 2));
+			GameLoop::listContact.push_back(new ParticleContact(particles[0], 0, p1_pos.sub(p2_pos).normalize(), -(currentLenght() - lenght) / 2));
+			GameLoop::listContact.push_back(new ParticleContact(particles[1], 0, p2_pos.sub(p1_pos).normalize(), -(currentLenght() - lenght) / 2));
 		}
 	}
 }

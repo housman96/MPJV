@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Affichage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="moteurJeu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,11 +75,11 @@
     <ClCompile Include="ParticleContactResolver.cpp">
       <Filter>Source Files\ContactHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="GameLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Affichage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="ParticleContactResolver.h">
       <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoop.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

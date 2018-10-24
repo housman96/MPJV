@@ -56,8 +56,10 @@ float ParticleContact::calcVs() {
 void ParticleContact::resolveVelocity() {
 
 	if (particles[1] != NULL) {
-		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(Vs*(-1 - c))));
-		particles[1]->setVelocity(particles[1]->getVelocity().add(n.scale(Vs*(1 + c))));
+		float m0 = particles[0]->getMass();
+		float m1 = particles[1]->getMass();
+		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(m0*Vs*(-1 - c)/(m0+m1))));
+		particles[1]->setVelocity(particles[1]->getVelocity().add(n.scale(m1*Vs*(1 + c) / (m0 + m1))));
 	}
 	else {
 		if (Vs < 0) {

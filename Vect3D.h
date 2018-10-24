@@ -4,14 +4,15 @@
 #include <iostream>
 #include <cmath>
 
+
 class Vect3D
 {
-  private:
+private:
 	float x; /* Composante X */
 	float y; /* Composante Y */
 	float z; /* Composante Z */
 
-  public:
+public:
 	/* CONSTRUCTEURS */
 	Vect3D(float = 0, float = 0, float = 0); /* Constructeur par défaut */
 	Vect3D(const Vect3D &);					 /* Constructeur de recopie */
@@ -31,9 +32,9 @@ class Vect3D
 	/* OPERATIONS */
 	Vect3D add(const Vect3D &);   /* Addition de deux vecteurs */
 	Vect3D sub(const Vect3D &);   /* Soustraction de deux vecteurs */
-	Vect3D scale(const float);	/* Multiplication par un scalaire */
+	Vect3D scale(const float);	  /* Multiplication par un scalaire */
 	Vect3D mult(const Vect3D &);  /* Multiplication des composantes */
-	float dot(const Vect3D &);	/* Produit scalaire */
+	float dot(const Vect3D &);	  /* Produit scalaire */
 	Vect3D cross(const Vect3D &); /* Produit vectoriel */
 
 	/* MANIPULATION DE LA NORME */
