@@ -173,7 +173,7 @@ void Affichage::TimerPhysiqueLoop(int value) {
 			float distColision = Affichage::list[i]->getRadius() + Affichage::list[j]->getRadius();
 			if (dist < distColision)
 			{
-				Affichage::listContact.push_back(new ParticleContact(*Affichage::list[i], *Affichage::list[j], 0.5));
+				Affichage::listContact.push_back(new ParticleContact(Affichage::list[i], Affichage::list[j], 0.5));
 			}
 		}
 	}

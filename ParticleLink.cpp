@@ -2,10 +2,10 @@
 
 
 
-ParticleLink::ParticleLink(Particle &p1, Particle &p2)
+ParticleLink::ParticleLink(Particle *p1, Particle *p2)
 {
-	particles[0] = &p1;
-	particles[1] = &p2;
+	particles[0] = p1;
+	particles[1] = p2;
 }
 
 

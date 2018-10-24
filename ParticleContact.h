@@ -13,8 +13,8 @@ private:
 	Vect3D Vs;
 
 public:
-	ParticleContact(Particle &, Particle &, float);
-	ParticleContact(Particle &, float, Vect3D, float);
+	ParticleContact(Particle *, Particle *, float);
+	ParticleContact(Particle *, float, Vect3D, float);
 	void resolve();
 	float calcVs();
 	void resolveVelocity();

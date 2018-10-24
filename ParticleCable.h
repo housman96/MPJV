@@ -12,7 +12,7 @@ private:
 	float restitution;
 
 public:
-	ParticleCable(Particle &, Particle &, float maxLenght, float restitution);
+	ParticleCable(Particle *, Particle *, float maxLenght, float restitution);
 	~ParticleCable();
 
 	void addContact();

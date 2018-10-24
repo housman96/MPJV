@@ -12,7 +12,7 @@ protected:
 
 public:
 	/*Constructeur et destructeur*/
-	ParticleLink(Particle &, Particle &);
+	ParticleLink(Particle *, Particle *);
 	~ParticleLink();
 
 	float currentLenght()const;

@@ -29,6 +29,9 @@ void ParticleContactResolver::resolveContact() {
 		for (size_t i = 0; i < listContact.size(); i++)
 		{
 			float test = listContact[i]->calcVs();
+			if (test < 0) {
+				cout << "bug" << endl;
+			}
 			if (listContact[i]->calcVs() < lowestValue && listContact[i]->calcVs() < 0)
 			{
 				lowestValue = listContact[i]->calcVs();

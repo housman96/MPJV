@@ -1,24 +1,24 @@
 #include "ParticleContact.h"
 
-ParticleContact::ParticleContact(Particle &p1, Particle &p2, float c_) {
-	particles[0] = &p1;
-	particles[1] = &p2;
+ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_) {
+	particles[0] = p1;
+	particles[1] = p2;
 	c = c_;
 
-	Vect3D p1_pos = p1.getPosition();
-	Vect3D p2_pos = p2.getPosition();
+	Vect3D p1_pos = p1->getPosition();
+	Vect3D p2_pos = p2->getPosition();
 	n = p1_pos.sub(p2_pos).normalize();
 
-	d = (p1.getRadius() + p2.getRadius()) - (Vect3D::dist(p1_pos, p2_pos)); //d = 2*r - dist pa pb
+	d = (p1->getRadius() + p2->getRadius()) - (Vect3D::dist(p1_pos, p2_pos)); //d = 2*r - dist pa pb
 	Vs = calcVs();
 }
 
-ParticleContact::ParticleContact(Particle &p1, float c_, Vect3D n, float d) {
-	particles[0] = &p1;
+ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d) {
+	particles[0] = p1;
 	particles[1] = NULL;
 	c = c_;
 
-	Vect3D p1_pos = p1.getPosition();
+	Vect3D p1_pos = p1->getPosition();
 
 	this->n = n;
 
@@ -51,9 +51,9 @@ float ParticleContact::calcVs() {
 
 
 void ParticleContact::resolveVelocity() {
-	particles[0]->setVelocity(particles[0]->getVelocity().add(Vs.scale(-1 - c)));
+	particles[0]->setVelocity(particles[0]->getVelocity().add(Vs.scale(1 + c)));
 	if (particles[1] != NULL) {
-		particles[1]->setVelocity(particles[1]->getVelocity().add(Vs.scale(1 + c)));
+		particles[1]->setVelocity(particles[1]->getVelocity().add(Vs.scale(-1 - c)));
 	}
 }
 

@@ -14,7 +14,7 @@ private:
 
 
 public:
-	ParticleRod(Particle &, Particle &, float);
+	ParticleRod(Particle *, Particle *, float);
 	~ParticleRod();
 
 	void addContact();
