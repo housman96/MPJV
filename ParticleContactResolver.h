@@ -2,6 +2,7 @@
 #define PARTICLECONTACTRESOLVER_H
 
 #include <vector>
+#include <limits>
 #include "ParticleContact.h"
 
 using namespace std;

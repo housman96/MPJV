@@ -37,7 +37,7 @@ ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d) {
 // ============================================================
 
 void ParticleContact::resolve() {
-
+	//si le VS<0 on résoud le contact
 	if (calcVs() < 0) {
 		resolveInterpenetration();
 		resolveVelocity();
@@ -46,14 +46,13 @@ void ParticleContact::resolve() {
 
 float ParticleContact::calcVs() {
 	float res;
-
 	Vect3D p1_vel = particles[0]->getVelocity();
 	if (particles[1] != NULL) {
 		Vect3D p2_vel = particles[1]->getVelocity();
-		res = p1_vel.sub(p2_vel).dot(n);
+		res = p1_vel.sub(p2_vel).dot(n);	//Vs=(p1-p2).n
 	}
 	else {
-		res = p1_vel.dot(n);
+		res = p1_vel.dot(n);	//on a pas p2 donc on ne prend que p1 (à vérifier)
 	}
 	return res;
 }
@@ -63,17 +62,18 @@ float ParticleContact::calcVs() {
 void ParticleContact::resolveVelocity() {
 
 	if (particles[1] != NULL) {
+		//set des nouvelles velocites
 		float m0 = particles[0]->getMass();
 		float m1 = particles[1]->getMass();
-		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(m0*Vs*(-1 - c) / (m0 + m1))));
+		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(m0*Vs*(-1 - c) / (m0 + m1))));	//V' =  V+Vs'*m0/(m0+m1) =  V+Vs(-1-c)*m0/(m0+m1)
 		particles[1]->setVelocity(particles[1]->getVelocity().add(n.scale(m1*Vs*(1 + c) / (m0 + m1))));
 	}
 	else {
+		//on prend la valeur absolu de Vs pour être sûr que l'impulsion soit selon n 
 		if (Vs < 0) {
 			Vs = -Vs;
 		}
-		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(Vs*(1 + c))));
-		std::cout << "test" << std::endl;
+		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(Vs*(1 + c))));	//on ne prend pas en compre la masse car on a pas accés à p2 (à vérifier)
 	}
 }
 
@@ -88,7 +88,7 @@ void ParticleContact::resolveInterpenetration() {
 		particles[1]->setPosition(particles[1]->getPosition().add(pos1));
 	}
 	else {
-		particles[0]->setPosition(particles[0]->getPosition().add(n.scale(d)));
+		particles[0]->setPosition(particles[0]->getPosition().add(n.scale(d)));	//on ne prend pas en compre la masse car on a pas accés à p2 (à vérifier)
 	}
 
 }
