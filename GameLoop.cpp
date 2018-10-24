@@ -3,8 +3,9 @@
 
 using namespace std;
 
+
 // ============================================================
-// CONSTRUCTEURS
+// CONSTRUCTEURS ET DESTRUCTEUR
 // ============================================================
 
 GameLoop::GameLoop(int argc, char** argv)
@@ -21,13 +22,13 @@ GameLoop::GameLoop(int argc, char** argv)
 	glutInitWindowPosition(0, 0);
 
 	/* Création de la fenêtre */
-	glutCreateWindow("GLUTfenetre");
+	glutCreateWindow("MPJV");
 	glEnable(GL_DEPTH_TEST);
 
 	/* Association des callback pour cette fenêtre */
 	glutDisplayFunc(GameLoop::display);
 	glutReshapeFunc(GameLoop::redim);
-	TimerPhysiqueLoop(0);
+	TimerPhysicsLoop(0);
 	TimerDrawLoop(0);
 
 	glutMainLoop(); /* On entre dans la boucle d'événements */
@@ -90,11 +91,11 @@ void GameLoop::display()
 	for (Particle part : GameLoop::world) {
 		glPushMatrix();
 		glColor3b(0, 0, 50);
-		glTranslatef(part.getPosition().getX(), part.getPosition().getY(),
-					 part.getPosition().getZ());
+		glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
 		glutSolidSphere(part.getRadius(), 50, 50);
 		glPopMatrix();
 	}
+
 	glutSwapBuffers();
 }
 
@@ -121,22 +122,26 @@ void GameLoop::redim(int width, int height)
 	gluPerspective(70.0, 1.7, 1.0, 100.0);
 }
 
-void GameLoop::TimerPhysiqueLoop(int value)
+void GameLoop::TimerPhysicsLoop(int value)
 {
-
+	// Récupération du temps écoulé
 	double now = glutGet(GLUT_ELAPSED_TIME);
 	double timeElapsedMs = (now - lastLoopTime);
 	lastLoopTime = now;
 
-	glutTimerFunc(deltaT / 10.f, TimerPhysiqueLoop, 0);
+	// Lancement du timer physique
+	glutTimerFunc(deltaT / 10.f, TimerPhysicsLoop, 0);
 
 	if (timeElapsedMs > deltaT / 10.) {
 		timeElapsedMs = deltaT / 10.;
 	}
 
+	// Ajout des contacts
 	for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
 		GameLoop::listContactGenerator[i]->addContact();
 	}
+
+	// Détection des contatcts
 	for (int i = 0; i < GameLoop::world.size(); i++) {
 		for (int j = i + 1; j < GameLoop::world.size(); j++) {
 			float dist = Vect3D::dist(GameLoop::world[i]->getPosition(), GameLoop::world[j]->getPosition());
@@ -147,16 +152,18 @@ void GameLoop::TimerPhysiqueLoop(int value)
 		}
 	}
 
+	// Résolution des contacts
 	GameLoop::resolver.setIter(GameLoop::listContact.size());
 	GameLoop::resolver.setVector(GameLoop::listContact);
 	GameLoop::resolver.resolveContact();
-
 	GameLoop::listContact.clear();
 
+	// Prise en compte des forces
 	for (RegisterForce::ForceRecord record : records) {
 		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
 	}
 
+	// Mise à jour de la physique
 	for (Particle *p : GameLoop::world) {
 		p->rebound();
 		p->update(timeElapsedMs / 1000.);

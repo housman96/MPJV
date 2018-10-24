@@ -5,20 +5,23 @@
 #include "ParticleForceGenerator.h"
 #include "Vect3D.h"
 
-class SpringForceGenerator : public ParticleForceGenerator {
+
+class SpringForceGenerator : public ParticleForceGenerator
+{
 private:
-    Particle * otherP;
-    float k;
-    float l0;
+	Particle * otherP;
+	float k;
+	float l0;
 
 public:
-    /* CONSTRUCTEURS ET DESTRUCTEUR */
-    SpringForceGenerator(Particle*, const float, const float); /* Constructeur par defaut */
-    SpringForceGenerator(const SpringForceGenerator&); /* Constructeur de recopie */
-    SpringForceGenerator(const SpringForceGenerator*); /* Constructeur par pointeur */
-    ~SpringForceGenerator();
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
+	SpringForceGenerator(Particle *, const float, const float); /* Constructeur par defaut */
+	SpringForceGenerator(const SpringForceGenerator &);		    /* Constructeur de recopie */
+	SpringForceGenerator(const SpringForceGenerator *);		    /* Constructeur par pointeur */
+	~SpringForceGenerator();
 
-    virtual void updateForce(Particle*, float);
+	/* MISE A JOUR */
+	virtual void updateForce(Particle *, float);
 };
 
 #endif

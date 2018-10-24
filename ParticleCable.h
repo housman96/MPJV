@@ -5,6 +5,7 @@
 #include "ParticleLink.h"
 #include "ParticleContact.h"
 
+
 class ParticleCable : public ParticleLink
 {
 private:
@@ -12,9 +13,11 @@ private:
 	float restitution;
 
 public:
-	ParticleCable(Particle *, Particle *, float maxLenght, float restitution);
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
+	ParticleCable(Particle *, Particle *, float, float);
 	~ParticleCable();
 
+	/* MISE A JOUR */
 	void addContact();
 };
 

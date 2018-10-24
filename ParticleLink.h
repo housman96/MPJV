@@ -4,18 +4,19 @@
 #include "Particle.h"
 #include "ParticleContactGenerator.h"
 
+
 class ParticleLink : public ParticleContactGenerator
 {
 protected:
 	Particle *particles[2];
 
-
 public:
-	/*Constructeur et destructeur*/
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	ParticleLink(Particle *, Particle *);
 	~ParticleLink();
 
-	float currentLenght()const;
+	/* METHODE */
+	float currentLenght() const;
 };
 
 #endif

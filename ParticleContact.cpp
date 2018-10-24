@@ -1,6 +1,7 @@
 #include "ParticleContact.h"
 
-ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_) {
+ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_)
+{
 	particles[0] = p1;
 	particles[1] = p2;
 	c = c_;
@@ -15,7 +16,8 @@ ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_) {
 
 
 
-ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d) {
+ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d)
+{
 	particles[0] = p1;
 	particles[1] = NULL;
 	c = c_;
@@ -28,7 +30,8 @@ ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d) {
 	this->Vs = calcVs();
 }
 
-void ParticleContact::resolve() {
+void ParticleContact::resolve()
+{
 	printf("hello");
 	resolveInterpenetration();
 	if (calcVs() < 0) {
@@ -37,15 +40,15 @@ void ParticleContact::resolve() {
 	}
 }
 
-float ParticleContact::calcVs() {
+float ParticleContact::calcVs()
+{
 	float res;
 
 	Vect3D p1_vel = particles[0]->getVelocity();
 	if (particles[1] != NULL) {
 		Vect3D p2_vel = particles[1]->getVelocity();
 		res = p1_vel.sub(p2_vel).dot(n);
-	}
-	else {
+	} else {
 		res = p1_vel.dot(n);
 	}
 	return res;
@@ -53,15 +56,15 @@ float ParticleContact::calcVs() {
 
 
 
-void ParticleContact::resolveVelocity() {
+void ParticleContact::resolveVelocity()
+{
 
 	if (particles[1] != NULL) {
 		float m0 = particles[0]->getMass();
 		float m1 = particles[1]->getMass();
-		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(m0*Vs*(-1 - c)/(m0+m1))));
+		particles[0]->setVelocity(particles[0]->getVelocity().add(n.scale(m0*Vs*(-1 - c) / (m0 + m1))));
 		particles[1]->setVelocity(particles[1]->getVelocity().add(n.scale(m1*Vs*(1 + c) / (m0 + m1))));
-	}
-	else {
+	} else {
 		if (Vs < 0) {
 			Vs = -Vs;
 		}
@@ -72,15 +75,15 @@ void ParticleContact::resolveVelocity() {
 
 
 
-void ParticleContact::resolveInterpenetration() {
+void ParticleContact::resolveInterpenetration()
+{
 	if (particles[1] != NULL) {
 		Vect3D pos0 = n.scale(d * particles[1]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
 		Vect3D pos1 = n.scale(-d * particles[0]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
 
 		particles[0]->setPosition(particles[0]->getPosition().add(pos0));
 		particles[1]->setPosition(particles[1]->getPosition().add(pos1));
-	}
-	else {
+	} else {
 		particles[0]->setPosition(particles[0]->getPosition().add(n.scale(d)));
 	}
 

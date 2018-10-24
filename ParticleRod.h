@@ -7,16 +7,18 @@
 #include "ParticleLink.h"
 #include "GameLoop.h"
 
+
 class ParticleRod : public ParticleLink
 {
 private:
 	float lenght;
 
-
 public:
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	ParticleRod(Particle *, Particle *, float);
 	~ParticleRod();
 
+	/* MISE A JOUR */
 	void addContact();
 };
 
