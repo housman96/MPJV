@@ -2,7 +2,7 @@
 #define DRAGGENERATOR_H
 
 #include "ParticleForceGenerator.h"
-#include "Vect3D.h"
+#include "Vect3.h"
 
 
 class DragGenerator : public ParticleForceGenerator

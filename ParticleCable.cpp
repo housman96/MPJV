@@ -24,8 +24,8 @@ ParticleCable::~ParticleCable()
 void ParticleCable::addContact() {
 	if (maxLenght < currentLenght()) {
 
-		Vect3D p1_pos = particles[0]->getPosition();
-		Vect3D p2_pos = particles[1]->getPosition();
+		Vect3 p1_pos = particles[0]->getPosition();
+		Vect3 p2_pos = particles[1]->getPosition();
 
 		//on créer les des contacts avec une seul particule et avec des vecteur n vers le centre du cable
 

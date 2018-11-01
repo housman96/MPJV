@@ -38,8 +38,8 @@ SpringForceGenerator::~SpringForceGenerator()
 
 void SpringForceGenerator::updateForce(Particle* p, float duration)
 {
-	Vect3D d = p->getPosition().sub(otherP->getPosition());
-	Vect3D springForce = d.normalize();
+	Vect3 d = p->getPosition().sub(otherP->getPosition());
+	Vect3 springForce = d.normalize();
 	springForce = springForce.scale(-k * (d.mag() - l0));
 	p->applyForce(springForce);
 }

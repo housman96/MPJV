@@ -22,5 +22,5 @@ ParticleLink::~ParticleLink()
 // ============================================================
 
 float ParticleLink::currentLenght() const {
-	return Vect3D::dist(particles[0]->getPosition(), particles[1]->getPosition());
+	return Vect3::dist(particles[0]->getPosition(), particles[1]->getPosition());
 }

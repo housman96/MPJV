@@ -9,22 +9,22 @@ ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_) {
 	particles[1] = p2;
 	c = c_;
 
-	Vect3D p1_pos = p1->getPosition();
-	Vect3D p2_pos = p2->getPosition();
+	Vect3 p1_pos = p1->getPosition();
+	Vect3 p2_pos = p2->getPosition();
 	n = p1_pos.sub(p2_pos).normalize();
 
-	d = (p1->getRadius() + p2->getRadius()) - (Vect3D::dist(p1_pos, p2_pos)); //d = r1+r2 - dist pa pb
+	d = (p1->getRadius() + p2->getRadius()) - (Vect3::dist(p1_pos, p2_pos)); //d = r1+r2 - dist pa pb
 	Vs = calcVs();
 }
 
 
 
-ParticleContact::ParticleContact(Particle *p1, float c_, Vect3D n, float d) {
+ParticleContact::ParticleContact(Particle *p1, float c_, Vect3 n, float d) {
 	particles[0] = p1;
 	particles[1] = NULL;
 	c = c_;
 
-	Vect3D p1_pos = p1->getPosition();
+	Vect3 p1_pos = p1->getPosition();
 
 	this->n = n;
 
@@ -46,9 +46,9 @@ void ParticleContact::resolve() {
 
 float ParticleContact::calcVs() {
 	float res;
-	Vect3D p1_vel = particles[0]->getVelocity();
+	Vect3 p1_vel = particles[0]->getVelocity();
 	if (particles[1] != NULL) {
-		Vect3D p2_vel = particles[1]->getVelocity();
+		Vect3 p2_vel = particles[1]->getVelocity();
 		res = p1_vel.sub(p2_vel).dot(n);	//Vs=(p1-p2).n
 	}
 	else {
@@ -81,8 +81,8 @@ void ParticleContact::resolveVelocity() {
 
 void ParticleContact::resolveInterpenetration() {
 	if (particles[1] != NULL) {
-		Vect3D pos0 = n.scale(d * particles[1]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
-		Vect3D pos1 = n.scale(-d * particles[0]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
+		Vect3 pos0 = n.scale(d * particles[1]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
+		Vect3 pos1 = n.scale(-d * particles[0]->getMass() / (particles[1]->getMass() + particles[0]->getMass()));
 
 		particles[0]->setPosition(particles[0]->getPosition().add(pos0));
 		particles[1]->setPosition(particles[1]->getPosition().add(pos1));

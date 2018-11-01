@@ -1,4 +1,4 @@
-#include "Vect3D.h"
+#include "Vect3.h"
 
 using namespace std;
 
@@ -7,21 +7,21 @@ using namespace std;
 // CONSTRUCTEURS
 // ============================================================
 
-Vect3D::Vect3D(float x_, float y_, float z_)
+Vect3::Vect3(float x_, float y_, float z_)
 {
 	x = x_;
 	y = y_;
 	z = z_;
 }
 
-Vect3D::Vect3D(const Vect3D& other)
+Vect3::Vect3(const Vect3& other)
 {
 	x = other.x;
 	y = other.y;
 	z = other.z;
 }
 
-Vect3D::Vect3D(const Vect3D* other)
+Vect3::Vect3(const Vect3* other)
 {
 	x = other->x;
 	y = other->y;
@@ -33,30 +33,30 @@ Vect3D::Vect3D(const Vect3D* other)
 // ASCESSEURS
 // ============================================================
 
-float Vect3D::getX()
+float Vect3::getX()
 {
 	return x;
 }
 
-float Vect3D::getY()
+float Vect3::getY()
 {
 	return y;
 }
-float Vect3D::getZ()
+float Vect3::getZ()
 {
 	return z;
 }
 
-void Vect3D::setX(float x)
+void Vect3::setX(float x)
 {
 	this->x = x;
 }
 
-void Vect3D::setY(float y)
+void Vect3::setY(float y)
 {
 	this->y = y;
 }
-void Vect3D::setZ(float z)
+void Vect3::setZ(float z)
 {
 	this->z = z;
 }
@@ -66,9 +66,9 @@ void Vect3D::setZ(float z)
 // AFFICHAGE
 // ============================================================
 
-void Vect3D::log()
+void Vect3::log()
 {
-	cout << "Vect3D : (" << x << "," << y << "," << z << ")" << endl;
+	cout << "Vect3 : (" << x << "," << y << "," << z << ")" << endl;
 }
 
 
@@ -76,50 +76,50 @@ void Vect3D::log()
 // OPERATIONS
 // ============================================================
 
-Vect3D Vect3D::add(const Vect3D& other)
+Vect3 Vect3::add(const Vect3& other)
 {
-	Vect3D newVect;
+	Vect3 newVect;
 	newVect.x = x + other.x;
 	newVect.y = y + other.y;
 	newVect.z = z + other.z;
 	return newVect;
 }
 
-Vect3D Vect3D::sub(const Vect3D& other)
+Vect3 Vect3::sub(const Vect3& other)
 {
-	Vect3D newVect;
+	Vect3 newVect;
 	newVect.x = x - other.x;
 	newVect.y = y - other.y;
 	newVect.z = z - other.z;
 	return newVect;
 }
 
-Vect3D Vect3D::scale(const float k)
+Vect3 Vect3::scale(const float k)
 {
-	Vect3D newVect(*this);
+	Vect3 newVect(*this);
 	newVect.x *= k;
 	newVect.y *= k;
 	newVect.z *= k;
 	return newVect;
 }
 
-Vect3D Vect3D::mult(const Vect3D& other)
+Vect3 Vect3::mult(const Vect3& other)
 {
-	Vect3D newVect;
+	Vect3 newVect;
 	newVect.x = x * other.x;
 	newVect.y = y * other.y;
 	newVect.z = z * other.z;
 	return newVect;
 }
 
-float Vect3D::dot(const Vect3D& other)
+float Vect3::dot(const Vect3& other)
 {
 	return x * other.x + y * other.y + z * other.z;
 }
 
-Vect3D Vect3D::cross(const Vect3D& other)
+Vect3 Vect3::cross(const Vect3& other)
 {
-	Vect3D newVect;
+	Vect3 newVect;
 	newVect.x = y * other.z - z * other.y;
 	newVect.y = z * other.x - x * other.z;
 	newVect.z = x * other.y - y * other.x;
@@ -131,19 +131,19 @@ Vect3D Vect3D::cross(const Vect3D& other)
 // MANIPULATION DE LA NORME
 // ============================================================
 
-float Vect3D::mag()
+float Vect3::mag()
 {
 	return sqrt(x * x + y * y + z * z);
 }
 
-float Vect3D::magSq()
+float Vect3::magSq()
 {
 	return x * x + y * y + z * z;
 }
 
-Vect3D Vect3D::normalize()
+Vect3 Vect3::normalize()
 {
-	Vect3D newVect(*this);
+	Vect3 newVect(*this);
 	float mag = newVect.mag();
 	if (mag != 0) {
 		float scaler = 1.0 / mag;
@@ -157,20 +157,20 @@ Vect3D Vect3D::normalize()
 // METHODES STATIQUES
 // ============================================================
 
-Vect3D Vect3D::proj(Vect3D& u, Vect3D& v)
+Vect3 Vect3::proj(Vect3& u, Vect3& v)
 {
-	Vect3D newVect(v);
+	Vect3 newVect(v);
 	float scaler = u.dot(v) / v.magSq();
 	newVect = newVect.scale(scaler);
 	return newVect;
 }
 
-float Vect3D::dist(Vect3D& u, Vect3D& v)
+float Vect3::dist(Vect3& u, Vect3& v)
 {
 	return sqrt((u.x - v.x) * (u.x - v.x) + (u.y - v.y) * (u.y - v.y) + (u.z - v.z) * (u.z - v.z));
 }
 
-float Vect3D::angleBetween(Vect3D& u, Vect3D& v)
+float Vect3::angleBetween(Vect3& u, Vect3& v)
 {
 	return acos(u.dot(v) / (u.mag() * v.mag()));
 }

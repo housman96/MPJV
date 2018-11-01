@@ -24,8 +24,8 @@ DragGenerator::DragGenerator(const DragGenerator *other) {
 // ============================================================
 
 void DragGenerator::updateForce(Particle *p, float duration) {
-  Vect3D vel = p->getVelocity();
-  Vect3D drag = vel.normalize().scale(-1);
+  Vect3 vel = p->getVelocity();
+  Vect3 drag = vel.normalize().scale(-1);
   drag = drag.scale(k1 * vel.mag() + k2 * vel.magSq());
   p->applyForce(drag);
 }

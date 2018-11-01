@@ -38,12 +38,12 @@ BungeeSpringForceGenerator::~BungeeSpringForceGenerator()
 
 void BungeeSpringForceGenerator::updateForce(Particle* p, float duration)
 {
-	Vect3D springForce;
-	Vect3D d = p->getPosition().sub(otherP->getPosition());
+	Vect3 springForce;
+	Vect3 d = p->getPosition().sub(otherP->getPosition());
 	float mag = d.mag();
 
 	if (mag <= l0) {
-		springForce = new Vect3D(0, 0, 0);
+		springForce = new Vect3(0, 0, 0);
 	} else {
 		springForce = d.normalize();
 		springForce = springForce.scale(-k * (mag - l0));

@@ -9,9 +9,9 @@ using namespace std;
 
 Particle::Particle(float m, float r)
 {
-	position = new Vect3D(0, 0, 0);
-	velocity = new Vect3D(0, 0, 0);
-	acceleration = new Vect3D(0, 0, 0);
+	position = new Vect3(0, 0, 0);
+	velocity = new Vect3(0, 0, 0);
+	acceleration = new Vect3(0, 0, 0);
 	mass = m;
 	inverseMass = (m != 0. ? 1.0 / m : 1.);
 	radius = r;
@@ -42,22 +42,22 @@ Particle::Particle(const Particle* other)
 // ASCESSEURS
 // ============================================================
 
-Vect3D Particle::getPosition()
+Vect3 Particle::getPosition()
 {
 	return position;
 }
 
-Vect3D Particle::getVelocity()
+Vect3 Particle::getVelocity()
 {
 	return velocity;
 }
 
-Vect3D Particle::getAcceleration()
+Vect3 Particle::getAcceleration()
 {
 	return acceleration;
 }
 
-Vect3D Particle::getAccumForce()
+Vect3 Particle::getAccumForce()
 {
 	return accumForce;
 }
@@ -77,22 +77,22 @@ float Particle::getRadius()
 	return radius;
 }
 
-void Particle::setPosition(Vect3D pos)
+void Particle::setPosition(Vect3 pos)
 {
 	this->position = pos;
 }
 
-void Particle::setVelocity(Vect3D vel)
+void Particle::setVelocity(Vect3 vel)
 {
 	this->velocity = vel;
 }
 
-void Particle::setAcceleration(Vect3D acc)
+void Particle::setAcceleration(Vect3 acc)
 {
 	this->acceleration = acc;
 }
 
-void Particle::setAccumForce(Vect3D accf)
+void Particle::setAccumForce(Vect3 accf)
 {
 	this->accumForce = accf;
 }
@@ -132,7 +132,7 @@ void Particle::log()
 // INITIALISATION
 // ============================================================
 
-void Particle::init(Vect3D pos, Vect3D vel, Vect3D acc)
+void Particle::init(Vect3 pos, Vect3 vel, Vect3 acc)
 {
 	this->setPosition(pos);
 	this->setVelocity(vel);
@@ -144,7 +144,7 @@ void Particle::init(Vect3D pos, Vect3D vel, Vect3D acc)
 // MISE A JOUR
 // ============================================================
 
-void Particle::applyForce(Vect3D& force)
+void Particle::applyForce(Vect3& force)
 {
 	accumForce = accumForce.add(force);
 }

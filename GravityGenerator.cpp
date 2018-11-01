@@ -5,7 +5,7 @@
 // CONSTRUCTEURS
 // ============================================================
 
-GravityGenerator::GravityGenerator(const Vect3D &grav)
+GravityGenerator::GravityGenerator(const Vect3 &grav)
 {
 	this->gravity = grav;
 }
@@ -27,6 +27,6 @@ GravityGenerator::GravityGenerator(const GravityGenerator *other)
 
 void GravityGenerator::updateForce(Particle *p, float duration)
 {
-	Vect3D weight = gravity.scale(p->getMass());
+	Vect3 weight = gravity.scale(p->getMass());
 	p->applyForce(weight);
 }

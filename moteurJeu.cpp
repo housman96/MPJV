@@ -1,5 +1,5 @@
 #include "constants.h"
-#include "Vect3D.h"
+#include "Vect3.h"
 #include "Particle.h"
 #include "GameLoop.h"
 #include "RegisterForce.h"
@@ -44,11 +44,11 @@ int main(int argc, char** argv)
 	Particle p5 = new Particle(20., 1.);
 
 	// Initialisation des particules
-	p1.init(Vect3D(0, 16, 0), Vect3D(0, 0, 0), Vect3D(0, 0, 0));
-	p2.init(Vect3D(6, 12, 0), Vect3D(0, 0, 0), Vect3D(0, 0, 0));
-	p3.init(Vect3D(4, 6, 0), Vect3D(0, 0, 0), Vect3D(0, 0, 0));
-	p4.init(Vect3D(-4, 6, 0), Vect3D(0, 0, 0), Vect3D(0, 0, 0));
-	p5.init(Vect3D(-6, 12, 0), Vect3D(0, 0, 0), Vect3D(0, 0, 0));
+	p1.init(Vect3(0, 16, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p2.init(Vect3(6, 12, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p3.init(Vect3(4, 6, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p4.init(Vect3(-4, 6, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p5.init(Vect3(-6, 12, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
 
 
 // ==================================================
@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 // ==================================================
 
 	// Déclaration des générateurs de force
-	GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0));
+	GravityGenerator gg = new GravityGenerator(Vect3(0, -G, 0));
 	DragGenerator dg = new DragGenerator(.9f, .7f);
 	SpringForceGenerator sfg_p1_p2 = new SpringForceGenerator(&p2, 30.f, 1.f);
 	SpringForceGenerator sfg_p2_p3 = new SpringForceGenerator(&p3, 30.f, 1.f);
