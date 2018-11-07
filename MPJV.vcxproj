@@ -114,6 +114,7 @@
     <ClCompile Include="ParticleContactGenerator.cpp" />
     <ClCompile Include="ParticleContactResolver.cpp" />
     <ClCompile Include="ParticleLink.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StiffSpringForceGenerator.cpp" />
     <ClCompile Include="Vect3.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="ParticleContactGenerator.h" />
     <ClInclude Include="ParticleForceGenerator.h" />
     <ClInclude Include="ParticleLink.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RegisterForce.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="StiffSpringForceGenerator.h" />
