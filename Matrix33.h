@@ -2,11 +2,12 @@
 #define MATRIX33_H
 
 #include "Vect3.h"
-
+#include <vector>
 class Matrix33
 {
 
-
+private:
+	float Det22(int, int)const;
 
 public:
 
@@ -17,17 +18,23 @@ public:
 	Matrix33();
 	Matrix33(const Matrix33 &);
 	Matrix33(const Matrix33*);
-	Matrix33(float*);
+	Matrix33(const float*);
 	/* DESTRUCTEURS */
 	~Matrix33();
 
-	/* OPERATIONS */
+	/* SURCHARGE OPERATEUR */
 	float& operator[](const int);
 	Matrix33& operator=(const Matrix33&);
 	friend std::ostream& operator<<(std::ostream &strm, const Matrix33& mat);
-	float getElement(int i, int j) const;
-	Vect3 mult(Vect3 &);  /* Multiplication des composantes */
-	Matrix33 mult(Matrix33 &);  /* Multiplication des composantes */
+
+	/*GETTER*/
+	float getElement(const int i, const int j) const;
+
+	/*OPERATION*/
+	Vect3 mult(const Vect3 &)const;  /* Multiplication par un vecteur */
+	Matrix33 mult(const Matrix33 &)const;  /* Multiplication par une matrice */
+	float Det()const;
+	Matrix33 inverse()const;
 };
 
 
