@@ -1,23 +1,25 @@
 #ifndef ANCHOREDSPRINGFORCEGENERATOR_H
 #define ANCHOREDSPRINGFORCEGENERATOR_H
 
-#include "Vect3D.h"
+#include "Vect3.h"
 #include "ParticleForceGenerator.h"
+
 
 class AnchoredSpringForceGenerator : public ParticleForceGenerator
 {
-  private:
-    Vect3D point;
-    float k;
-    float l0;
+private:
+	Vect3 point;
+	float k;
+	float l0;
 
-  public:
-    /* CONSTRUCTEURS ET DESTRUCTEUR */
-    AnchoredSpringForceGenerator(const Vect3D, const float, const float); /* Constructeur par dÃ©faut */
-    AnchoredSpringForceGenerator(const AnchoredSpringForceGenerator &);   /* Constructeur de recopie */
-    AnchoredSpringForceGenerator(const AnchoredSpringForceGenerator *);   /* Constructeur par pointeur */
+public:
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
+	AnchoredSpringForceGenerator(const Vect3, const float, const float); /* Constructeur par defaut */
+	AnchoredSpringForceGenerator(const AnchoredSpringForceGenerator &);   /* Constructeur de recopie */
+	AnchoredSpringForceGenerator(const AnchoredSpringForceGenerator *);   /* Constructeur par pointeur */
 
-    virtual void updateForce(Particle *p, float duration);
+	/* MISE A JOUR */
+	virtual void updateForce(Particle *, float);
 };
 
 #endif

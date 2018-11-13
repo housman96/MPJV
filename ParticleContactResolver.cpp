@@ -1,6 +1,9 @@
 #include "ParticleContactResolver.h"
 
 
+// ============================================================
+// CONSTRUCTEURS ET DESTRUCTEURS
+// ============================================================
 
 ParticleContactResolver::ParticleContactResolver()
 {
@@ -8,30 +11,37 @@ ParticleContactResolver::ParticleContactResolver()
 	this->iterationUsed = 0;
 }
 
-void ParticleContactResolver::setVector(vector<ParticleContact*> vect) {
-	this->listContact = vect;
-}
+
 
 ParticleContactResolver::~ParticleContactResolver()
 {
+}
+
+// ============================================================
+// ASCESSEURS
+// ============================================================
+
+
+void ParticleContactResolver::setVector(vector<ParticleContact*> vect) {
+	this->listContact = vect;
 }
 
 void ParticleContactResolver::setIter(int iter) {
 	this->iteration = iter;
 }
 
+// ============================================================
+// RESOLUTION DES CONTACTS
+// ============================================================
+
 void ParticleContactResolver::resolveContact() {
 	bool resolved = false;
 	iterationUsed = 0;
 	while (!resolved && iteration * 2 >= iterationUsed && iteration != 0) {
 		int lowest = 0;
-		float lowestValue = 10000;
+		float lowestValue = std::numeric_limits<float>::max();
 		for (size_t i = 0; i < listContact.size(); i++)
 		{
-			float test = listContact[i]->calcVs();
-			if (test < 0) {
-				cout << "bug" << endl;
-			}
 			if (listContact[i]->calcVs() < lowestValue && listContact[i]->calcVs() < 0)
 			{
 				lowestValue = listContact[i]->calcVs();
@@ -39,7 +49,7 @@ void ParticleContactResolver::resolveContact() {
 			}
 		}
 
-		if (lowestValue == 10000) {
+		if (lowestValue == std::numeric_limits<float>::max()) {
 			resolved = true;
 		}
 		else {

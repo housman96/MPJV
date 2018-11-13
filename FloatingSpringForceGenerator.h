@@ -1,24 +1,25 @@
 #ifndef FLOATINGSPRINGFORCEGENERATOR_H
 #define FLOATINGSPRINGFORCEGENERATOR_H
 
-#include "Vect3D.h"
+#include "Vect3.h"
 #include "ParticleForceGenerator.h"
 
 class FloatingSpringForceGenerator : public ParticleForceGenerator
 {
-  private:
-    Vect3D waterPos;
-    float liquidDensity;
-    float maxObjectDepth;
-    float objectVolume;
+private:
+	Vect3 waterPos;
+	float liquidDensity;
+	float maxObjectDepth;
+	float objectVolume;
 
-  public:
-    /* CONSTRUCTEURS ET DESTRUCTEUR */
-    FloatingSpringForceGenerator(const Vect3D, const float, const float, const float); /* Constructeur par defaut */
-    FloatingSpringForceGenerator(const FloatingSpringForceGenerator &);                /* Constructeur de recopie */
-    FloatingSpringForceGenerator(const FloatingSpringForceGenerator *);                /* Constructeur par pointeur */
+public:
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
+	FloatingSpringForceGenerator(const Vect3, const float, const float, const float); /* Constructeur par defaut */
+	FloatingSpringForceGenerator(const FloatingSpringForceGenerator &);                /* Constructeur de recopie */
+	FloatingSpringForceGenerator(const FloatingSpringForceGenerator *);                /* Constructeur par pointeur */
 
-    virtual void updateForce(Particle *p, float duration);
+	/* MISE A JOUR */
+	virtual void updateForce(Particle *, float);
 };
 
 #endif
