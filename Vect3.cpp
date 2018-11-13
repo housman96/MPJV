@@ -33,16 +33,16 @@ Vect3::Vect3(const Vect3* other)
 // ASCESSEURS
 // ============================================================
 
-float Vect3::getX() const
+float Vect3::getX()
 {
 	return x;
 }
 
-float Vect3::getY() const
+float Vect3::getY()
 {
 	return y;
 }
-float Vect3::getZ() const
+float Vect3::getZ()
 {
 	return z;
 }
