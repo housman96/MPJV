@@ -1,87 +1,200 @@
-#include "Affichage.h"
+#include "constants.h"
+#include "Vect3.h"
+#include "Particle.h"
+#include "GameLoop.h"
+#include "RegisterForce.h"
+#include "GravityGenerator.h"
+#include "DragGenerator.h"
+#include "SpringForceGenerator.h"
 #include "AnchoredSpringForceGenerator.h"
 #include "BungeeSpringForceGenerator.h"
-#include "DragGenerator.h"
+#include "FloatingSpringForceGenerator.h"
+#include "StiffSpringForceGenerator.h"
 #include "ParticleContactResolver.h"
 #include "ParticleCable.h"
 #include "ParticleRod.h"
-#include "FloatingSpringForceGenerator.h"
-#include "GravityGenerator.h"
-#include "Particle.h"
-#include "RegisterForce.h"
-#include "SpringForceGenerator.h"
-#include "StiffSpringForceGenerator.h"
-#include "Vect3D.h"
-#include "constants.h"
-
+#include "Matrix33.h"
 #include <vector>
 
 using namespace std;
 
+
 int G = 15;
 RegisterForce::Register records;
 
+vector<Particle *> GameLoop::world = vector<Particle *>();
+vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
+vector<ParticleContactGenerator*> GameLoop::listContactGenerator = vector<ParticleContactGenerator*>();
+ParticleContactResolver GameLoop::resolver = ParticleContactResolver();
 
+float GameLoop::lastLoopTime = 0.;
+float GameLoop::timeAccumulatedMs = 0.;
 
-vector<Particle *> Affichage::list = vector<Particle *>();
-vector<ParticleContact*> Affichage::listContact = vector<ParticleContact*>();
-vector<ParticleContactGenerator*> Affichage::listContactGenerator = vector<ParticleContactGenerator*>();
-ParticleContactResolver Affichage::resolver = ParticleContactResolver();
-
-float Affichage::lastLoopTime = 0.;
-float Affichage::timeAccumulatedMs = 0.;
 
 int main(int argc, char** argv)
 {
+// ==================================================
+//      PARTICULES
+// ==================================================
 
-    /* DECLARATION DES PARTICULES */
-    Particle p1 = new Particle(500., 1.);
-    Particle p2 = new Particle(20., 1.);
-    p1.init(Vect3D(-2, 10, 0), Vect3D(-0.5, 0, 0), Vect3D(0, 0, 0));
-    p2.init(Vect3D(2, 10, 0), Vect3D(1, 0, 0), Vect3D(0, 0, 0));
+	// Déclaration des particules
+	Particle p1 = new Particle(20., 1.);
+	Particle p2 = new Particle(20., 1.);
+	Particle p3 = new Particle(20., 1.);
+	Particle p4 = new Particle(20., 1.);
+	Particle p5 = new Particle(20., 1.);
 
-    /* DECLARATION DES GENERATEURS DE FORCES */
-    GravityGenerator gg = new GravityGenerator(Vect3D(0, -G, 0)); // OK
-    DragGenerator dg = new DragGenerator(.9f, .7f); // OK
-    SpringForceGenerator sfg = new SpringForceGenerator(&p2, 30.f, 1.f); // OK
-    BungeeSpringForceGenerator bsfg = new BungeeSpringForceGenerator(&p2, 50.f, 3.f); // OK
-    AnchoredSpringForceGenerator asfg = new AnchoredSpringForceGenerator(Vect3D(0, 10, 0), 30.f, 0.5f); // OK
-    FloatingSpringForceGenerator fsfg = new FloatingSpringForceGenerator(Vect3D(0, 5, 0), 1000.f, 2.f, 4.f * 3.14f); // OK
+	// Initialisation des particules
+	p1.init(Vect3(0, 16, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p2.init(Vect3(6, 12, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p3.init(Vect3(4, 6, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p4.init(Vect3(-4, 6, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
+	p5.init(Vect3(-6, 12, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
 
-    /* REMPLISSAGE DU REGISTRE DE FORCE */
-    //RegisterForce::ForceRecord fr_p1_gg;
-    //RegisterForce::ForceRecord fr_p1_dg;
-    //RegisterForce::ForceRecord fr_p1_sfg;
-    RegisterForce::ForceRecord fr_p1_bsfg;
-    //RegisterForce::ForceRecord fr_p1_asfg;
-    //RegisterForce::ForceRecord fr_p1_fsfg;
 
-    //fr_p1_gg.p = &p1;
-    //fr_p1_gg.pfg = &gg;
-    //fr_p1_dg.p = &p1;
-    //fr_p1_dg.pfg = &dg;
-    //fr_p1_sfg.p = &p1;
-    //fr_p1_sfg.pfg = &sfg;
-    fr_p1_bsfg.p = &p1;
-    fr_p1_bsfg.pfg = &bsfg;
-    //fr_p1_asfg.p = &p1;
-    //fr_p1_asfg.pfg = &asfg;
-    //fr_p1_fsfg.p = &p1;
-    //fr_p1_fsfg.pfg = &fsfg;
+// ==================================================
+//      GENERATEURS DE FORCE
+// ==================================================
 
-    //records.push_back(fr_p1_gg);
-    //records.push_back(fr_p1_dg);
-    //records.push_back(fr_p1_sfg);
-    records.push_back(fr_p1_bsfg);
-    //records.push_back(fr_p1_asfg);
-    //records.push_back(fr_p1_fsfg);
+	// Déclaration des générateurs de force
+	GravityGenerator gg = new GravityGenerator(Vect3(0, -G, 0));
+	DragGenerator dg = new DragGenerator(.9f, .7f);
+	SpringForceGenerator sfg_p1_p2 = new SpringForceGenerator(&p2, 30.f, 1.f);
+	SpringForceGenerator sfg_p2_p3 = new SpringForceGenerator(&p3, 30.f, 1.f);
+	SpringForceGenerator sfg_p3_p4 = new SpringForceGenerator(&p4, 30.f, 1.f);
+	SpringForceGenerator sfg_p4_p5 = new SpringForceGenerator(&p5, 30.f, 1.f);
+	SpringForceGenerator sfg_p5_p1 = new SpringForceGenerator(&p1, 30.f, 1.f);
 
-    /* CREATION DE L'AFFICHAGE */
-    vector<Particle*> particules;
-    particules.push_back(&p1);
-    particules.push_back(&p2);
 
-    Affichage a(argc, argv, particules);
+	// Remplissage des registres de forces
+	//	=== Gravité
+	//	===== Particule 1
+	RegisterForce::ForceRecord fr_p1_gg;
+	fr_p1_gg.p = &p1;
+	fr_p1_gg.pfg = &gg;
+	records.push_back(fr_p1_gg);
 
-    return 0;
+	//	===== Particule 2
+	RegisterForce::ForceRecord fr_p2_gg;
+	fr_p2_gg.p = &p2;
+	fr_p2_gg.pfg = &gg;
+	records.push_back(fr_p2_gg);
+
+	//	===== Particule 3
+	RegisterForce::ForceRecord fr_p3_gg;
+	fr_p3_gg.p = &p3;
+	fr_p3_gg.pfg = &gg;
+	records.push_back(fr_p3_gg);
+
+	//	===== Particule 4
+	RegisterForce::ForceRecord fr_p4_gg;
+	fr_p4_gg.p = &p4;
+	fr_p4_gg.pfg = &gg;
+	records.push_back(fr_p4_gg);
+
+	//	===== Particule 5
+	RegisterForce::ForceRecord fr_p5_gg;
+	fr_p5_gg.p = &p5;
+	fr_p5_gg.pfg = &gg;
+	records.push_back(fr_p5_gg);
+
+	// === Drag
+	//	===== Particule 1
+	RegisterForce::ForceRecord fr_p1_dg;
+	fr_p1_dg.p = &p1;
+	fr_p1_dg.pfg = &dg;
+	records.push_back(fr_p1_dg);
+
+	//	===== Particule 2
+	RegisterForce::ForceRecord fr_p2_dg;
+	fr_p2_dg.p = &p2;
+	fr_p2_dg.pfg = &dg;
+	records.push_back(fr_p2_dg);
+
+	//	===== Particule 3
+	RegisterForce::ForceRecord fr_p3_dg;
+	fr_p3_dg.p = &p3;
+	fr_p3_dg.pfg = &dg;
+	records.push_back(fr_p3_dg);
+
+	//	===== Particule 4
+	RegisterForce::ForceRecord fr_p4_dg;
+	fr_p4_dg.p = &p4;
+	fr_p4_dg.pfg = &dg;
+	records.push_back(fr_p4_dg);
+
+	//	===== Particule 5
+	RegisterForce::ForceRecord fr_p5_dg;
+	fr_p5_dg.p = &p5;
+	fr_p5_dg.pfg = &dg;
+	records.push_back(fr_p5_dg);
+
+	// === Ressort
+	//	===== Particule 1 et 2
+	RegisterForce::ForceRecord fr_sfg_p1_p2;
+	fr_sfg_p1_p2.p = &p1;
+	fr_sfg_p1_p2.pfg = &sfg_p1_p2;
+	records.push_back(fr_sfg_p1_p2);
+
+	//	===== Particule 2 et 3
+	RegisterForce::ForceRecord fr_sfg_p2_p3;
+	fr_sfg_p2_p3.p = &p2;
+	fr_sfg_p2_p3.pfg = &sfg_p2_p3;
+	records.push_back(fr_sfg_p2_p3);
+
+	//	===== Particule 3 et 4
+	RegisterForce::ForceRecord fr_sfg_p3_p4;
+	fr_sfg_p3_p4.p = &p3;
+	fr_sfg_p3_p4.pfg = &sfg_p3_p4;
+	records.push_back(fr_sfg_p3_p4);
+
+	//	===== Particule 4 et 5
+	RegisterForce::ForceRecord fr_sfg_p4_p5;
+	fr_sfg_p4_p5.p = &p4;
+	fr_sfg_p4_p5.pfg = &sfg_p4_p5;
+	records.push_back(fr_sfg_p4_p5);
+
+	//	===== Particule 5 et 1
+	RegisterForce::ForceRecord fr_sfg_p5_p1;
+	fr_sfg_p5_p1.p = &p5;
+	fr_sfg_p5_p1.pfg = &sfg_p5_p1;
+	records.push_back(fr_sfg_p5_p1);
+
+
+// ==================================================
+//      CABLES
+// ==================================================
+
+	// Déclaration des cables
+	ParticleCable c_p1_p2 = ParticleCable(&p1, &p2, 15.f, 0.5f); // Entre p1 et p2
+	ParticleCable c_p2_p3 = ParticleCable(&p2, &p3, 15.f, 0.5f); // Entre p2 et p3
+	ParticleCable c_p3_p4 = ParticleCable(&p3, &p4, 15.f, 0.5f); // Entre p3 et p4
+	ParticleCable c_p4_p5 = ParticleCable(&p4, &p5, 15.f, 0.5f); // Entre p4 et p5
+	ParticleCable c_p5_p1 = ParticleCable(&p5, &p1, 15.f, 0.5f); // Entre p5 et p1
+
+	// Passage des cables dans la structure de la physique
+	GameLoop::listContactGenerator.push_back(&c_p1_p2);
+	GameLoop::listContactGenerator.push_back(&c_p2_p3);
+	GameLoop::listContactGenerator.push_back(&c_p3_p4);
+	GameLoop::listContactGenerator.push_back(&c_p4_p5);
+	GameLoop::listContactGenerator.push_back(&c_p5_p1);
+
+
+// ==================================================
+//      BOUCLE DE JEU
+// ==================================================
+
+	// Particules à afficher
+	vector<Particle*> particles;
+	particles.push_back(&p1);
+	particles.push_back(&p2);
+	particles.push_back(&p3);
+	particles.push_back(&p4);
+	particles.push_back(&p5);
+
+	// Lancement de la boucle de jeu
+	GameLoop a(argc, argv, particles);
+
+
+	return 0;
 }

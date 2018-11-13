@@ -5,18 +5,20 @@
 #include "ParticleLink.h"
 #include "ParticleContact.h"
 #include "ParticleLink.h"
-#include "Affichage.h"
+#include "GameLoop.h"
+
 
 class ParticleRod : public ParticleLink
 {
 private:
 	float lenght;
 
-
 public:
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	ParticleRod(Particle *, Particle *, float);
 	~ParticleRod();
 
+	/* MISE A JOUR */
 	void addContact();
 };
 

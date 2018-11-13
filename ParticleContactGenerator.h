@@ -5,11 +5,11 @@
 class ParticleContactGenerator
 {
 public:
-	/*Constructeur et destructeur*/
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	ParticleContactGenerator();
 	~ParticleContactGenerator();
 
-	/*Fonction d'ajout de contact*/
+	/* MISE A JOUR */
 	virtual void addContact();
 };
 

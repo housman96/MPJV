@@ -1,6 +1,11 @@
 #include "FloatingSpringForceGenerator.h"
 
-FloatingSpringForceGenerator::FloatingSpringForceGenerator(const Vect3D pos, const float density, const float objDepth, const float objVolume)
+
+// ============================================================
+// CONSTRUCTEURS
+// ============================================================
+
+FloatingSpringForceGenerator::FloatingSpringForceGenerator(const Vect3 pos, const float density, const float objDepth, const float objVolume)
 {
     this->waterPos = pos;
     this->liquidDensity = density;
@@ -24,23 +29,26 @@ FloatingSpringForceGenerator::FloatingSpringForceGenerator(const FloatingSpringF
     objectVolume = other->objectVolume;
 }
 
+
+// ============================================================
+// MISE A JOUR
+// ============================================================
+
 void FloatingSpringForceGenerator::updateForce(Particle* p, float duration)
 {
 	// Changement de la formule, car résultats incohérents
 	// d = - (y0 - yw - s) / 2s
 	//     ^
     float submersion = -(p->getPosition().getY() - waterPos.getY() - maxObjectDepth) / (2 * maxObjectDepth);
-    Vect3D floatingForce;
-
-	std::cout << submersion << std::endl;
+    Vect3 floatingForce;
 
     if (submersion <= 0) {
-        floatingForce = new Vect3D(0, 0, 0);
+        floatingForce = new Vect3(0, 0, 0);
     } else if (submersion >= 1) {
-        floatingForce = new Vect3D(0, 1, 0);
+        floatingForce = new Vect3(0, 1, 0);
         floatingForce = floatingForce.scale(objectVolume * liquidDensity);
     } else {
-        floatingForce = new Vect3D(0, 1, 0);
+        floatingForce = new Vect3(0, 1, 0);
         floatingForce = floatingForce.scale(objectVolume * liquidDensity * submersion);
     }
 
