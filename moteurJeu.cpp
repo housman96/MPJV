@@ -13,6 +13,7 @@
 #include "ParticleContactResolver.h"
 #include "ParticleCable.h"
 #include "ParticleRod.h"
+#include "Matrix33.h"
 #include <vector>
 
 using namespace std;
@@ -163,7 +164,7 @@ int main(int argc, char** argv)
 // ==================================================
 //      CABLES
 // ==================================================
-	
+
 	// Déclaration des cables
 	ParticleCable c_p1_p2 = ParticleCable(&p1, &p2, 15.f, 0.5f); // Entre p1 et p2
 	ParticleCable c_p2_p3 = ParticleCable(&p2, &p3, 15.f, 0.5f); // Entre p2 et p3
