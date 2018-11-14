@@ -168,18 +168,25 @@ Matrix33 Matrix33::Transposition()const {
 }
 
 Matrix33 Matrix33::inverse()const {
-	Matrix33 res = new Matrix33();
-	float f = 1 / Det();
-	for (size_t i = 0; i < 9; i++)
-	{
-		int c = i % 3;
-		int l = i / 3;
-		res[i] = Det22(l, c)*f;
-		if (i % 2 != 0) {
-			res[i] = -res[i];
+	if (Det() != 0) {
+		Matrix33 res = new Matrix33();
+		float f = 1 / Det();
+		for (size_t i = 0; i < 9; i++)
+		{
+			int c = i % 3;
+			int l = i / 3;
+			res[i] = Det22(l, c)*f;
+			if (i % 2 != 0) {
+				res[i] = -res[i];
+			}
 		}
+		return res.Transposition();
 	}
-	return res.Transposition();
+	else {
+		std::cout << "Matrix33 non inversible" << std::endl;
+		return new Matrix33();
+	}
+
 }
 
 Matrix33 Matrix33::setOrientation(const Quaternion q)
