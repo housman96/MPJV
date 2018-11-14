@@ -2,6 +2,7 @@
 #define MATRIX33_H
 
 #include "Vect3.h"
+#include "Quaternion.h"
 #include <vector>
 class Matrix33
 {
@@ -33,8 +34,11 @@ public:
 	/*OPERATION*/
 	Vect3 mult(const Vect3 &)const;  /* Multiplication par un vecteur */
 	Matrix33 mult(const Matrix33 &)const;  /* Multiplication par une matrice */
+	Matrix33 mult(const float)const;
+	Matrix33 Transposition()const;
 	float Det()const;
 	Matrix33 inverse()const;
+	static Matrix33 setOrientation(const Quaternion q);
 };
 
 

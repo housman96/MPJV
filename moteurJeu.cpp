@@ -14,6 +14,7 @@
 #include "ParticleCable.h"
 #include "ParticleRod.h"
 #include "Matrix33.h"
+#include "Matrix34.h"
 #include <vector>
 
 using namespace std;
@@ -197,15 +198,15 @@ int main(int argc, char** argv)
 	Vect3 v = new Vect3(1., 2., 3.);
 	float t[9] = { 0.,1.,2.,3.,4.,5.,6.,7.,8. };
 	float t2[9] = { -1.,2.,5.,1.,2.,3.,-2.,8.,10. };
-	Matrix33 mat = new Matrix33(t);
+	Matrix34 mat = new Matrix34(t);
 	cout << "Mat[0]= " << mat[0] << endl;
-	Matrix33 matbis = new Matrix33(t2);
+	Matrix34 matbis = new Matrix34(t2);
 	cout << mat << std::endl << " mult " << std::endl << matbis << " =";
 	Vect3 resV = mat.mult(v);
 	mat = mat.mult(matbis);
 	cout << mat << endl;
 	resV.log();
-	cout << "Det MatBis =" << matbis.Det();
+	cout << "Inverse=" << endl << Matrix34::setOrientation(Quaternion(0.7071, 0.7071, 0, 0)) << endl;
 
 	return 0;
 }

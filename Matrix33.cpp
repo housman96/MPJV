@@ -128,6 +128,14 @@ Matrix33 Matrix33::mult(const Matrix33 &vect)const {
 	return res;
 }
 
+Matrix33 Matrix33::mult(const float f)const {
+	Matrix33 res = new Matrix33();
+	for (int i = 0; i < 9;i++) {
+		res[i] = res[i] * f;
+	}
+	return res;
+}
+
 float Matrix33::Det22(int row, int col)const {
 	std::vector<float> tempTab;
 	for (size_t i = 0; i < 9; i++)
@@ -148,8 +156,44 @@ float Matrix33::Det()const {
 	return res;
 }
 
+Matrix33 Matrix33::Transposition()const {
+	Matrix33 res = new Matrix33();
+	for (size_t i = 0; i < 9; i++)
+	{
+		int c = i % 3;
+		int l = i / 3;
+		res[i] = getElement(c, l);
+	}
+	return res;
+}
+
 Matrix33 Matrix33::inverse()const {
 	Matrix33 res = new Matrix33();
+	float f = 1 / Det();
+	for (size_t i = 0; i < 9; i++)
+	{
+		int c = i % 3;
+		int l = i / 3;
+		res[i] = Det22(l, c)*f;
+		if (i % 2 != 0) {
+			res[i] = -res[i];
+		}
+	}
+	return res.Transposition();
+}
+
+Matrix33 Matrix33::setOrientation(const Quaternion q)
+{
+	Matrix33 res = new Matrix33();
+	res[0] = 1 - 2 * (powf(q.j, 2) + powf(q.k, 2));
+	res[1] = 2 * (q.i*q.j + q.r*q.k);
+	res[2] = 2 * (q.i*q.k - q.r*q.j);
+	res[3] = 2 * (q.i*q.j - q.r*q.k);
+	res[4] = 1 - 2 * (powf(q.i, 2) + powf(q.k, 2));
+	res[5] = 2 * (q.k*q.j + q.r*q.i);
+	res[6] = 2 * (q.i*q.k + q.r*q.j);
+	res[7] = 2 * (q.k*q.j - q.r*q.i);
+	res[8] = 1 - 2 * (powf(q.j, 2) + powf(q.i, 2));
 
 	return res;
 }

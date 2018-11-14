@@ -8,10 +8,9 @@
 
 class Quaternion
 {
-private:
-	float r, i, j, k;
 
 public:
+	float r, i, j, k;
 	Quaternion(float = 0, float = 0, float = 0, float = 0);
 	Quaternion(const Quaternion &);
 
