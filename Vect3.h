@@ -19,9 +19,9 @@ public:
 	Vect3(const Vect3 *);					 /* Constructeur par pointeur */
 
 	/* ASCESSEURS */
-	float getX();
-	float getY();
-	float getZ();
+	float getX() const;
+	float getY() const;
+	float getZ() const;
 	void setX(float);
 	void setY(float);
 	void setZ(float);

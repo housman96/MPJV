@@ -61,7 +61,7 @@ GameLoop::GameLoop(int argc, char** argv, vector<Particle*>* list)
 GameLoop::~GameLoop()
 {
 	if (world.data()) {
-		delete[] & world;
+		delete[] world;
 	}
 }
 

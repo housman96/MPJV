@@ -14,6 +14,7 @@
 #include "ParticleCable.h"
 #include "ParticleRod.h"
 #include "Matrix33.h"
+#include "Matrix34.h"
 #include <vector>
 
 using namespace std;
@@ -33,11 +34,11 @@ float GameLoop::timeAccumulatedMs = 0.;
 
 int main(int argc, char** argv)
 {
-// ==================================================
-//      PARTICULES
-// ==================================================
+	// ==================================================
+	//      PARTICULES
+	// ==================================================
 
-	// Déclaration des particules
+		// Déclaration des particules
 	Particle p1 = new Particle(20., 1.);
 	Particle p2 = new Particle(20., 1.);
 	Particle p3 = new Particle(20., 1.);
@@ -52,11 +53,11 @@ int main(int argc, char** argv)
 	p5.init(Vect3(-6, 12, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
 
 
-// ==================================================
-//      GENERATEURS DE FORCE
-// ==================================================
+	// ==================================================
+	//      GENERATEURS DE FORCE
+	// ==================================================
 
-	// Déclaration des générateurs de force
+		// Déclaration des générateurs de force
 	GravityGenerator gg = new GravityGenerator(Vect3(0, -G, 0));
 	DragGenerator dg = new DragGenerator(.9f, .7f);
 	SpringForceGenerator sfg_p1_p2 = new SpringForceGenerator(&p2, 30.f, 1.f);
@@ -161,11 +162,11 @@ int main(int argc, char** argv)
 	records.push_back(fr_sfg_p5_p1);
 
 
-// ==================================================
-//      CABLES
-// ==================================================
+	// ==================================================
+	//      CABLES
+	// ==================================================
 
-	// Déclaration des cables
+		// Déclaration des cables
 	ParticleCable c_p1_p2 = ParticleCable(&p1, &p2, 15.f, 0.5f); // Entre p1 et p2
 	ParticleCable c_p2_p3 = ParticleCable(&p2, &p3, 15.f, 0.5f); // Entre p2 et p3
 	ParticleCable c_p3_p4 = ParticleCable(&p3, &p4, 15.f, 0.5f); // Entre p3 et p4
@@ -180,11 +181,11 @@ int main(int argc, char** argv)
 	GameLoop::listContactGenerator.push_back(&c_p5_p1);
 
 
-// ==================================================
-//      BOUCLE DE JEU
-// ==================================================
+	// ==================================================
+	//      BOUCLE DE JEU
+	// ==================================================
 
-	// Particules à afficher
+		// Particules à afficher
 	vector<Particle*> particles;
 	particles.push_back(&p1);
 	particles.push_back(&p2);
@@ -194,7 +195,6 @@ int main(int argc, char** argv)
 
 	// Lancement de la boucle de jeu
 	GameLoop a(argc, argv, particles);
-
 
 	return 0;
 }
