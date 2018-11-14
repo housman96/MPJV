@@ -25,18 +25,18 @@
     <Filter Include="Source Files\ContactHandlers">
       <UniqueIdentifier>{3bba3ab4-2618-4274-9558-f863a5fc85eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MathStructures">
+      <UniqueIdentifier>{60011ce3-180f-424b-9bdd-9142c04d8d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MathStructures">
+      <UniqueIdentifier>{a686191d-9c91-4d3d-8c33-4c7eb6fe50bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Affichage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="moteurJeu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vect3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StiffSpringForceGenerator.cpp">
@@ -63,11 +63,38 @@
     <ClCompile Include="ParticleContact.cpp">
       <Filter>Source Files\ContactHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleContactGenerator.cpp">
+      <Filter>Source Files\ContactHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleLink.cpp">
+      <Filter>Source Files\ContactHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleCable.cpp">
+      <Filter>Source Files\ContactHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="ParicleRod.cpp">
+      <Filter>Source Files\ContactHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContactResolver.cpp">
+      <Filter>Source Files\ContactHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLoop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix33.cpp">
+      <Filter>Source Files\MathStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix34.cpp">
+      <Filter>Source Files\MathStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="Vect3.cpp">
+      <Filter>Source Files\MathStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Affichage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,9 +102,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RegisterForce.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vect3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GravityGenerator.h">
@@ -106,6 +130,36 @@
     </ClInclude>
     <ClInclude Include="ParticleContact.h">
       <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContactGenerator.h">
+      <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleLink.h">
+      <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleCable.h">
+      <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRod.h">
+      <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContactResolver.h">
+      <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix33.h">
+      <Filter>Header Files\MathStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix34.h">
+      <Filter>Header Files\MathStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Vect3.h">
+      <Filter>Header Files\MathStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

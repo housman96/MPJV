@@ -2,19 +2,22 @@
 #define GRAVITYGENERATOR_H
 
 #include "ParticleForceGenerator.h"
-#include "Vect3D.h"
+#include "Vect3.h"
 
-class GravityGenerator : public ParticleForceGenerator {
+
+class GravityGenerator : public ParticleForceGenerator
+{
 private:
-    Vect3D gravity;
+	Vect3 gravity;
 
 public:
-    /* CONSTRUCTEURS ET DESTRUCTEUR */
-    GravityGenerator(const Vect3D&); /* Constructeur par défaut */
-    GravityGenerator(const GravityGenerator&); /* Constructeur de recopie */
-    GravityGenerator(const GravityGenerator*); /* Constructeur par pointeur */
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
+	GravityGenerator(const Vect3 &);	        /* Constructeur par defaut */
+	GravityGenerator(const GravityGenerator &); /* Constructeur de recopie */
+	GravityGenerator(const GravityGenerator *); /* Constructeur par pointeur */
 
-    virtual void updateForce(Particle*, float);
+	/* MISE A JOUR */
+	virtual void updateForce(Particle *, float);
 };
 
 #endif

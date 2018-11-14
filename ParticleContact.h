@@ -1,17 +1,29 @@
-#include "Particle.h"
-#include "Vect3D.h"
+#ifndef PARTICLECONTACT_H
+#define PARTICLECONTACT_H
 
-class ParticleContact {
+#include "Particle.h"
+#include "Vect3.h"
+
+
+class ParticleContact
+{
 private:
 	Particle *particles[2]; /* Les deux particules en contact */
 	float c;                /* Coefficient de restitution */
 	float d;                /* Interpenetration */
-	Vect3D n;               /* Normale au point de contact */
+	Vect3 n;               /* Normale au point de contact */
+	float Vs;
 
 public:
-	ParticleContact(Particle &, Particle &, float);
-	void resolve(float);
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
+	ParticleContact(Particle *, Particle *, float);
+	ParticleContact(Particle *, float, Vect3, float);
+
+	/* MISE A JOUR */
+	void resolve();
 	float calcVs();
 	void resolveVelocity();
 	void resolveInterpenetration();
 };
+
+#endif

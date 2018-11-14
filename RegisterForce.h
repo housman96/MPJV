@@ -5,16 +5,17 @@
 #include "Particle.h"
 #include "ParticleForceGenerator.h"
 
+
 class RegisterForce
 {
-  public:
-    struct ForceRecord
-    {
-        Particle *p;
-        ParticleForceGenerator *pfg;
-    };
+public:
+	struct ForceRecord
+	{
+		Particle *p;
+		ParticleForceGenerator *pfg;
+	};
 
-    typedef std::vector<ForceRecord> Register;
+	typedef std::vector<ForceRecord> Register;
 };
 
 #endif
