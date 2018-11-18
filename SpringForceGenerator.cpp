@@ -43,3 +43,7 @@ void SpringForceGenerator::updateForce(Particle* p, float duration)
 	springForce = springForce.scale(-k * (d.mag() - l0));
 	p->applyForce(springForce);
 }
+
+void SpringForceGenerator::updateForce(Rigidbody * p, float duration)
+{
+}
