@@ -3,6 +3,7 @@
 
 #include "Vect3.h"
 #include "Quaternion.h"
+#include "Matrix33.h"
 #include <math.h>
 #include <vector>
 
@@ -36,7 +37,12 @@ public:
 	/*OPERATION*/
 	Vect3 mult(const Vect3 &)const;  /* Multiplication par un vecteur */
 	Matrix34 mult(const Matrix34 &)const;  /* Multiplication par une matrice */
+	Matrix33 getMat33(int row, int col)const;
+	float Det()const;
+	Matrix34 Transposition()const;
+	Matrix34 inverse()const;
 	static Matrix34 setOrientation(const Quaternion);
+	Matrix34 Transposition(float*)const;
 };
 
 #endif
