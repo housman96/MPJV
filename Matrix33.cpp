@@ -197,3 +197,25 @@ Matrix33 Matrix33::setOrientation(const Quaternion q)
 
 	return res;
 }
+
+
+/* TENSEURS */
+
+Matrix33 Matrix33::BoxTensor(float m, float dx, float dy, float dz)
+{
+	Matrix33 tensor = new Matrix33();
+	tensor[0] = (m * (dy * dy + dz * dz)) / 12.;
+	tensor[4] = (m * (dx * dx + dz * dz)) / 12.;
+	tensor[8] = (m * (dx * dx + dy * dy)) / 12.;
+	return tensor;
+}
+
+Matrix33 Matrix33::SphereTensor(float m, float r)
+{
+	Matrix33 tensor = new Matrix33();
+	float val = (2 * m * r * r) / 5.;
+	tensor[0] = val;
+	tensor[4] = val;
+	tensor[8] = val;
+	return tensor;
+}

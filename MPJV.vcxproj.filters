@@ -90,8 +90,11 @@
     <ClCompile Include="Vect3.cpp">
       <Filter>Source Files\MathStructures</Filter>
     </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
+    <ClCompile Include="Rigidbody.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Source Files\MathStructures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +161,11 @@
     <ClInclude Include="Vect3.h">
       <Filter>Header Files\MathStructures</Filter>
     </ClInclude>
-    <ClInclude Include="Quaternion.h">
+    <ClInclude Include="Rigidbody.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Header Files\MathStructures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
