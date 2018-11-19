@@ -31,16 +31,8 @@ Matrix33::Matrix33(const Matrix33 *mat)
 Matrix33::Matrix33(const float* newTab)
 {
 	tab = new float[9];
-	int lastIndex = 9;
-	if (sizeof(newTab) + 1 < 9)
-	{
-		lastIndex = sizeof(newTab) + 1;
-	}
-	for (int i = 0; i < lastIndex; i++) {
+	for (int i = 0; i < 9; i++) {
 		tab[i] = newTab[i];
-	}
-	for (int i = lastIndex; i < 9; i++) {
-		tab[i] = 0.;
 	}
 }
 

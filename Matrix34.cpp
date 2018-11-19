@@ -32,16 +32,8 @@ Matrix34::Matrix34(const Matrix34 *mat)
 Matrix34::Matrix34(const float* newTab)
 {
 	tab = new float[12];
-	int lastIndex = 12;
-	if (sizeof(newTab) + 1 < 12)
-	{
-		lastIndex = sizeof(newTab) + 1;
-	}
-	for (int i = 0; i < lastIndex; i++) {
+	for (int i = 0; i < 12; i++) {
 		tab[i] = newTab[i];
-	}
-	for (int i = lastIndex; i < 12; i++) {
-		tab[i] = 0.;
 	}
 }
 
@@ -67,8 +59,12 @@ Matrix34& Matrix34::operator=(const Matrix34& mat) {
 }
 
 float& Matrix34::operator[](const int i) {
-	if (i <= 12)
+	if (i <= 12) {
+		int c = i % 4;
+		int l = i / 4;
 		return tab[i];
+	}
+
 	std::cout << "error Mat34 [] out of range" << std::endl;
 	return tab[0];
 }
@@ -139,20 +135,83 @@ Matrix34 Matrix34::mult(const Matrix34 &vect)const {
 	return res;
 }
 
-Matrix34 Matrix34::setOrientation(const Quaternion q)
+Matrix33 Matrix34::getMat33(int row, int col)const
+{
+	float tempTab[9];
+	int temp = 0;
+	for (size_t i = 0; i < 16; i++)
+	{
+		int c = i % 4;
+		int l = i / 4;
+		if (l != row && c != col) {
+			tempTab[temp] = getElement(l, c);
+			temp++;
+		}
+	}
+	return new Matrix33(tempTab);
+}
+
+Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 {
 	Matrix34 res = new Matrix34();
 	res[0] = 1 - 2 * (powf(q.j, 2) + powf(q.k, 2));
 	res[1] = 2 * (q.i*q.j + q.r*q.k);
 	res[2] = 2 * (q.i*q.k - q.r*q.j);
-	res[3] = q.i;
+	res[3] = pos.getX();
 	res[4] = 2 * (q.i*q.j - q.r*q.k);
 	res[5] = 1 - 2 * (powf(q.i, 2) + powf(q.k, 2));
 	res[6] = 2 * (q.k*q.j + q.r*q.i);
-	res[7] = q.j;
+	res[7] = pos.getY();
 	res[8] = 2 * (q.i*q.k + q.r*q.j);
 	res[9] = 2 * (q.k*q.j - q.r*q.i);
 	res[10] = 1 - 2 * (powf(q.j, 2) + powf(q.i, 2));
-	res[11] = q.k;
+	res[11] = pos.getZ();
 	return res;
+}
+
+float Matrix34::Det() const
+{
+	float res = 0;
+	for (int i = 0;i <= 3;i++) {
+		res += tab[i] * getMat33(0, i).Det()*powf(-1, i);
+	}
+	return res;
+}
+
+Matrix34 Matrix34::Transposition()const {
+	Matrix34 res = new Matrix34();
+	for (size_t i = 0; i < 12; i++)
+	{
+		int c = i % 4;
+		int l = i / 4;
+		res[i] = getElement(c, l);
+	}
+	return res;
+}
+
+Matrix34 Matrix34::Transposition(float* f)const {
+	Matrix34 res = new Matrix34();
+	for (size_t i = 0; i < 12; i++)
+	{
+		int c = i % 4;
+		int l = i / 4;
+		res[i] = f[c * 4 + l];
+	}
+	return res;
+}
+
+Matrix34 Matrix34::inverse() const
+{
+	float res[16];
+
+	if (Det() != 0) {
+		float f = 1 / Det();
+		for (size_t i = 0; i < 16; i++)
+		{
+			int c = i % 4;
+			int l = i / 4;
+			res[i] = getMat33(l, c).Det()*f*powf(-1, l + c);
+		}
+	}
+	return Transposition(res);
 }
