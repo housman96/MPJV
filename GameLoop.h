@@ -25,16 +25,16 @@ private:
 
 public:
 	/* VARIABLES STATIQUES */
-	static vector<Particle *> world; // Liste des particules à afficher
+	static vector<GameObject *> world; // Liste des particules à afficher
 	static vector<ParticleContact*> listContact;
 	static vector<ParticleContactGenerator*> listContactGenerator;
 
 	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	GameLoop(int, char **);
-	GameLoop(int, char **, Particle &);
-	GameLoop(int, char **, Particle *);
-	GameLoop(int, char **, vector<Particle *> &);
-	GameLoop(int, char **, vector<Particle *> *);
+	GameLoop(int, char **, GameObject &);
+	GameLoop(int, char **, GameObject *);
+	GameLoop(int, char **, vector<GameObject *> &);
+	GameLoop(int, char **, vector<GameObject *> *);
 	~GameLoop();
 
 	/* CALLBACKS D'AFFICHAGE */

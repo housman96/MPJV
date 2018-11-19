@@ -51,6 +51,7 @@ public:
 	void rebound();            /* Fait rebondir la particule quand elle touche le sol */
 	void update(float);        /* Integre la position et la vitesse */
 	void clearAccum();         /* Vide accumForce */
+	void draw();
 };
 
 #endif

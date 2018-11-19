@@ -163,12 +163,23 @@ void Particle::rebound()
 
 void Particle::update(float t)
 {
+	rebound();
 	acceleration = accumForce.scale(inverseMass);
 	velocity = velocity.add(acceleration.scale(t));
 	position = position.add(velocity.scale(t));
+	clearAccum();
 }
 
 void Particle::clearAccum()
 {
 	accumForce = accumForce.scale(0.);
+}
+
+void Particle::draw()
+{
+	glPushMatrix();
+	glColor3b(0, 0, 50);
+	glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
+	glutSolidSphere(part.getRadius(), 50, 50);
+	glPopMatrix();
 }
