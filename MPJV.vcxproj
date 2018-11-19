@@ -118,6 +118,7 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="AerialMovement.cpp" />
     <ClCompile Include="CrashMovement.cpp" />
+
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StiffSpringForceGenerator.cpp" />
     <ClCompile Include="Vect3.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="DragGenerator.h" />
     <ClInclude Include="FloatingSpringForceGenerator.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GravityGenerator.h" />
     <ClInclude Include="Matrix33.h" />
     <ClInclude Include="Matrix34.h" />

@@ -23,7 +23,7 @@ using namespace std;
 int G = 15;
 RegisterForce::Register records;
 
-vector<Particle *> GameLoop::world = vector<Particle *>();
+vector<GameObject *> GameLoop::world = vector<GameObject *>();
 vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
 vector<ParticleContactGenerator*> GameLoop::listContactGenerator = vector<ParticleContactGenerator*>();
 ParticleContactResolver GameLoop::resolver = ParticleContactResolver();

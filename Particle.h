@@ -2,11 +2,12 @@
 #define PARTICLE_H
 
 #include "Vect3.h"
+#include "GameObject.h"
 #include <cmath>
 #include <iostream>
 
 
-class Particle
+class Particle : public GameObject
 {
 private:
 	Vect3 position;
@@ -18,7 +19,7 @@ private:
 	float radius;
 
 public:
-  /* CONSTRUCTEURS */
+	/* CONSTRUCTEURS */
 	Particle(float = 1, float = 1); /* Constructeur par defaut */
 	Particle(const Particle &);     /* Constructeur de recopie */
 	Particle(const Particle *);     /* Constructeur par pointeur */
@@ -50,6 +51,7 @@ public:
 	void rebound();            /* Fait rebondir la particule quand elle touche le sol */
 	void update(float);        /* Integre la position et la vitesse */
 	void clearAccum();         /* Vide accumForce */
+	void draw();
 };
 
 #endif

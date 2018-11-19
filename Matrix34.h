@@ -40,7 +40,7 @@ public:
 	float Det()const;
 	Matrix34 Transposition()const;
 	Matrix34 inverse()const;
-	static Matrix34 setOrientation(const Quaternion, Vect3);
+	static Matrix34 setOrientation(const Quaternion, const Vect3);
 	Matrix34 Transposition(float*)const;
 };
 

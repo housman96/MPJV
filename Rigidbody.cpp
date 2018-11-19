@@ -5,6 +5,7 @@ using namespace std;
 
 Rigidbody::Rigidbody(float m, float linD, float angD)
 {
+  t = Type::Rigibody;
 	mass = m;
 	inverseMass = (m != 0. ? 1. / m : 1.);
 	linDamping = linD;
@@ -22,6 +23,7 @@ Rigidbody::Rigidbody(float m, float linD, float angD)
 
 Rigidbody::Rigidbody(const Rigidbody& other)
 {
+  t = Type::Rigibody;
 	mass = other.mass;
 	inverseMass = other.inverseMass;
 	linDamping = other.linDamping;
@@ -39,6 +41,7 @@ Rigidbody::Rigidbody(const Rigidbody& other)
 
 Rigidbody::Rigidbody(const Rigidbody* other)
 {
+  t = Type::Rigibody;
 	mass = other->mass;
 	inverseMass = other->inverseMass;
 	linDamping = other->linDamping;
@@ -125,4 +128,9 @@ void Rigidbody::clearAccum()
 {
 	accumForce = accumForce.scale(0.);
 	accumTorque = accumTorque.scale(0.);
+
+float Rigidbody::getMass()
+{
+	return 0.0f;
 }
+

@@ -54,3 +54,7 @@ void FloatingSpringForceGenerator::updateForce(Particle* p, float duration)
 
     p->applyForce(floatingForce);
 }
+
+void FloatingSpringForceGenerator::updateForce(Rigidbody *, float)
+{
+}

@@ -34,25 +34,25 @@ GameLoop::GameLoop(int argc, char** argv)
 	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-GameLoop::GameLoop(int argc, char** argv, Particle& part)
+GameLoop::GameLoop(int argc, char** argv, GameObject& part)
 {
 	GameLoop::world.push_back(&part);
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, Particle* part)
+GameLoop::GameLoop(int argc, char** argv, GameObject* part)
 {
 	GameLoop::world.push_back(part);
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, vector<Particle*>& list)
+GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>& list)
 {
 	GameLoop::world = list;
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, vector<Particle*>* list)
+GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>* list)
 {
 	GameLoop::world = *list;
 	GameLoop(argc, argv);
@@ -80,12 +80,8 @@ void GameLoop::display()
 	GameLoop::drawGround();
 
 	// Affichage des particules
-	for (Particle part : GameLoop::world) {
-		glPushMatrix();
-		glColor3b(0, 0, 50);
-		glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
-		glutSolidSphere(part.getRadius(), 50, 50);
-		glPopMatrix();
+	for (GameObject* part : GameLoop::world) {
+		part->draw();
 	}
 
 	glutSwapBuffers();
@@ -152,14 +148,13 @@ void GameLoop::TimerPhysicsLoop(int value)
 
 	// Prise en compte des forces
 	for (RegisterForce::ForceRecord record : records) {
+
 		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
 	}
 
 	// Mise à jour de la physique
-	for (Particle *p : GameLoop::world) {
-		p->rebound();
+	for (GameObject *p : GameLoop::world) {
 		p->update(timeElapsedMs / 1000.);
-		p->clearAccum();
 	}
 
 }

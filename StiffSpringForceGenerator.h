@@ -13,12 +13,13 @@ private:
 	float d;
 
 public:
-  /* CONSTRUCTEURS ET DESTRUCTEUR */
+	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	StiffSpringForceGenerator(const Vect3, const float, const float); /* Constructeur par dÃ©faut */
 	StiffSpringForceGenerator(const StiffSpringForceGenerator &);      /* Constructeur de recopie */
 	StiffSpringForceGenerator(const StiffSpringForceGenerator *);      /* Constructeur par pointeur */
 
 	virtual void updateForce(Particle *, float);
+	virtual void updateForce(Rigidbody *, float);
 };
 
 #endif

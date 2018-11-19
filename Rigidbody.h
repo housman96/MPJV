@@ -1,13 +1,15 @@
+
 #ifndef RIGIDBODY_H
 #define RIGIDBODY_H
 
 #include "Vect3.h"
+#include "GameObject.h"
 #include "Quaternion.h"
 #include "Matrix33.h"
 #include "Matrix34.h"
 
 
-class Rigidbody
+class Rigidbody : public GameObject
 {
 private:
 	float mass;
@@ -31,6 +33,8 @@ public:
 	Rigidbody(float = 1, float = 1, float = 1);
 	Rigidbody(const Rigidbody&);
 	Rigidbody(const Rigidbody*);
+  
+  float getMass();
 
 	void init(Vect3&, Vect3&, Quaternion&, Vect3&);
 	void boxInertialTensor(float, float, float, float);
