@@ -15,8 +15,9 @@ Rigidbody::Rigidbody(float m, float linD, float angD)
 	accumTorque = new Vect3();
 	orientation = new Quaternion();
 	rotation = new Vect3();
-	transformMatrix = new Matrix33();
-	inverseInertiaTensor = Matrix33::BoxTensor(m, 1, 1, 1);
+	transformMatrix = new Matrix34();
+	inverseInertiaTensor = new Matrix33();
+	localInverseInertiaTensor = new Matrix33();
 }
 
 Rigidbody::Rigidbody(const Rigidbody& other)
@@ -33,6 +34,7 @@ Rigidbody::Rigidbody(const Rigidbody& other)
 	rotation = other.rotation;
 	transformMatrix = other.transformMatrix;
 	inverseInertiaTensor = other.inverseInertiaTensor;
+	localInverseInertiaTensor = other.localInverseInertiaTensor;
 }
 
 Rigidbody::Rigidbody(const Rigidbody* other)
@@ -49,6 +51,7 @@ Rigidbody::Rigidbody(const Rigidbody* other)
 	rotation = other->rotation;
 	transformMatrix = other->transformMatrix;
 	inverseInertiaTensor = other->inverseInertiaTensor;
+	localInverseInertiaTensor = other->localInverseInertiaTensor;
 }
 
 
@@ -62,14 +65,16 @@ void Rigidbody::init(Vect3& pos, Vect3& vel, Quaternion& orien, Vect3& rot)
 
 void Rigidbody::boxInertialTensor(float m, float dx, float dy, float dz)
 {
-	inverseInertiaTensor = Matrix33::BoxTensor(m, dx, dy, dz);
-	inverseInertiaTensor = inverseInertiaTensor.inverse();
+	localInverseInertiaTensor = Matrix33::BoxTensor(m, dx, dy, dz);
+	localInverseInertiaTensor = inverseInertiaTensor.inverse();
+	calcDerivedData();
 }
 
 void Rigidbody::sphereInertialTensor(float m, float r)
 {
-	inverseInertiaTensor = Matrix33::SphereTensor(m, r);
-	inverseInertiaTensor = inverseInertiaTensor.inverse();
+	localInverseInertiaTensor = Matrix33::SphereTensor(m, r);
+	localInverseInertiaTensor = inverseInertiaTensor.inverse();
+	calcDerivedData();
 }
 
 
@@ -110,7 +115,10 @@ void Rigidbody::update(float t)
 
 void Rigidbody::calcDerivedData()
 {
-	////////////////////////////////////////////////////////
+	transformMatrix = Matrix34::setOrientation(orientation, position);
+	inverseInertiaTensor = transformMatrix.getMat33(3,3).inverse();
+	inverseInertiaTensor = inverseInertiaTensor.mult(localInverseInertiaTensor);
+	inverseInertiaTensor = inverseInertiaTensor.mult(transformMatrix.getMat33(3, 3));
 }
 
 void Rigidbody::clearAccum()

@@ -4,6 +4,7 @@
 #include "Vect3.h"
 #include "Quaternion.h"
 #include "Matrix33.h"
+#include "Matrix34.h"
 
 
 class Rigidbody
@@ -19,7 +20,8 @@ private:
 	Quaternion orientation;
 	Vect3 rotation;
 	Vect3 accumTorque;
-	Matrix33 transformMatrix;
+	Matrix34 transformMatrix;
+	Matrix33 localInverseInertiaTensor;
 	Matrix33 inverseInertiaTensor;
 
 	void calcDerivedData();

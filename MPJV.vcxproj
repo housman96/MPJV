@@ -116,6 +116,8 @@
     <ClCompile Include="ParticleLink.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="AerialMovement.cpp" />
+    <ClCompile Include="CrashMovement.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StiffSpringForceGenerator.cpp" />
     <ClCompile Include="Vect3.cpp" />

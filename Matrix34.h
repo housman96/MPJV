@@ -11,7 +11,6 @@ class Matrix34
 {
 
 private:
-	float Det22(int, int)const;
 
 public:
 
@@ -41,7 +40,7 @@ public:
 	float Det()const;
 	Matrix34 Transposition()const;
 	Matrix34 inverse()const;
-	static Matrix34 setOrientation(const Quaternion);
+	static Matrix34 setOrientation(const Quaternion, Vect3);
 	Matrix34 Transposition(float*)const;
 };
 

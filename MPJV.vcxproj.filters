@@ -96,6 +96,12 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Source Files\MathStructures</Filter>
     </ClCompile>
+    <ClCompile Include="AerialMovement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CrashMovement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
