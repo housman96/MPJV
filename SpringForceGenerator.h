@@ -22,7 +22,7 @@ public:
 
 	/* MISE A JOUR */
 	void updateForce(Particle *, float);
-	void updateForce(Rigidbody *, float duration);
+	void updateForce(Rigidbody *, float);
 };
 
 #endif

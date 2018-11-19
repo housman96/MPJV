@@ -12,10 +12,10 @@ class ParticleForceGenerator
 public:
 	/* MISE A JOUR */
 	void updateForce(GameObject *p, float duration) {
-		if ((typeid(*p).hash_code() == typeid(new Particle()).hash_code())) {
+		if (p->t == Type::Particle) {
 			updateForce((Particle*)p, duration);
 		}
-		if (typeid(*p).hash_code() == typeid(new Rigidbody()).hash_code()) {
+		if (p->t == Type::Rigibody) {
 			updateForce((Rigidbody*)p, duration);
 		}
 	};

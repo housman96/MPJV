@@ -51,3 +51,7 @@ void BungeeSpringForceGenerator::updateForce(Particle* p, float duration)
 
 	p->applyForce(springForce);
 }
+
+void BungeeSpringForceGenerator::updateForce(Rigidbody *, float)
+{
+}

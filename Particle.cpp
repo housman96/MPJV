@@ -9,6 +9,7 @@ using namespace std;
 
 Particle::Particle(float m, float r)
 {
+	t = Type::Particle;
 	position = new Vect3(0, 0, 0);
 	velocity = new Vect3(0, 0, 0);
 	acceleration = new Vect3(0, 0, 0);
@@ -19,6 +20,7 @@ Particle::Particle(float m, float r)
 
 Particle::Particle(const Particle& other)
 {
+	t = Type::Particle;
 	position = other.position;
 	velocity = other.velocity;
 	acceleration = other.acceleration;
@@ -29,6 +31,7 @@ Particle::Particle(const Particle& other)
 
 Particle::Particle(const Particle* other)
 {
+	t = Type::Particle;
 	position = other->position;
 	velocity = other->velocity;
 	acceleration = other->acceleration;

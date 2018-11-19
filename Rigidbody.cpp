@@ -4,6 +4,7 @@
 
 Rigidbody::Rigidbody()
 {
+	t = Type::Rigibody;
 }
 
 
