@@ -185,7 +185,7 @@ int main(int argc, char** argv)
 	//      BOUCLE DE JEU
 	// ==================================================
 
-		// Particules à afficher
+	// Particules à afficher
 	vector<Particle*> particles;
 	particles.push_back(&p1);
 	particles.push_back(&p2);

@@ -77,15 +77,7 @@ void GameLoop::display()
 	glClearColor(1.f, 1.f, 1.f, 1.f);
 
 	// Affichage du sol
-	glPushMatrix();
-	glBegin(GL_POLYGON);
-	glColor3b(50, 50, 50);
-	glVertex3f(100, 0, 100);
-	glVertex3f(100, 0, -100.0);
-	glVertex3f(-100, 0, -100.0);
-	glVertex3f(-100, 0., 100.0);
-	glEnd();
-	glPopMatrix();
+	GameLoop::drawGround();
 
 	// Affichage des particules
 	for (GameObject* part : GameLoop::world) {
@@ -171,4 +163,27 @@ void GameLoop::TimerDrawLoop(int value)
 {
 	glutPostRedisplay();
 	glutTimerFunc(deltaT, TimerDrawLoop, 0);
+}
+
+
+// ============================================================
+// METHODES DE DESSIN
+// ============================================================
+
+void GameLoop::drawGround()
+{
+	glPushMatrix();
+	glBegin(GL_POLYGON);
+	glColor3b(50, 50, 50);
+	glVertex3f(100, 0, 100);
+	glVertex3f(100, 0, -100.0);
+	glVertex3f(-100, 0, -100.0);
+	glVertex3f(-100, 0., 100.0);
+	glEnd();
+	glPopMatrix();
+}
+
+void GameLoop::drawCube()
+{
+
 }

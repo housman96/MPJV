@@ -39,7 +39,7 @@ public:
 	void setRadius(float);
 	void setInverseMass(float);
 	void setMass(float);
-
+	
 	/* AFFICHAGE */
 	void log(); /* Affichage dans la console */
 

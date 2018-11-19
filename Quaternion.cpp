@@ -19,6 +19,14 @@ Quaternion::Quaternion(const Quaternion& other)
 	k = other.k;
 }
 
+Quaternion::Quaternion(const Quaternion* other)
+{
+	r = other->r;
+	i = other->i;
+	j = other->j;
+	k = other->k;
+}
+
 
 void Quaternion::log()
 {

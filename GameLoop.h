@@ -2,6 +2,8 @@
 #define GAMELOOP_H
 
 #include "constants.h"
+#include "Vect3.h"
+#include "Quaternion.h"
 #include "Particle.h"
 #include "ParticleContact.h"
 #include "ParticleContactGenerator.h"
@@ -42,6 +44,10 @@ public:
 	static void redim(int, int);
 	static void TimerPhysicsLoop(int);
 	static void TimerDrawLoop(int);
+
+	/* METHODES DE DESSIN */
+	static void drawGround();
+	static void drawCube();
 };
 
 #endif
