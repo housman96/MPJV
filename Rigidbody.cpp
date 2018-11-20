@@ -91,7 +91,7 @@ void Rigidbody::addForceAtPoint(Vect3& force, Vect3& point)
 void Rigidbody::addForceAtBodyPoint(Vect3& force, Vect3& point)
 {
 	Vect3 worldPoint = position.add(point);
-	addForceAtBodyPoint(force, worldPoint);
+	addForceAtPoint(force, worldPoint);
 }
 
 void Rigidbody::update(float t)
@@ -116,10 +116,6 @@ void Rigidbody::update(float t)
 	clearAccum();
 }
 
-void Rigidbody::draw()
-{
-}
-
 void Rigidbody::calcDerivedData()
 {
 	transformMatrix = Matrix34::setOrientation(orientation, position);
@@ -139,3 +135,13 @@ float Rigidbody::getMass()
 	return mass;
 }
 
+void Rigidbody::draw()
+{
+	glPushMatrix();
+	glColor3b(0, 0, 50);
+	glTranslatef(position.getX(), position.getY(), position.getZ());
+	
+
+
+	glPopMatrix();
+}
