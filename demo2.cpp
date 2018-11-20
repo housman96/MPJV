@@ -30,9 +30,9 @@ int main(int argc, char** argv)
 	Rigidbody rb2 = new Rigidbody(mass, linD, angD);
 
 	// Initialisation des corps rigides
-	rb1.init(Vect3(-12, 0, 0), Vect3(5, 0, 0), Quaternion(0,0,0,1), Vect3());
+	rb1.init(Vect3(-12, 0, 0), Vect3(10, 0, 1), Quaternion(0, 0, 0, 1), Vect3());
 	rb1.boxInertialTensor(mass, 4, 2, 2);
-	rb2.init(Vect3(12, 0, 0), Vect3(-5, 0, 0), Quaternion(0,0,0,1), Vect3());
+	rb2.init(Vect3(12, 0, 0), Vect3(-10, 0, -1), Quaternion(0, 0, 0, 1), Vect3());
 	rb2.boxInertialTensor(mass, 4, 2, 2);
 
 

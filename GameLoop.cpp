@@ -97,7 +97,7 @@ void GameLoop::redim(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0., 1.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0., 10.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
 	//glEnable(GL_LIGHTING);
@@ -112,20 +112,22 @@ void GameLoop::redim(int width, int height)
 
 
 bool crashDone = false;
-
 void GameLoop::TimerPhysicsLoop(int value)
 {
+	// Lancement du timer physique
+	glutTimerFunc(deltaT / 10.f, TimerPhysicsLoop, 0);
+
 	// Récupération du temps écoulé
 	double now = glutGet(GLUT_ELAPSED_TIME);
 	double timeElapsedMs = (now - lastLoopTime);
 	lastLoopTime = now;
 
-	// Lancement du timer physique
-	glutTimerFunc(deltaT / 10.f, TimerPhysicsLoop, 0);
 
-	if (timeElapsedMs > deltaT / 10.) {
-		timeElapsedMs = deltaT / 10.;
+
+	if (timeElapsedMs > deltaT / 10) {
+		timeElapsedMs = deltaT / 10;
 	}
+	timeAccumulatedMs += timeElapsedMs;
 
 	// Ajout des contacts
 	//for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
@@ -153,13 +155,16 @@ void GameLoop::TimerPhysicsLoop(int value)
 	//GameLoop::resolver.resolveContact();
 	//GameLoop::listContact.clear();
 
-	if (now >= 1000 && !crashDone) {
+	if (timeAccumulatedMs >= 1000 && !crashDone) {
+
 		Rigidbody* car = (Rigidbody*)world[0];
-		car->addForceAtPoint(Vect3(0, 0, 1000), Vect3(0, 0, 0));
+		Rigidbody* car2 = (Rigidbody*)world[1];
+		car->addForceAtPoint(Vect3(-50000, 0, 0), Vect3(0, 0, 0));
+		car2->addForceAtPoint(Vect3(50000, 0, 0), Vect3(0, 0, 0));
 		crashDone = true;
+
 	}
 
-	cout << now << endl;
 
 	// Prise en compte des forces
 	for (RegisterForce::ForceRecord record : records) {
