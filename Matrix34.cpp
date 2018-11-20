@@ -151,6 +151,7 @@ Matrix33 Matrix34::getMat33(int row, int col)const
 	return new Matrix33(tempTab);
 }
 
+
 Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 {
 	Matrix34 res = new Matrix34();
@@ -166,6 +167,7 @@ Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 	res[9] = 2 * (q.k*q.j - q.r*q.i);
 	res[10] = 1 - 2 * (powf(q.j, 2) + powf(q.i, 2));
 	res[11] = pos.getZ();
+  
 	return res;
 }
 

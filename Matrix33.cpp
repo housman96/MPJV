@@ -160,18 +160,25 @@ Matrix33 Matrix33::Transposition()const {
 }
 
 Matrix33 Matrix33::inverse()const {
-	Matrix33 res = new Matrix33();
-	float f = 1 / Det();
-	for (size_t i = 0; i < 9; i++)
-	{
-		int c = i % 3;
-		int l = i / 3;
-		res[i] = Det22(l, c)*f;
-		if (i % 2 != 0) {
-			res[i] = -res[i];
+	if (Det() != 0) {
+		Matrix33 res = new Matrix33();
+		float f = 1 / Det();
+		for (size_t i = 0; i < 9; i++)
+		{
+			int c = i % 3;
+			int l = i / 3;
+			res[i] = Det22(l, c)*f;
+			if (i % 2 != 0) {
+				res[i] = -res[i];
+			}
 		}
+		return res.Transposition();
 	}
-	return res.Transposition();
+	else {
+		std::cout << "Matrix33 non inversible" << std::endl;
+		return new Matrix33();
+	}
+
 }
 
 Matrix33 Matrix33::setOrientation(const Quaternion q)
@@ -188,4 +195,26 @@ Matrix33 Matrix33::setOrientation(const Quaternion q)
 	res[8] = 1 - 2 * (powf(q.j, 2) + powf(q.i, 2));
 
 	return res;
+}
+
+
+/* TENSEURS */
+
+Matrix33 Matrix33::BoxTensor(float m, float dx, float dy, float dz)
+{
+	Matrix33 tensor = new Matrix33();
+	tensor[0] = (m * (dy * dy + dz * dz)) / 12.;
+	tensor[4] = (m * (dx * dx + dz * dz)) / 12.;
+	tensor[8] = (m * (dx * dx + dy * dy)) / 12.;
+	return tensor;
+}
+
+Matrix33 Matrix33::SphereTensor(float m, float r)
+{
+	Matrix33 tensor = new Matrix33();
+	float val = (2 * m * r * r) / 5.;
+	tensor[0] = val;
+	tensor[4] = val;
+	tensor[8] = val;
+	return tensor;
 }

@@ -2,6 +2,8 @@
 #define GAMELOOP_H
 
 #include "constants.h"
+#include "Vect3.h"
+#include "Quaternion.h"
 #include "Particle.h"
 #include "ParticleContact.h"
 #include "ParticleContactGenerator.h"
@@ -25,16 +27,16 @@ private:
 
 public:
 	/* VARIABLES STATIQUES */
-	static vector<Particle *> world; // Liste des particules à afficher
+	static vector<GameObject *> world; // Liste des particules à afficher
 	static vector<ParticleContact*> listContact;
 	static vector<ParticleContactGenerator*> listContactGenerator;
 
 	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	GameLoop(int, char **);
-	GameLoop(int, char **, Particle &);
-	GameLoop(int, char **, Particle *);
-	GameLoop(int, char **, vector<Particle *> &);
-	GameLoop(int, char **, vector<Particle *> *);
+	GameLoop(int, char **, GameObject &);
+	GameLoop(int, char **, GameObject *);
+	GameLoop(int, char **, vector<GameObject *> &);
+	GameLoop(int, char **, vector<GameObject *> *);
 	~GameLoop();
 
 	/* CALLBACKS D'AFFICHAGE */
@@ -42,6 +44,10 @@ public:
 	static void redim(int, int);
 	static void TimerPhysicsLoop(int);
 	static void TimerDrawLoop(int);
+
+	/* METHODES DE DESSIN */
+	static void drawGround();
+	static void drawCube();
 };
 
 #endif

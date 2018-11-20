@@ -2,6 +2,7 @@
 #define GRAVITYGENERATOR_H
 
 #include "ParticleForceGenerator.h"
+#include "Rigidbody.h"
 #include "Vect3.h"
 
 
@@ -17,7 +18,8 @@ public:
 	GravityGenerator(const GravityGenerator *); /* Constructeur par pointeur */
 
 	/* MISE A JOUR */
-	virtual void updateForce(Particle *, float);
+	void updateForce(Particle *, float);
+	void updateForce(Rigidbody *p, float duration);
 };
 
 #endif

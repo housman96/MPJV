@@ -4,6 +4,8 @@
 #include "Vect3.h"
 #include "Quaternion.h"
 #include <vector>
+
+
 class Matrix33
 {
 
@@ -39,6 +41,10 @@ public:
 	float Det()const;
 	Matrix33 inverse()const;
 	static Matrix33 setOrientation(const Quaternion q);
+
+	/* TENSEURS */
+	static Matrix33 BoxTensor(float = 1, float = 1, float = 1, float = 1);
+	static Matrix33 SphereTensor(float = 1, float = 1);
 };
 
 

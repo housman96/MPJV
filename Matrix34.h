@@ -11,7 +11,6 @@ class Matrix34
 {
 
 private:
-	float Det22(int, int)const;
 
 public:
 

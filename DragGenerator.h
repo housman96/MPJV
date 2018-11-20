@@ -18,7 +18,8 @@ public:
 	DragGenerator(const DragGenerator *);        /* Constructeur par pointeur */
 
 	/* MISE A JOUR */
-	virtual void updateForce(Particle *, float);
+	void updateForce(Particle *, float);
+	void updateForce(Rigidbody *p, float duration);
 };
 
 #endif

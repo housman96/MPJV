@@ -13,6 +13,7 @@ public:
 	float r, i, j, k;
 	Quaternion(float = 0, float = 0, float = 0, float = 0);
 	Quaternion(const Quaternion &);
+	Quaternion(const Quaternion *);
 
 	void log();
 

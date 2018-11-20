@@ -29,3 +29,7 @@ void DragGenerator::updateForce(Particle *p, float duration) {
   drag = drag.scale(k1 * vel.mag() + k2 * vel.magSq());
   p->applyForce(drag);
 }
+
+void DragGenerator::updateForce(Rigidbody * p, float duration)
+{
+}

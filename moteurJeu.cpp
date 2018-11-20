@@ -23,7 +23,7 @@ using namespace std;
 int G = 15;
 RegisterForce::Register records;
 
-vector<Particle *> GameLoop::world = vector<Particle *>();
+vector<GameObject *> GameLoop::world = vector<GameObject *>();
 vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
 vector<ParticleContactGenerator*> GameLoop::listContactGenerator = vector<ParticleContactGenerator*>();
 ParticleContactResolver GameLoop::resolver = ParticleContactResolver();
@@ -185,8 +185,8 @@ int main(int argc, char** argv)
 	//      BOUCLE DE JEU
 	// ==================================================
 
-		// Particules à afficher
-	vector<Particle*> particles;
+	// Particules à afficher
+	vector<GameObject*> particles;
 	particles.push_back(&p1);
 	particles.push_back(&p2);
 	particles.push_back(&p3);

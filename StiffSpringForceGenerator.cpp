@@ -52,3 +52,7 @@ void StiffSpringForceGenerator::updateForce(Particle* p, float duration)
 	Vect3 force = acc.scale(m);
 	p->applyForce(force);
 }
+
+void StiffSpringForceGenerator::updateForce(Rigidbody *, float)
+{
+}

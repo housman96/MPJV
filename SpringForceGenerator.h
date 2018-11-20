@@ -21,7 +21,8 @@ public:
 	~SpringForceGenerator();
 
 	/* MISE A JOUR */
-	virtual void updateForce(Particle *, float);
+	void updateForce(Particle *, float);
+	void updateForce(Rigidbody *, float);
 };
 
 #endif

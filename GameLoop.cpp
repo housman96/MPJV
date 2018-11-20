@@ -34,25 +34,25 @@ GameLoop::GameLoop(int argc, char** argv)
 	glutMainLoop(); /* On entre dans la boucle d'événements */
 }
 
-GameLoop::GameLoop(int argc, char** argv, Particle& part)
+GameLoop::GameLoop(int argc, char** argv, GameObject& part)
 {
 	GameLoop::world.push_back(&part);
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, Particle* part)
+GameLoop::GameLoop(int argc, char** argv, GameObject* part)
 {
 	GameLoop::world.push_back(part);
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, vector<Particle*>& list)
+GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>& list)
 {
 	GameLoop::world = list;
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, vector<Particle*>* list)
+GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>* list)
 {
 	GameLoop::world = *list;
 	GameLoop(argc, argv);
@@ -77,23 +77,11 @@ void GameLoop::display()
 	glClearColor(1.f, 1.f, 1.f, 1.f);
 
 	// Affichage du sol
-	glPushMatrix();
-	glBegin(GL_POLYGON);
-	glColor3b(50, 50, 50);
-	glVertex3f(100, 0, 100);
-	glVertex3f(100, 0, -100.0);
-	glVertex3f(-100, 0, -100.0);
-	glVertex3f(-100, 0., 100.0);
-	glEnd();
-	glPopMatrix();
+	GameLoop::drawGround();
 
 	// Affichage des particules
-	for (Particle part : GameLoop::world) {
-		glPushMatrix();
-		glColor3b(0, 0, 50);
-		glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
-		glutSolidSphere(part.getRadius(), 50, 50);
-		glPopMatrix();
+	for (GameObject* part : GameLoop::world) {
+		part->draw();
 	}
 
 	glutSwapBuffers();
@@ -144,10 +132,14 @@ void GameLoop::TimerPhysicsLoop(int value)
 	// Détection des contatcts
 	for (int i = 0; i < GameLoop::world.size(); i++) {
 		for (int j = i + 1; j < GameLoop::world.size(); j++) {
-			float dist = Vect3::dist(GameLoop::world[i]->getPosition(), GameLoop::world[j]->getPosition());
-			float distColision = GameLoop::world[i]->getRadius() + GameLoop::world[j]->getRadius();
-			if (dist < distColision) {
-				GameLoop::listContact.push_back(new ParticleContact(GameLoop::world[i], GameLoop::world[j], 0.5));
+			if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
+				Particle* p1 = (Particle*)GameLoop::world[i];
+				Particle* p2 = (Particle*)GameLoop::world[j];
+				float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
+				float distColision = p1->getRadius() + p2->getRadius();
+				if (dist < distColision) {
+					GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
+				}
 			}
 		}
 	}
@@ -160,14 +152,13 @@ void GameLoop::TimerPhysicsLoop(int value)
 
 	// Prise en compte des forces
 	for (RegisterForce::ForceRecord record : records) {
+
 		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
 	}
 
 	// Mise à jour de la physique
-	for (Particle *p : GameLoop::world) {
-		p->rebound();
+	for (GameObject *p : GameLoop::world) {
 		p->update(timeElapsedMs / 1000.);
-		p->clearAccum();
 	}
 
 }
@@ -176,4 +167,27 @@ void GameLoop::TimerDrawLoop(int value)
 {
 	glutPostRedisplay();
 	glutTimerFunc(deltaT, TimerDrawLoop, 0);
+}
+
+
+// ============================================================
+// METHODES DE DESSIN
+// ============================================================
+
+void GameLoop::drawGround()
+{
+	glPushMatrix();
+	glBegin(GL_POLYGON);
+	glColor3b(50, 50, 50);
+	glVertex3f(100, 0, 100);
+	glVertex3f(100, 0, -100.0);
+	glVertex3f(-100, 0, -100.0);
+	glVertex3f(-100, 0., 100.0);
+	glEnd();
+	glPopMatrix();
+}
+
+void GameLoop::drawCube()
+{
+
 }
