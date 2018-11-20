@@ -100,10 +100,10 @@ void GameLoop::redim(int width, int height)
 	gluLookAt(0., 1.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	GLfloat Lambiant[4] = { 0.4, 0.4, 0.4, 10.0 };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, Lambiant);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
+	//GLfloat Lambiant[4] = { 0.4, 0.4, 0.4, 10.0 };
+	//glLightfv(GL_LIGHT0, GL_AMBIENT, Lambiant);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

@@ -49,7 +49,8 @@ Matrix34::~Matrix34()
 
 
 /* SURCHARGE OPERATEUR */
-Matrix34& Matrix34::operator=(const Matrix34& mat) {
+Matrix34& Matrix34::operator=(const Matrix34& mat)
+{
 	if (this != &mat) { // self-assignment check expected
 		for (int i = 0; i < 12; i++) {
 			tab[i] = mat.tab[i];
@@ -58,7 +59,8 @@ Matrix34& Matrix34::operator=(const Matrix34& mat) {
 	return *this;
 }
 
-float& Matrix34::operator[](const int i) {
+float& Matrix34::operator[](const int i)
+{
 	if (i <= 12) {
 		int c = i % 4;
 		int l = i / 4;
@@ -69,13 +71,12 @@ float& Matrix34::operator[](const int i) {
 	return tab[0];
 }
 
-std::ostream& operator<<(std::ostream &strm, const Matrix34& mat) {
+std::ostream& operator<<(std::ostream &strm, const Matrix34& mat)
+{
 	strm << "[";
-	for (size_t i = 0; i < 3; i++)
-	{
+	for (size_t i = 0; i < 3; i++) {
 		strm << "[";
-		for (size_t j = 0; j < 4; j++)
-		{
+		for (size_t j = 0; j < 4; j++) {
 			strm << mat.getElement(i, j) << " ";
 		}
 		strm << "]" << std::endl;
@@ -86,7 +87,8 @@ std::ostream& operator<<(std::ostream &strm, const Matrix34& mat) {
 
 /* GETTER */
 
-float Matrix34::getElement(const int row, const int col)const {
+float Matrix34::getElement(const int row, const int col)const
+{
 	if (row * 4 + col <= 11)
 		return this->tab[row * 4 + col];
 	else {
@@ -94,8 +96,7 @@ float Matrix34::getElement(const int row, const int col)const {
 			if (col >= 0 && col <= 2) {
 				return 0;
 			}
-			if (col == 3)
-			{
+			if (col == 3) {
 				return 1;
 			}
 		}
@@ -107,7 +108,8 @@ float Matrix34::getElement(const int row, const int col)const {
 
 /* OPERATIONS */
 
-Vect3 Matrix34::mult(const Vect3 &vect)const {
+Vect3 Matrix34::mult(const Vect3 &vect)const
+{
 	Vect3 res = new Vect3();
 
 	float X = (vect.getX() * this->tab[0]) + (vect.getY() * this->tab[1]) + (vect.getZ() * this->tab[2]) + getElement(0, 3);
@@ -121,14 +123,14 @@ Vect3 Matrix34::mult(const Vect3 &vect)const {
 	return res;
 }
 
-Matrix34 Matrix34::mult(const Matrix34 &vect)const {
+Matrix34 Matrix34::mult(const Matrix34 &vect)const
+{
 	Matrix34 res = new Matrix34();
-	for (int i = 0; i < 12;i++) {
+	for (int i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
 
-		for (size_t j = 0; j < 4; j++)
-		{
+		for (size_t j = 0; j < 4; j++) {
 			res[i] += this->getElement(l, j)*vect.getElement(j, c);
 		}
 	}
@@ -139,8 +141,7 @@ Matrix33 Matrix34::getMat33(int row, int col)const
 {
 	float tempTab[9];
 	int temp = 0;
-	for (size_t i = 0; i < 16; i++)
-	{
+	for (size_t i = 0; i < 16; i++) {
 		int c = i % 4;
 		int l = i / 4;
 		if (l != row && c != col) {
@@ -174,16 +175,16 @@ Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 float Matrix34::Det() const
 {
 	float res = 0;
-	for (int i = 0;i <= 3;i++) {
+	for (int i = 0; i <= 3; i++) {
 		res += tab[i] * getMat33(0, i).Det()*powf(-1, i);
 	}
 	return res;
 }
 
-Matrix34 Matrix34::Transposition()const {
+Matrix34 Matrix34::Transposition()const
+{
 	Matrix34 res = new Matrix34();
-	for (size_t i = 0; i < 12; i++)
-	{
+	for (size_t i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
 		res[i] = getElement(c, l);
@@ -191,10 +192,10 @@ Matrix34 Matrix34::Transposition()const {
 	return res;
 }
 
-Matrix34 Matrix34::Transposition(float* f)const {
+Matrix34 Matrix34::Transposition(float* f)const
+{
 	Matrix34 res = new Matrix34();
-	for (size_t i = 0; i < 12; i++)
-	{
+	for (size_t i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
 		res[i] = f[c * 4 + l];
@@ -208,8 +209,7 @@ Matrix34 Matrix34::inverse() const
 
 	if (Det() != 0) {
 		float f = 1 / Det();
-		for (size_t i = 0; i < 16; i++)
-		{
+		for (size_t i = 0; i < 16; i++) {
 			int c = i % 4;
 			int l = i / 4;
 			res[i] = getMat33(l, c).Det()*f*powf(-1, l + c);
@@ -218,12 +218,15 @@ Matrix34 Matrix34::inverse() const
 	return Transposition(res);
 }
 
-GLfloat* Matrix34::toGlutMat() {
+GLfloat* Matrix34::toGlutMat()
+{
 	GLfloat res[16];
-	for (int i = 0;i < 16;i++) {
+	for (int i = 0; i < 16; i++) {
 		int c = i % 4;
 		int l = i / 4;
 		res[i] = getElement(l, c);
+		std::cout << res[i] << "   " << getElement(l, c) << std::endl;
 	}
+	std::cout << std::endl << std::endl;
 	return res;
 }
