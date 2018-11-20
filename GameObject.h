@@ -1,6 +1,7 @@
 #pragma once
 
 enum class Type { Particle, Rigibody };
+#include <GL/glut.h>
 
 class GameObject
 {

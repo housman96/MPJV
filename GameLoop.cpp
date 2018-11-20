@@ -132,10 +132,14 @@ void GameLoop::TimerPhysicsLoop(int value)
 	// Détection des contatcts
 	for (int i = 0; i < GameLoop::world.size(); i++) {
 		for (int j = i + 1; j < GameLoop::world.size(); j++) {
-			float dist = Vect3::dist(GameLoop::world[i]->getPosition(), GameLoop::world[j]->getPosition());
-			float distColision = GameLoop::world[i]->getRadius() + GameLoop::world[j]->getRadius();
-			if (dist < distColision) {
-				GameLoop::listContact.push_back(new ParticleContact(GameLoop::world[i], GameLoop::world[j], 0.5));
+			if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
+				Particle* p1 = (Particle*)GameLoop::world[i];
+				Particle* p2 = (Particle*)GameLoop::world[j];
+				float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
+				float distColision = p1->getRadius() + p2->getRadius();
+				if (dist < distColision) {
+					GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
+				}
 			}
 		}
 	}

@@ -175,11 +175,12 @@ void Particle::clearAccum()
 	accumForce = accumForce.scale(0.);
 }
 
+
 void Particle::draw()
 {
 	glPushMatrix();
 	glColor3b(0, 0, 50);
-	glTranslatef(part.getPosition().getX(), part.getPosition().getY(), part.getPosition().getZ());
-	glutSolidSphere(part.getRadius(), 50, 50);
+	glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+	glutSolidSphere(getRadius(), 50, 50);
 	glPopMatrix();
 }

@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	Rigidbody rb = new Rigidbody(mass, linD, angD);
 
 	// Initialisation du corps rigide
-	rb.init(Vect3(0,3,0), Vect3(1,2,0), Quaternion(), Vect3(1,1,1));
+	rb.init(Vect3(0, 3, 0), Vect3(1, 2, 0), Quaternion(), Vect3(1, 1, 1));
 	rb.boxInertialTensor(mass, 1, 1, 1);
 
 
