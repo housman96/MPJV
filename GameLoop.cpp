@@ -97,7 +97,7 @@ void GameLoop::redim(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0., 1.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0., 1.0, 60.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
 	//glEnable(GL_LIGHTING);

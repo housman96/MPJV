@@ -155,19 +155,26 @@ Matrix33 Matrix34::getMat33(int row, int col)const
 
 Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 {
+	float x = q.i;
+	float y = q.j;
+	float z = q.k;
+	float w = q.r;
+
+
 	Matrix34 res = new Matrix34();
-	res[0] = 1 - 2 * (powf(q.j, 2) + powf(q.k, 2));
-	res[1] = 2 * (q.i*q.j + q.r*q.k);
-	res[2] = 2 * (q.i*q.k - q.r*q.j);
+	res[0] = 1 - 2 * (powf(y, 2) + powf(z, 2));
+	res[1] = 2 * (x*y + w * z);
+	res[2] = 2 * (x*z - w * y);
 	res[3] = pos.getX();
-	res[4] = 2 * (q.i*q.j - q.r*q.k);
-	res[5] = 1 - 2 * (powf(q.i, 2) + powf(q.k, 2));
-	res[6] = 2 * (q.k*q.j + q.r*q.i);
+	res[4] = 2 * (x*y - w * z);
+	res[5] = 1 - 2 * (powf(x, 2) + powf(z, 2));
+	res[6] = 2 * (z*y + w * x);
 	res[7] = pos.getY();
-	res[8] = 2 * (q.i*q.k + q.r*q.j);
-	res[9] = 2 * (q.k*q.j - q.r*q.i);
-	res[10] = 1 - 2 * (powf(q.j, 2) + powf(q.i, 2));
+	res[8] = 2 * (x*z + w * y);
+	res[9] = 2 * (z*y - w * x);
+	res[10] = 1 - 2 * (powf(y, 2) + powf(x, 2));
 	res[11] = pos.getZ();
+
 
 	return res;
 }
@@ -187,7 +194,7 @@ Matrix34 Matrix34::Transposition()const
 	for (size_t i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
-		res[i] = getElement(c, l);
+		res[i] = getElement(l, c);
 	}
 	return res;
 }
@@ -220,13 +227,11 @@ Matrix34 Matrix34::inverse() const
 
 GLfloat* Matrix34::toGlutMat()
 {
-	GLfloat res[16];
+	GLfloat* res = new GLfloat[16];
 	for (int i = 0; i < 16; i++) {
 		int c = i % 4;
 		int l = i / 4;
-		res[i] = getElement(l, c);
-		//std::cout << res[i] << "   " << getElement(l, c) << std::endl;
+		res[i] = getElement(c, l);
 	}
-	//std::cout << std::endl << std::endl;
 	return res;
 }

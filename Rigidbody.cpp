@@ -107,11 +107,7 @@ void Rigidbody::update(float t)
 	// 5) Maj position
 	position = position.add(velocity.scale(t));
 	// 6) Maj orientation
-	rotation.log();
-	orientation.log();
 	orientation.updateAngularVelocity(rotation, t);
-	orientation.log();
-	cout << endl;
 	// 7) Recalcul "transformMatrix" et "inverseInertiaTensor"
 	calcDerivedData();
 	// 8) Vider les accumulateurs
@@ -140,12 +136,11 @@ float Rigidbody::getMass()
 void Rigidbody::draw()
 {
 	glPushMatrix();
-	glTranslatef(position.getX(), position.getY(), position.getZ());
+	//glTranslatef(position.getX(), position.getY(), position.getZ());
 
 	GLfloat * matRot = Matrix34::setOrientation(orientation, position).toGlutMat();
-	//glMultMatrixf(matRot);
-	//orientation.log();
-	//cout << Matrix34::setOrientation(orientation, position) << endl;
+
+	glMultMatrixf(matRot);
 
 	glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
 	// Top face (y = 1.0f)
