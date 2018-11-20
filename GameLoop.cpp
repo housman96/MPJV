@@ -77,7 +77,7 @@ void GameLoop::display()
 	glClearColor(1.f, 1.f, 1.f, 1.f);
 
 	// Affichage du sol
-	GameLoop::drawGround();
+	//GameLoop::drawGround();
 
 	// Affichage des particules
 	for (GameObject* part : GameLoop::world) {
@@ -97,7 +97,7 @@ void GameLoop::redim(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0., 1.0, 90.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0., 1.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
 	glEnable(GL_LIGHTING);
@@ -125,35 +125,35 @@ void GameLoop::TimerPhysicsLoop(int value)
 	}
 
 	// Ajout des contacts
-	for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
-		GameLoop::listContactGenerator[i]->addContact();
-	}
+	//for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
+	//	GameLoop::listContactGenerator[i]->addContact();
+	//}
 
 	// Détection des contatcts
-	for (int i = 0; i < GameLoop::world.size(); i++) {
-		for (int j = i + 1; j < GameLoop::world.size(); j++) {
-			if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
-				Particle* p1 = (Particle*)GameLoop::world[i];
-				Particle* p2 = (Particle*)GameLoop::world[j];
-				float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
-				float distColision = p1->getRadius() + p2->getRadius();
-				if (dist < distColision) {
-					GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
-				}
-			}
-		}
-	}
+	//for (int i = 0; i < GameLoop::world.size(); i++) {
+	//	for (int j = i + 1; j < GameLoop::world.size(); j++) {
+	//		if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
+	//			Particle* p1 = (Particle*)GameLoop::world[i];
+	//			Particle* p2 = (Particle*)GameLoop::world[j];
+	//			float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
+	//			float distColision = p1->getRadius() + p2->getRadius();
+	//			if (dist < distColision) {
+	//				GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
+	//			}
+	//		}
+	//	}
+	//}
 
 	// Résolution des contacts
-	GameLoop::resolver.setIter(GameLoop::listContact.size());
-	GameLoop::resolver.setVector(GameLoop::listContact);
-	GameLoop::resolver.resolveContact();
-	GameLoop::listContact.clear();
+	//GameLoop::resolver.setIter(GameLoop::listContact.size());
+	//GameLoop::resolver.setVector(GameLoop::listContact);
+	//GameLoop::resolver.resolveContact();
+	//GameLoop::listContact.clear();
 
 	// Prise en compte des forces
 	for (RegisterForce::ForceRecord record : records) {
 
-		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
+		record.pfg->updateForce(record.go, timeElapsedMs / 1000.);
 	}
 
 	// Mise à jour de la physique
@@ -185,9 +185,4 @@ void GameLoop::drawGround()
 	glVertex3f(-100, 0., 100.0);
 	glEnd();
 	glPopMatrix();
-}
-
-void GameLoop::drawCube()
-{
-
 }

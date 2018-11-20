@@ -47,7 +47,6 @@ public:
 
 	/* METHODES DE DESSIN */
 	static void drawGround();
-	static void drawCube();
 };
 
 #endif
