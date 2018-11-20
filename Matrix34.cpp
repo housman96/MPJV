@@ -167,7 +167,7 @@ Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 	res[9] = 2 * (q.k*q.j - q.r*q.i);
 	res[10] = 1 - 2 * (powf(q.j, 2) + powf(q.i, 2));
 	res[11] = pos.getZ();
-  
+
 	return res;
 }
 
@@ -216,4 +216,12 @@ Matrix34 Matrix34::inverse() const
 		}
 	}
 	return Transposition(res);
+}
+
+GLfloat* Matrix34::toGlutMat() {
+	GLfloat res[16];
+	for (int i = 0;i < 16;i++) {
+		res[i] = tab[i];
+	}
+	return res;
 }
