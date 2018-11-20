@@ -221,7 +221,9 @@ Matrix34 Matrix34::inverse() const
 GLfloat* Matrix34::toGlutMat() {
 	GLfloat res[16];
 	for (int i = 0;i < 16;i++) {
-		res[i] = tab[i];
+		int c = i % 4;
+		int l = i / 4;
+		res[i] = getElement(l, c);
 	}
 	return res;
 }
