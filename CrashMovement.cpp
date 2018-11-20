@@ -7,6 +7,7 @@
 using namespace std;
 
 
+
 //float GameLoop::lastLoopTime = 0.;
 //float GameLoop::timeAccumulatedMs = 0.;
 
@@ -21,7 +22,7 @@ using namespace std;
 //	float linD = 0.9f;
 //	float angD = 0.9f;
 //
-//	// Déclaration des corps rigides
+//	// DÃ©claration des corps rigides
 //	Rigidbody rb1 = new Rigidbody(mass, linD, angD);
 //	Rigidbody rb2 = new Rigidbody(mass, linD, angD);
 //
@@ -36,7 +37,7 @@ using namespace std;
 //	//      BOUCLE DE JEU
 //	// ==================================================
 //
-//	// Particules à afficher
+//	// Particules Ã  afficher
 //	vector<GameObject*> objects;
 //	objects.push_back(&rb1);
 //	objects.push_back(&rb2);
@@ -46,3 +47,4 @@ using namespace std;
 //
 //	return 0;
 //}
+

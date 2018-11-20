@@ -6,6 +6,7 @@
 #include "Matrix33.h"
 #include <math.h>
 #include <vector>
+#include <GL/glut.h>
 
 class Matrix34
 {
@@ -42,6 +43,7 @@ public:
 	Matrix34 inverse()const;
 	static Matrix34 setOrientation(const Quaternion, const Vect3);
 	Matrix34 Transposition(float*)const;
+	GLfloat* Matrix34::toGlutMat();
 };
 
 #endif
