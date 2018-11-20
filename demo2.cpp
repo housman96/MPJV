@@ -21,44 +21,33 @@ int main(int argc, char** argv)
 	//      RIGIGBODY
 	// ==================================================
 
-	float mass = 1.0f;
+	float mass = 10.0f;
 	float linD = 1.0f;
-	float angD = 1.0f;
+	float angD = 0.9f;
 
-	// Déclaration du corps rigide
-	Rigidbody rb = new Rigidbody(mass, linD, angD);
+	// DÃ©claration des corps rigides
+	Rigidbody rb1 = new Rigidbody(mass, linD, angD);
+	Rigidbody rb2 = new Rigidbody(mass, linD, angD);
 
-	// Initialisation du corps rigide
-	rb.init(Vect3(0, 3, 0), Vect3(3, 5, 0), Quaternion(0, 0, 0, 1), Vect3(1, 0, 0));
-	rb.boxInertialTensor(mass, 2, 2, 2);
-
-
-	// ==================================================
-	//      GENERATEURS DE FORCE
-	// ==================================================
-
-	float G = 15.f;
-
-	// Déclaration du générateur de force
-	GravityGenerator grav = new GravityGenerator(Vect3(0, -G, 0));
-
-	// Remplissage des registres de forces
-	RegisterForce::ForceRecord fr_rb_gg;
-	fr_rb_gg.go = &rb;
-	fr_rb_gg.pfg = &grav;
-	records.push_back(fr_rb_gg);
+	// Initialisation des corps rigides
+	rb1.init(Vect3(-12, 0, 0), Vect3(5, 0, 0), Quaternion(0,0,0,1), Vect3());
+	rb1.boxInertialTensor(mass, 4, 2, 2);
+	rb2.init(Vect3(12, 0, 0), Vect3(-5, 0, 0), Quaternion(0,0,0,1), Vect3());
+	rb2.boxInertialTensor(mass, 4, 2, 2);
 
 
 	// ==================================================
 	//      BOUCLE DE JEU
 	// ==================================================
 
-	// Particules à afficher
+	// Particules Ã  afficher
 	vector<GameObject*> objects;
-	objects.push_back(&rb);
+	objects.push_back(&rb1);
+	objects.push_back(&rb2);
 
 	// Lancement de la boucle de jeu
 	GameLoop gl(argc, argv, objects);
 
 	return 0;
 }
+

@@ -97,7 +97,7 @@ void GameLoop::redim(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0., 1.0, 60.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0., 1.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
 	//glEnable(GL_LIGHTING);
@@ -109,6 +109,9 @@ void GameLoop::redim(int width, int height)
 	glLoadIdentity();
 	gluPerspective(70.0, 1.7, 1.0, 100.0);
 }
+
+
+bool crashDone = false;
 
 void GameLoop::TimerPhysicsLoop(int value)
 {
@@ -150,15 +153,22 @@ void GameLoop::TimerPhysicsLoop(int value)
 	//GameLoop::resolver.resolveContact();
 	//GameLoop::listContact.clear();
 
+	if (now >= 1000 && !crashDone) {
+		Rigidbody* car = (Rigidbody*)world[0];
+		car->addForceAtPoint(Vect3(0, 0, 1000), Vect3(0, 0, 0));
+		crashDone = true;
+	}
+
+	cout << now << endl;
+
 	// Prise en compte des forces
 	for (RegisterForce::ForceRecord record : records) {
-
 		record.pfg->updateForce(record.go, timeElapsedMs / 1000.);
 	}
 
 	// Mise à jour de la physique
-	for (GameObject *p : GameLoop::world) {
-		p->update(timeElapsedMs / 1000.);
+	for (GameObject *go : GameLoop::world) {
+		go->update(timeElapsedMs / 1000.);
 	}
 
 }
