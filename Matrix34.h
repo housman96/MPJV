@@ -43,7 +43,7 @@ public:
 	Matrix34 inverse()const;
 	static Matrix34 setOrientation(const Quaternion, const Vect3);
 	Matrix34 Transposition(float*)const;
-	GLfloat* Matrix34::toGlutMat()
+	GLfloat* Matrix34::toGlutMat();
 };
 
 #endif

@@ -45,4 +45,4 @@ int main(int argc, char** argv)
 	GameLoop gl(argc, argv, objects);
 
 	return 0;
-	//}
+}
