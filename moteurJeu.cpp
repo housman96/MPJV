@@ -186,7 +186,7 @@ int main(int argc, char** argv)
 	// ==================================================
 
 	// Particules à afficher
-	vector<Particle*> particles;
+	vector<GameObject*> particles;
 	particles.push_back(&p1);
 	particles.push_back(&p2);
 	particles.push_back(&p3);

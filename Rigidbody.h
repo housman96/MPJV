@@ -33,8 +33,8 @@ public:
 	Rigidbody(float = 1, float = 1, float = 1);
 	Rigidbody(const Rigidbody&);
 	Rigidbody(const Rigidbody*);
-  
-  float getMass();
+
+	float getMass();
 
 	void init(Vect3&, Vect3&, Quaternion&, Vect3&);
 	void boxInertialTensor(float, float, float, float);
@@ -43,6 +43,7 @@ public:
 	void addForceAtPoint(Vect3&, Vect3&);
 	void addForceAtBodyPoint(Vect3&, Vect3&);
 	void update(float);
+	void draw();
 };
 
 #endif

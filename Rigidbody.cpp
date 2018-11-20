@@ -5,7 +5,7 @@ using namespace std;
 
 Rigidbody::Rigidbody(float m, float linD, float angD)
 {
-  t = Type::Rigibody;
+	t = Type::Rigibody;
 	mass = m;
 	inverseMass = (m != 0. ? 1. / m : 1.);
 	linDamping = linD;
@@ -23,7 +23,7 @@ Rigidbody::Rigidbody(float m, float linD, float angD)
 
 Rigidbody::Rigidbody(const Rigidbody& other)
 {
-  t = Type::Rigibody;
+	t = Type::Rigibody;
 	mass = other.mass;
 	inverseMass = other.inverseMass;
 	linDamping = other.linDamping;
@@ -41,7 +41,7 @@ Rigidbody::Rigidbody(const Rigidbody& other)
 
 Rigidbody::Rigidbody(const Rigidbody* other)
 {
-  t = Type::Rigibody;
+	t = Type::Rigibody;
 	mass = other->mass;
 	inverseMass = other->inverseMass;
 	linDamping = other->linDamping;
@@ -116,10 +116,14 @@ void Rigidbody::update(float t)
 	clearAccum();
 }
 
+void Rigidbody::draw()
+{
+}
+
 void Rigidbody::calcDerivedData()
 {
 	transformMatrix = Matrix34::setOrientation(orientation, position);
-	inverseInertiaTensor = transformMatrix.getMat33(3,3).inverse();
+	inverseInertiaTensor = transformMatrix.getMat33(3, 3).inverse();
 	inverseInertiaTensor = inverseInertiaTensor.mult(localInverseInertiaTensor);
 	inverseInertiaTensor = inverseInertiaTensor.mult(transformMatrix.getMat33(3, 3));
 }
@@ -128,9 +132,10 @@ void Rigidbody::clearAccum()
 {
 	accumForce = accumForce.scale(0.);
 	accumTorque = accumTorque.scale(0.);
+}
 
 float Rigidbody::getMass()
 {
-	return 0.0f;
+	return mass;
 }
 

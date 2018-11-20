@@ -34,5 +34,5 @@ void GravityGenerator::updateForce(Particle *p, float duration)
 void GravityGenerator::updateForce(Rigidbody *p, float duration)
 {
 	Vect3 weight = gravity.scale(p->getMass());
-	p->applyForce(weight);
+	p->addForceAtBodyPoint(weight, Vect3());
 }
