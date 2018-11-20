@@ -22,14 +22,14 @@ int main(int argc, char** argv)
 	// ==================================================
 
 	float mass = 1.0f;
-	float linD = 0.9f;
-	float angD = 0.9f;
+	float linD = 1.0f;
+	float angD = 1.0f;
 
 	// Déclaration du corps rigide
 	Rigidbody rb = new Rigidbody(mass, linD, angD);
 
 	// Initialisation du corps rigide
-	rb.init(Vect3(0, 3, 0), Vect3(3, 5, 0), Quaternion(), Vect3(1, 1, 1));
+	rb.init(Vect3(0, 3, 0), Vect3(3, 5, 0), Quaternion(0,0,0,1), Vect3(0, 0, 0));
 	rb.boxInertialTensor(mass, 2, 2, 2);
 
 

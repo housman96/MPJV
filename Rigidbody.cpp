@@ -83,7 +83,7 @@ void Rigidbody::addForceAtPoint(Vect3& force, Vect3& point)
 {
 	Vect3 localPoint = point.sub(position);
 	accumForce = accumForce.add(force);
-	accumTorque = accumForce.add(localPoint.cross(force));
+	accumTorque = accumTorque.add(localPoint.cross(force));
 }
 
 void Rigidbody::addForceAtBodyPoint(Vect3& force, Vect3& point)
@@ -98,16 +98,20 @@ void Rigidbody::update(float t)
 	Vect3 linAcc = accumForce.scale(inverseMass);
 	// 2) Calcul de l'acceleration angulaire 
 	Vect3 angAcc = inverseInertiaTensor.mult(accumTorque);
-	// 3) Maj velocity lineaire et prise en compte du damping
+	// 3) Maj velocite lineaire et prise en compte du damping
 	velocity = velocity.scale(powf(linDamping, t));
 	velocity = velocity.add(linAcc.scale(t));
-	// 4) Maj velocity angulaire et prise en compte du damping
+	// 4) Maj velocite angulaire et prise en compte du damping
 	rotation = rotation.scale(powf(angDamping, t));
 	rotation = rotation.add(angAcc.scale(t));
 	// 5) Maj position
 	position = position.add(velocity.scale(t));
 	// 6) Maj orientation
+	rotation.log();
+	orientation.log();
 	orientation.updateAngularVelocity(rotation, t);
+	orientation.log();
+	cout << endl;
 	// 7) Recalcul "transformMatrix" et "inverseInertiaTensor"
 	calcDerivedData();
 	// 8) Vider les accumulateurs
@@ -139,7 +143,9 @@ void Rigidbody::draw()
 	glTranslatef(position.getX(), position.getY(), position.getZ());
 
 	GLfloat * matRot = Matrix34::setOrientation(orientation, position).toGlutMat();
-	glMultMatrixf(matRot);
+	//glMultMatrixf(matRot);
+	//orientation.log();
+	//cout << Matrix34::setOrientation(orientation, position) << endl;
 
 	glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
 	// Top face (y = 1.0f)

@@ -225,8 +225,8 @@ GLfloat* Matrix34::toGlutMat()
 		int c = i % 4;
 		int l = i / 4;
 		res[i] = getElement(l, c);
-		std::cout << res[i] << "   " << getElement(l, c) << std::endl;
+		//std::cout << res[i] << "   " << getElement(l, c) << std::endl;
 	}
-	std::cout << std::endl << std::endl;
+	//std::cout << std::endl << std::endl;
 	return res;
 }
