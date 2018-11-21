@@ -43,8 +43,9 @@ void BungeeSpringForceGenerator::updateForce(Particle* p, float duration)
 	float mag = d.mag();
 
 	if (mag <= l0) {
-		springForce = new Vect3(0, 0, 0);
-	} else {
+		springForce = Vect3(0, 0, 0);
+	}
+	else {
 		springForce = d.normalize();
 		springForce = springForce.scale(-k * (mag - l0));
 	}

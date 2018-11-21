@@ -117,7 +117,7 @@ Matrix33 Matrix34::getMat33(int row, int col)const
 			temp++;
 		}
 	}
-	return new Matrix33(tempTab);
+	return  Matrix33(tempTab);
 }
 
 GLfloat* Matrix34::toGlutMat()
@@ -136,7 +136,7 @@ GLfloat* Matrix34::toGlutMat()
 
 Vect3 Matrix34::mult(const Vect3 &vect)const
 {
-	Vect3 res = new Vect3();
+	Vect3 res = Vect3();
 
 	float X = (vect.getX() * this->tab[0]) + (vect.getY() * this->tab[1]) + (vect.getZ() * this->tab[2]) + getElement(0, 3);
 	float Y = (vect.getX() * this->tab[4]) + (vect.getY() * this->tab[5]) + (vect.getZ() * this->tab[6]) + getElement(1, 3);
@@ -151,7 +151,7 @@ Vect3 Matrix34::mult(const Vect3 &vect)const
 
 Matrix34 Matrix34::mult(const Matrix34 &vect)const
 {
-	Matrix34 res = new Matrix34();
+	Matrix34 res = Matrix34();
 	for (int i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
@@ -174,7 +174,7 @@ Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 	float w = q.r;
 
 
-	Matrix34 res = new Matrix34();
+	Matrix34 res = Matrix34();
 	res[0] = 1 - 2 * (powf(y, 2) + powf(z, 2));
 	res[1] = 2 * (x*y + w * z);
 	res[2] = 2 * (x*z - w * y);
@@ -203,7 +203,7 @@ float Matrix34::Det() const
 
 Matrix34 Matrix34::Transposition()const
 {
-	Matrix34 res = new Matrix34();
+	Matrix34 res = Matrix34();
 	for (size_t i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
@@ -214,7 +214,7 @@ Matrix34 Matrix34::Transposition()const
 
 Matrix34 Matrix34::Transposition(float* f)const
 {
-	Matrix34 res = new Matrix34();
+	Matrix34 res = Matrix34();
 	for (size_t i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;

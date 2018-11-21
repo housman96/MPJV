@@ -14,6 +14,7 @@ ParticleCable::ParticleCable(Particle *p1, Particle *p2, float maxLenght, float 
 
 ParticleCable::~ParticleCable()
 {
+	delete[]  particles;
 }
 
 

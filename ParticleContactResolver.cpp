@@ -15,6 +15,7 @@ ParticleContactResolver::ParticleContactResolver()
 
 ParticleContactResolver::~ParticleContactResolver()
 {
+	delete[] & listContact;
 }
 
 // ============================================================
@@ -23,11 +24,13 @@ ParticleContactResolver::~ParticleContactResolver()
 
 
 void ParticleContactResolver::setVector(vector<ParticleContact*> vect) {
-	this->listContact = vect;
+
+	listContact.clear();
+	listContact = vect;
 }
 
 void ParticleContactResolver::setIter(int iter) {
-	this->iteration = iter;
+	iteration = iter;
 }
 
 // ============================================================

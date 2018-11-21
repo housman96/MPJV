@@ -10,15 +10,15 @@ Rigidbody::Rigidbody(float m, float linD, float angD)
 	inverseMass = (m != 0. ? 1. / m : 1.);
 	linDamping = linD;
 	angDamping = angD;
-	position = new Vect3();
-	velocity = new Vect3();
-	accumForce = new Vect3();
-	accumTorque = new Vect3();
-	orientation = new Quaternion();
-	rotation = new Vect3();
-	transformMatrix = new Matrix34();
-	inverseInertiaTensor = new Matrix33();
-	localInverseInertiaTensor = new Matrix33();
+	position = Vect3();
+	velocity = Vect3();
+	accumForce = Vect3();
+	accumTorque = Vect3();
+	orientation = Quaternion();
+	rotation = Vect3();
+	transformMatrix = Matrix34();
+	inverseInertiaTensor = Matrix33();
+	localInverseInertiaTensor = Matrix33();
 }
 
 Rigidbody::Rigidbody(const Rigidbody& other)

@@ -85,7 +85,7 @@ void GameLoop::display()
 	// Affichage du sol
 	//GameLoop::drawGround();
 
-	// Affichage des particules
+	//Affichage des particules
 	for (GameObject* part : GameLoop::world) {
 		part->draw();
 	}
@@ -144,12 +144,10 @@ void GameLoop::TimerPhysicsLoop(int value)
 	for (int i = 0; i < GameLoop::world.size(); i++) {
 		for (int j = i + 1; j < GameLoop::world.size(); j++) {
 			if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
-				Particle* p1 = (Particle*)GameLoop::world[i];
-				Particle* p2 = (Particle*)GameLoop::world[j];
-				float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
-				float distColision = p1->getRadius() + p2->getRadius();
+				float dist = Vect3::dist(((Particle*)GameLoop::world[i])->getPosition(), ((Particle*)GameLoop::world[j])->getPosition());
+				float distColision = ((Particle*)GameLoop::world[i])->getRadius() + ((Particle*)GameLoop::world[j])->getRadius();
 				if (dist < distColision) {
-					GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
+					GameLoop::listContact.push_back(new ParticleContact(((Particle*)GameLoop::world[i]), ((Particle*)GameLoop::world[j]), 0.5));
 				}
 			}
 		}
@@ -159,18 +157,22 @@ void GameLoop::TimerPhysicsLoop(int value)
 	GameLoop::resolver.setIter(GameLoop::listContact.size());
 	GameLoop::resolver.setVector(GameLoop::listContact);
 	GameLoop::resolver.resolveContact();
+	for (std::vector< ParticleContact* >::iterator it = GameLoop::listContact.begin(); it != GameLoop::listContact.end(); ++it)
+	{
+		delete (*it);
+	}
 	GameLoop::listContact.clear();
 
-	//ajout des forces pour le scénario crash
-	if (timeAccumulatedMs >= 1000 && !crashDone) {
+	////ajout des forces pour le scénario crash
+	//if (timeAccumulatedMs >= 1000 && !crashDone) {
 
-		Rigidbody* car = (Rigidbody*)world[0];
-		Rigidbody* car2 = (Rigidbody*)world[1];
-		car->addForceAtPoint(Vect3(-50000, 0, 0), Vect3(0, 0, 0));
-		car2->addForceAtPoint(Vect3(50000, 0, 0), Vect3(0, 0, 0));
-		crashDone = true;
+	//	Rigidbody* car = (Rigidbody*)world[0];
+	//	Rigidbody* car2 = (Rigidbody*)world[1];
+	//	car->addForceAtPoint(Vect3(-50000, 0, 0), Vect3(0, 0, 0));
+	//	car2->addForceAtPoint(Vect3(50000, 0, 0), Vect3(0, 0, 0));
+	//	crashDone = true;
 
-	}
+	//}
 
 
 	// Prise en compte des forces
@@ -178,7 +180,7 @@ void GameLoop::TimerPhysicsLoop(int value)
 		record.pfg->updateForce(record.go, timeElapsedMs / 1000.);
 	}
 
-	// Mise à jour de la physique
+	//Mise à jour de la physique
 	for (GameObject *go : GameLoop::world) {
 		go->update(timeElapsedMs / 1000.);
 	}
