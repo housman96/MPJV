@@ -155,6 +155,7 @@ void GameLoop::TimerPhysicsLoop(int value)
 	//GameLoop::resolver.resolveContact();
 	//GameLoop::listContact.clear();
 
+	//ajout des forces pour le scénario crash
 	if (timeAccumulatedMs >= 1000 && !crashDone) {
 
 		Rigidbody* car = (Rigidbody*)world[0];

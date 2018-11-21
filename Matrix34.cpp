@@ -105,6 +105,32 @@ float Matrix34::getElement(const int row, const int col)const
 	return -1;
 }
 
+Matrix33 Matrix34::getMat33(int row, int col)const
+{
+	float tempTab[9];
+	int temp = 0;
+	for (size_t i = 0; i < 16; i++) {
+		int c = i % 4;
+		int l = i / 4;
+		if (l != row && c != col) {
+			tempTab[temp] = getElement(l, c);
+			temp++;
+		}
+	}
+	return new Matrix33(tempTab);
+}
+
+GLfloat* Matrix34::toGlutMat()
+{
+	GLfloat* res = new GLfloat[16];
+	for (int i = 0; i < 16; i++) {
+		int c = i % 4;
+		int l = i / 4;
+		res[i] = getElement(c, l);
+	}
+	return res;
+}
+
 
 /* OPERATIONS */
 
@@ -137,20 +163,7 @@ Matrix34 Matrix34::mult(const Matrix34 &vect)const
 	return res;
 }
 
-Matrix33 Matrix34::getMat33(int row, int col)const
-{
-	float tempTab[9];
-	int temp = 0;
-	for (size_t i = 0; i < 16; i++) {
-		int c = i % 4;
-		int l = i / 4;
-		if (l != row && c != col) {
-			tempTab[temp] = getElement(l, c);
-			temp++;
-		}
-	}
-	return new Matrix33(tempTab);
-}
+
 
 
 Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
@@ -225,13 +238,4 @@ Matrix34 Matrix34::inverse() const
 	return Transposition(res);
 }
 
-GLfloat* Matrix34::toGlutMat()
-{
-	GLfloat* res = new GLfloat[16];
-	for (int i = 0; i < 16; i++) {
-		int c = i % 4;
-		int l = i / 4;
-		res[i] = getElement(c, l);
-	}
-	return res;
-}
+

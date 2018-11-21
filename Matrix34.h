@@ -33,17 +33,18 @@ public:
 
 	/*GETTER*/
 	float getElement(const int i, const int j) const;
+	GLfloat* toGlutMat();
+	Matrix33 getMat33(int row, int col)const;
 
 	/*OPERATION*/
 	Vect3 mult(const Vect3 &)const;  /* Multiplication par un vecteur */
 	Matrix34 mult(const Matrix34 &)const;  /* Multiplication par une matrice */
-	Matrix33 getMat33(int row, int col)const;
 	float Det()const;
 	Matrix34 Transposition()const;
 	Matrix34 inverse()const;
 	static Matrix34 setOrientation(const Quaternion, const Vect3);
 	Matrix34 Transposition(float*)const;
-	GLfloat* toGlutMat();
+
 };
 
 #endif

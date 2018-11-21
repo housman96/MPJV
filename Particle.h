@@ -23,7 +23,6 @@ public:
 	Particle(float = 1, float = 1); /* Constructeur par defaut */
 	Particle(const Particle &);     /* Constructeur de recopie */
 	Particle(const Particle *);     /* Constructeur par pointeur */
-	Particle(GameObject* g);
 
 	/* ASCESSEURS */
 	Vect3 getPosition();
