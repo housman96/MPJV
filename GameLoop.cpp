@@ -63,6 +63,12 @@ GameLoop::~GameLoop()
 	if (world.data()) {
 		delete[] & world;
 	}
+	if (listContact.data()) {
+		delete[] & listContact;
+	}
+	if (listContactGenerator.data()) {
+		delete[] & listContactGenerator;
+	}
 }
 
 
@@ -77,9 +83,9 @@ void GameLoop::display()
 	glClearColor(1.f, 1.f, 1.f, 1.f);
 
 	// Affichage du sol
-	GameLoop::drawGround();
+	//GameLoop::drawGround();
 
-	// Affichage des particules
+	//Affichage des particules
 	for (GameObject* part : GameLoop::world) {
 		part->draw();
 	}
@@ -97,68 +103,86 @@ void GameLoop::redim(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0., 1.0, 90.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0., 10.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	GLfloat Lambiant[4] = { 0.4, 0.4, 0.4, 10.0 };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, Lambiant);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
+	//GLfloat Lambiant[4] = { 0.4, 0.4, 0.4, 10.0 };
+	//glLightfv(GL_LIGHT0, GL_AMBIENT, Lambiant);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(70.0, 1.7, 1.0, 100.0);
 }
 
+
+bool crashDone = false;
 void GameLoop::TimerPhysicsLoop(int value)
 {
+	// Lancement du timer physique
+	glutTimerFunc(deltaT / 10.f, TimerPhysicsLoop, 0);
+
 	// Récupération du temps écoulé
 	double now = glutGet(GLUT_ELAPSED_TIME);
 	double timeElapsedMs = (now - lastLoopTime);
 	lastLoopTime = now;
 
-	// Lancement du timer physique
-	glutTimerFunc(deltaT / 10.f, TimerPhysicsLoop, 0);
 
-	if (timeElapsedMs > deltaT / 10.) {
-		timeElapsedMs = deltaT / 10.;
+
+	if (timeElapsedMs > deltaT / 10) {
+		timeElapsedMs = deltaT / 10;
 	}
+	timeAccumulatedMs += timeElapsedMs;
 
-	// Ajout des contacts
+	//Ajout des contacts
 	for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
 		GameLoop::listContactGenerator[i]->addContact();
 	}
 
-	// Détection des contatcts
+	//Détection des contatcts
 	for (int i = 0; i < GameLoop::world.size(); i++) {
 		for (int j = i + 1; j < GameLoop::world.size(); j++) {
 			if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
-				Particle* p1 = (Particle*)GameLoop::world[i];
-				Particle* p2 = (Particle*)GameLoop::world[j];
-				float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
-				float distColision = p1->getRadius() + p2->getRadius();
+				float dist = Vect3::dist(((Particle*)GameLoop::world[i])->getPosition(), ((Particle*)GameLoop::world[j])->getPosition());
+				float distColision = ((Particle*)GameLoop::world[i])->getRadius() + ((Particle*)GameLoop::world[j])->getRadius();
 				if (dist < distColision) {
-					GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
+					GameLoop::listContact.push_back(new ParticleContact(((Particle*)GameLoop::world[i]), ((Particle*)GameLoop::world[j]), 0.5));
 				}
 			}
 		}
 	}
 
-	// Résolution des contacts
+	//Résolution des contacts
 	GameLoop::resolver.setIter(GameLoop::listContact.size());
 	GameLoop::resolver.setVector(GameLoop::listContact);
 	GameLoop::resolver.resolveContact();
+	for (std::vector< ParticleContact* >::iterator it = GameLoop::listContact.begin(); it != GameLoop::listContact.end(); ++it)
+	{
+		delete (*it);
+	}
 	GameLoop::listContact.clear();
+
+	////ajout des forces pour le scénario crash
+	//if (timeAccumulatedMs >= 1000 && !crashDone) {
+
+	//	Rigidbody* car = (Rigidbody*)world[0];
+	//	Rigidbody* car2 = (Rigidbody*)world[1];
+	//	car->addForceAtPoint(Vect3(-50000, 0, 0), Vect3(0, 0, 0));
+	//	car2->addForceAtPoint(Vect3(50000, 0, 0), Vect3(0, 0, 0));
+	//	crashDone = true;
+
+	//}
+
 
 	// Prise en compte des forces
 	for (RegisterForce::ForceRecord record : records) {
-
-		record.pfg->updateForce(record.p, timeElapsedMs / 1000.);
+		record.pfg->updateForce(record.go, timeElapsedMs / 1000.);
 	}
 
-	// Mise à jour de la physique
-	for (GameObject *p : GameLoop::world) {
-		p->update(timeElapsedMs / 1000.);
+	//Mise à jour de la physique
+	for (GameObject *go : GameLoop::world) {
+		go->update(timeElapsedMs / 1000.);
 	}
 
 }
@@ -185,9 +209,4 @@ void GameLoop::drawGround()
 	glVertex3f(-100, 0., 100.0);
 	glEnd();
 	glPopMatrix();
-}
-
-void GameLoop::drawCube()
-{
-
 }

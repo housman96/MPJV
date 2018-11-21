@@ -49,7 +49,8 @@ Matrix34::~Matrix34()
 
 
 /* SURCHARGE OPERATEUR */
-Matrix34& Matrix34::operator=(const Matrix34& mat) {
+Matrix34& Matrix34::operator=(const Matrix34& mat)
+{
 	if (this != &mat) { // self-assignment check expected
 		for (int i = 0; i < 12; i++) {
 			tab[i] = mat.tab[i];
@@ -58,7 +59,8 @@ Matrix34& Matrix34::operator=(const Matrix34& mat) {
 	return *this;
 }
 
-float& Matrix34::operator[](const int i) {
+float& Matrix34::operator[](const int i)
+{
 	if (i <= 12) {
 		int c = i % 4;
 		int l = i / 4;
@@ -69,13 +71,12 @@ float& Matrix34::operator[](const int i) {
 	return tab[0];
 }
 
-std::ostream& operator<<(std::ostream &strm, const Matrix34& mat) {
+std::ostream& operator<<(std::ostream &strm, const Matrix34& mat)
+{
 	strm << "[";
-	for (size_t i = 0; i < 3; i++)
-	{
+	for (size_t i = 0; i < 3; i++) {
 		strm << "[";
-		for (size_t j = 0; j < 4; j++)
-		{
+		for (size_t j = 0; j < 4; j++) {
 			strm << mat.getElement(i, j) << " ";
 		}
 		strm << "]" << std::endl;
@@ -86,7 +87,8 @@ std::ostream& operator<<(std::ostream &strm, const Matrix34& mat) {
 
 /* GETTER */
 
-float Matrix34::getElement(const int row, const int col)const {
+float Matrix34::getElement(const int row, const int col)const
+{
 	if (row * 4 + col <= 11)
 		return this->tab[row * 4 + col];
 	else {
@@ -94,8 +96,7 @@ float Matrix34::getElement(const int row, const int col)const {
 			if (col >= 0 && col <= 2) {
 				return 0;
 			}
-			if (col == 3)
-			{
+			if (col == 3) {
 				return 1;
 			}
 		}
@@ -104,11 +105,38 @@ float Matrix34::getElement(const int row, const int col)const {
 	return -1;
 }
 
+Matrix33 Matrix34::getMat33(int row, int col)const
+{
+	float tempTab[9];
+	int temp = 0;
+	for (size_t i = 0; i < 16; i++) {
+		int c = i % 4;
+		int l = i / 4;
+		if (l != row && c != col) {
+			tempTab[temp] = getElement(l, c);
+			temp++;
+		}
+	}
+	return  Matrix33(tempTab);
+}
+
+GLfloat* Matrix34::toGlutMat()
+{
+	GLfloat* res = new GLfloat[16];
+	for (int i = 0; i < 16; i++) {
+		int c = i % 4;
+		int l = i / 4;
+		res[i] = getElement(c, l);
+	}
+	return res;
+}
+
 
 /* OPERATIONS */
 
-Vect3 Matrix34::mult(const Vect3 &vect)const {
-	Vect3 res = new Vect3();
+Vect3 Matrix34::mult(const Vect3 &vect)const
+{
+	Vect3 res = Vect3();
 
 	float X = (vect.getX() * this->tab[0]) + (vect.getY() * this->tab[1]) + (vect.getZ() * this->tab[2]) + getElement(0, 3);
 	float Y = (vect.getX() * this->tab[4]) + (vect.getY() * this->tab[5]) + (vect.getZ() * this->tab[6]) + getElement(1, 3);
@@ -121,80 +149,73 @@ Vect3 Matrix34::mult(const Vect3 &vect)const {
 	return res;
 }
 
-Matrix34 Matrix34::mult(const Matrix34 &vect)const {
-	Matrix34 res = new Matrix34();
-	for (int i = 0; i < 12;i++) {
+Matrix34 Matrix34::mult(const Matrix34 &vect)const
+{
+	Matrix34 res = Matrix34();
+	for (int i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
 
-		for (size_t j = 0; j < 4; j++)
-		{
+		for (size_t j = 0; j < 4; j++) {
 			res[i] += this->getElement(l, j)*vect.getElement(j, c);
 		}
 	}
 	return res;
 }
 
-Matrix33 Matrix34::getMat33(int row, int col)const
-{
-	float tempTab[9];
-	int temp = 0;
-	for (size_t i = 0; i < 16; i++)
-	{
-		int c = i % 4;
-		int l = i / 4;
-		if (l != row && c != col) {
-			tempTab[temp] = getElement(l, c);
-			temp++;
-		}
-	}
-	return new Matrix33(tempTab);
-}
+
 
 
 Matrix34 Matrix34::setOrientation(const Quaternion q, const Vect3 pos)
 {
-	Matrix34 res = new Matrix34();
-	res[0] = 1 - 2 * (powf(q.j, 2) + powf(q.k, 2));
-	res[1] = 2 * (q.i*q.j + q.r*q.k);
-	res[2] = 2 * (q.i*q.k - q.r*q.j);
+	float x = q.i;
+	float y = q.j;
+	float z = q.k;
+	float w = q.r;
+
+
+	Matrix34 res = Matrix34();
+	res[0] = 1 - 2 * (powf(y, 2) + powf(z, 2));
+	res[1] = 2 * (x*y + w * z);
+	res[2] = 2 * (x*z - w * y);
 	res[3] = pos.getX();
-	res[4] = 2 * (q.i*q.j - q.r*q.k);
-	res[5] = 1 - 2 * (powf(q.i, 2) + powf(q.k, 2));
-	res[6] = 2 * (q.k*q.j + q.r*q.i);
+	res[4] = 2 * (x*y - w * z);
+	res[5] = 1 - 2 * (powf(x, 2) + powf(z, 2));
+	res[6] = 2 * (z*y + w * x);
 	res[7] = pos.getY();
-	res[8] = 2 * (q.i*q.k + q.r*q.j);
-	res[9] = 2 * (q.k*q.j - q.r*q.i);
-	res[10] = 1 - 2 * (powf(q.j, 2) + powf(q.i, 2));
+	res[8] = 2 * (x*z + w * y);
+	res[9] = 2 * (z*y - w * x);
+	res[10] = 1 - 2 * (powf(y, 2) + powf(x, 2));
 	res[11] = pos.getZ();
-  
+
+
 	return res;
 }
 
 float Matrix34::Det() const
 {
 	float res = 0;
-	for (int i = 0;i <= 3;i++) {
+	for (int i = 0; i <= 3; i++) {
 		res += tab[i] * getMat33(0, i).Det()*powf(-1, i);
 	}
 	return res;
 }
 
-Matrix34 Matrix34::Transposition()const {
-	Matrix34 res = new Matrix34();
-	for (size_t i = 0; i < 12; i++)
-	{
+Matrix34 Matrix34::Transposition()const
+{
+	Matrix34 res = Matrix34();
+	for (size_t i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
-		res[i] = getElement(c, l);
+		res[i] = getElement(l, c);
 	}
 	return res;
 }
 
-Matrix34 Matrix34::Transposition(float* f)const {
-	Matrix34 res = new Matrix34();
-	for (size_t i = 0; i < 12; i++)
-	{
+Matrix34 Matrix34::Transposition(float* f)const
+{
+	Matrix34 res = Matrix34();
+	for (size_t i = 0; i < 12; i++) {
 		int c = i % 4;
 		int l = i / 4;
 		res[i] = f[c * 4 + l];
@@ -208,8 +229,7 @@ Matrix34 Matrix34::inverse() const
 
 	if (Det() != 0) {
 		float f = 1 / Det();
-		for (size_t i = 0; i < 16; i++)
-		{
+		for (size_t i = 0; i < 16; i++) {
 			int c = i % 4;
 			int l = i / 4;
 			res[i] = getMat33(l, c).Det()*f*powf(-1, l + c);
@@ -217,3 +237,5 @@ Matrix34 Matrix34::inverse() const
 	}
 	return Transposition(res);
 }
+
+

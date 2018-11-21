@@ -11,7 +11,7 @@ class RegisterForce
 public:
 	struct ForceRecord
 	{
-		GameObject *p;
+		GameObject *go;
 		ParticleForceGenerator *pfg;
 	};
 

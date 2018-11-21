@@ -40,6 +40,7 @@ Matrix33::Matrix33(const float* newTab)
 
 Matrix33::~Matrix33()
 {
+
 	if (tab) {
 		delete[]  tab;
 	}
@@ -93,7 +94,7 @@ float Matrix33::getElement(const int row, const int col)const {
 /* OPERATIONS */
 
 Vect3 Matrix33::mult(const Vect3 &vect)const {
-	Vect3 res = new Vect3();
+	Vect3 res = Vect3();
 
 	float X = (vect.getX() * this->tab[0]) + (vect.getY() * this->tab[1]) + (vect.getZ() * this->tab[2]);
 	float Y = (vect.getX() * this->tab[3]) + (vect.getY() * this->tab[4]) + (vect.getZ() * this->tab[5]);
@@ -107,7 +108,7 @@ Vect3 Matrix33::mult(const Vect3 &vect)const {
 }
 
 Matrix33 Matrix33::mult(const Matrix33 &vect)const {
-	Matrix33 res = new Matrix33();
+	Matrix33 res = Matrix33();
 	for (int i = 0; i < 9;i++) {
 		int c = i % 3;
 		int l = i / 3;
@@ -121,7 +122,7 @@ Matrix33 Matrix33::mult(const Matrix33 &vect)const {
 }
 
 Matrix33 Matrix33::mult(const float f)const {
-	Matrix33 res = new Matrix33();
+	Matrix33 res = Matrix33();
 	for (int i = 0; i < 9;i++) {
 		res[i] = res[i] * f;
 	}
@@ -149,7 +150,7 @@ float Matrix33::Det()const {
 }
 
 Matrix33 Matrix33::Transposition()const {
-	Matrix33 res = new Matrix33();
+	Matrix33 res = Matrix33();
 	for (size_t i = 0; i < 9; i++)
 	{
 		int c = i % 3;
@@ -161,7 +162,7 @@ Matrix33 Matrix33::Transposition()const {
 
 Matrix33 Matrix33::inverse()const {
 	if (Det() != 0) {
-		Matrix33 res = new Matrix33();
+		Matrix33 res = Matrix33();
 		float f = 1 / Det();
 		for (size_t i = 0; i < 9; i++)
 		{
@@ -176,14 +177,14 @@ Matrix33 Matrix33::inverse()const {
 	}
 	else {
 		std::cout << "Matrix33 non inversible" << std::endl;
-		return new Matrix33();
+		return  Matrix33();
 	}
 
 }
 
 Matrix33 Matrix33::setOrientation(const Quaternion q)
 {
-	Matrix33 res = new Matrix33();
+	Matrix33 res = Matrix33();
 	res[0] = 1 - 2 * (powf(q.j, 2) + powf(q.k, 2));
 	res[1] = 2 * (q.i*q.j + q.r*q.k);
 	res[2] = 2 * (q.i*q.k - q.r*q.j);
@@ -202,7 +203,7 @@ Matrix33 Matrix33::setOrientation(const Quaternion q)
 
 Matrix33 Matrix33::BoxTensor(float m, float dx, float dy, float dz)
 {
-	Matrix33 tensor = new Matrix33();
+	Matrix33 tensor = Matrix33();
 	tensor[0] = (m * (dy * dy + dz * dz)) / 12.;
 	tensor[4] = (m * (dx * dx + dz * dz)) / 12.;
 	tensor[8] = (m * (dx * dx + dy * dy)) / 12.;
@@ -211,7 +212,7 @@ Matrix33 Matrix33::BoxTensor(float m, float dx, float dy, float dz)
 
 Matrix33 Matrix33::SphereTensor(float m, float r)
 {
-	Matrix33 tensor = new Matrix33();
+	Matrix33 tensor = Matrix33();
 	float val = (2 * m * r * r) / 5.;
 	tensor[0] = val;
 	tensor[4] = val;

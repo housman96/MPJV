@@ -13,6 +13,7 @@ ParticleRod::ParticleRod(Particle *p1, Particle *p2, float lenght) : ParticleLin
 
 ParticleRod::~ParticleRod()
 {
+	delete[]  particles;
 }
 
 // ============================================================
