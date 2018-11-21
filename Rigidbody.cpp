@@ -190,4 +190,6 @@ void Rigidbody::draw()
 	glEnd();  // End of drawing color-cube
 
 	glPopMatrix();
+
+	delete matRot;
 }

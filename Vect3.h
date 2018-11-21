@@ -18,6 +18,7 @@ public:
 	Vect3(const Vect3 &);					 /* Constructeur de recopie */
 	Vect3(const Vect3 *);					 /* Constructeur par pointeur */
 
+
 	/* ASCESSEURS */
 	float getX() const;
 	float getY() const;

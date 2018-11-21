@@ -63,6 +63,12 @@ GameLoop::~GameLoop()
 	if (world.data()) {
 		delete[] & world;
 	}
+	if (listContact.data()) {
+		delete[] & listContact;
+	}
+	if (listContactGenerator.data()) {
+		delete[] & listContactGenerator;
+	}
 }
 
 
@@ -129,31 +135,31 @@ void GameLoop::TimerPhysicsLoop(int value)
 	}
 	timeAccumulatedMs += timeElapsedMs;
 
-	// Ajout des contacts
-	//for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
-	//	GameLoop::listContactGenerator[i]->addContact();
-	//}
+	//Ajout des contacts
+	for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
+		GameLoop::listContactGenerator[i]->addContact();
+	}
 
-	// Détection des contatcts
-	//for (int i = 0; i < GameLoop::world.size(); i++) {
-	//	for (int j = i + 1; j < GameLoop::world.size(); j++) {
-	//		if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
-	//			Particle* p1 = (Particle*)GameLoop::world[i];
-	//			Particle* p2 = (Particle*)GameLoop::world[j];
-	//			float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
-	//			float distColision = p1->getRadius() + p2->getRadius();
-	//			if (dist < distColision) {
-	//				GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
-	//			}
-	//		}
-	//	}
-	//}
+	//Détection des contatcts
+	for (int i = 0; i < GameLoop::world.size(); i++) {
+		for (int j = i + 1; j < GameLoop::world.size(); j++) {
+			if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
+				Particle* p1 = (Particle*)GameLoop::world[i];
+				Particle* p2 = (Particle*)GameLoop::world[j];
+				float dist = Vect3::dist(p1->getPosition(), p2->getPosition());
+				float distColision = p1->getRadius() + p2->getRadius();
+				if (dist < distColision) {
+					GameLoop::listContact.push_back(new ParticleContact(p1, p2, 0.5));
+				}
+			}
+		}
+	}
 
-	// Résolution des contacts
-	//GameLoop::resolver.setIter(GameLoop::listContact.size());
-	//GameLoop::resolver.setVector(GameLoop::listContact);
-	//GameLoop::resolver.resolveContact();
-	//GameLoop::listContact.clear();
+	//Résolution des contacts
+	GameLoop::resolver.setIter(GameLoop::listContact.size());
+	GameLoop::resolver.setVector(GameLoop::listContact);
+	GameLoop::resolver.resolveContact();
+	GameLoop::listContact.clear();
 
 	//ajout des forces pour le scénario crash
 	if (timeAccumulatedMs >= 1000 && !crashDone) {

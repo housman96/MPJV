@@ -4,13 +4,15 @@
 #include "GravityGenerator.h"
 #include <vector>
 
+
 using namespace std;
 
 
 RegisterForce::Register records;
 vector<GameObject *> GameLoop::world = vector<GameObject *>();
 vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
-
+vector<ParticleContactGenerator*> GameLoop::listContactGenerator = vector<ParticleContactGenerator*>();
+ParticleContactResolver GameLoop::resolver = ParticleContactResolver();
 float GameLoop::lastLoopTime = 0.;
 float GameLoop::timeAccumulatedMs = 0.;
 
