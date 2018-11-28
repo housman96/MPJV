@@ -10,9 +10,9 @@ using namespace std;
 Particle::Particle(float m, float r)
 {
 	t = Type::Particle;
-	position = new Vect3(0, 0, 0);
-	velocity = new Vect3(0, 0, 0);
-	acceleration = new Vect3(0, 0, 0);
+	position = Vect3(0, 0, 0);
+	velocity = Vect3(0, 0, 0);
+	acceleration = Vect3(0, 0, 0);
 	mass = m;
 	inverseMass = (m != 0. ? 1.0 / m : 1.);
 	radius = r;

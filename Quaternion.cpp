@@ -3,6 +3,8 @@
 using namespace std;
 
 
+/*CONSTRUCTEURS*/
+
 Quaternion::Quaternion(float r_, float i_, float j_, float k_)
 {
 	r = r_;
@@ -28,18 +30,23 @@ Quaternion::Quaternion(const Quaternion* other)
 }
 
 
+/*AFFICHAGE*/
+
 void Quaternion::log()
 {
 	cout << "Quaternion : (" << r << "," << i << "," << j << "," << k << ")" << endl;
 }
 
 
+/*OPERATIONS*/
+
 Quaternion Quaternion::normalize()
 {
 	float d = r * r + i * i + j * j + k * k;
 	if (d == 0) {
 		return Quaternion(1, 0, 0, 0);
-	} else {
+	}
+	else {
 		d = 1.0f / sqrt(d);
 		return Quaternion(d*r, d*i, d*j, d*k);
 	}

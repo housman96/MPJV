@@ -7,6 +7,7 @@
 
 ParticleLink::ParticleLink(Particle *p1, Particle *p2)
 {
+	particles = new Particle*[2];
 	particles[0] = p1;
 	particles[1] = p2;
 }
@@ -14,7 +15,7 @@ ParticleLink::ParticleLink(Particle *p1, Particle *p2)
 
 ParticleLink::~ParticleLink()
 {
-	delete[] & particles;
+	delete[]  particles;
 }
 
 // ============================================================

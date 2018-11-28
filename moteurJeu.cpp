@@ -39,11 +39,11 @@ using namespace std;
 //	// ==================================================
 //
 //		// Déclaration des particules
-//	Particle p1 = new Particle(20., 1.);
-//	Particle p2 = new Particle(20., 1.);
-//	Particle p3 = new Particle(20., 1.);
-//	Particle p4 = new Particle(20., 1.);
-//	Particle p5 = new Particle(20., 1.);
+//	Particle p1 = Particle(20., 1.);
+//	Particle p2 = Particle(20., 1.);
+//	Particle p3 = Particle(20., 1.);
+//	Particle p4 = Particle(20., 1.);
+//	Particle p5 = Particle(20., 1.);
 //
 //	// Initialisation des particules
 //	p1.init(Vect3(0, 16, 0), Vect3(0, 0, 0), Vect3(0, 0, 0));
@@ -58,13 +58,13 @@ using namespace std;
 //	// ==================================================
 //
 //	// Déclaration des générateurs de force
-//	GravityGenerator gg = new GravityGenerator(Vect3(0, -G, 0));
-//	DragGenerator dg = new DragGenerator(.9f, .7f);
-//	SpringForceGenerator sfg_p1_p2 = new SpringForceGenerator(&p2, 30.f, 1.f);
-//	SpringForceGenerator sfg_p2_p3 = new SpringForceGenerator(&p3, 30.f, 1.f);
-//	SpringForceGenerator sfg_p3_p4 = new SpringForceGenerator(&p4, 30.f, 1.f);
-//	SpringForceGenerator sfg_p4_p5 = new SpringForceGenerator(&p5, 30.f, 1.f);
-//	SpringForceGenerator sfg_p5_p1 = new SpringForceGenerator(&p1, 30.f, 1.f);
+//	GravityGenerator gg = GravityGenerator(Vect3(0, -G, 0));
+//	DragGenerator dg = DragGenerator(.9f, .7f);
+//	SpringForceGenerator sfg_p1_p2 = SpringForceGenerator(&p2, 30.f, 1.f);
+//	SpringForceGenerator sfg_p2_p3 = SpringForceGenerator(&p3, 30.f, 1.f);
+//	SpringForceGenerator sfg_p3_p4 = SpringForceGenerator(&p4, 30.f, 1.f);
+//	SpringForceGenerator sfg_p4_p5 = SpringForceGenerator(&p5, 30.f, 1.f);
+//	SpringForceGenerator sfg_p5_p1 = SpringForceGenerator(&p1, 30.f, 1.f);
 //
 //
 //	// Remplissage des registres de forces

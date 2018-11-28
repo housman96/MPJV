@@ -5,6 +5,7 @@
 // ============================================================
 
 ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_) {
+	particles = new Particle*[2];
 	particles[0] = p1;
 	particles[1] = p2;
 	c = c_;
@@ -20,6 +21,7 @@ ParticleContact::ParticleContact(Particle *p1, Particle *p2, float c_) {
 
 
 ParticleContact::ParticleContact(Particle *p1, float c_, Vect3 n, float d) {
+	particles = new Particle*[2];
 	particles[0] = p1;
 	particles[1] = NULL;
 	c = c_;
@@ -30,6 +32,11 @@ ParticleContact::ParticleContact(Particle *p1, float c_, Vect3 n, float d) {
 
 	this->d = d;
 	this->Vs = calcVs();
+}
+
+ParticleContact::~ParticleContact()
+{
+	delete[]  particles;
 }
 
 // ============================================================

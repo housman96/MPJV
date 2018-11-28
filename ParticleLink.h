@@ -8,7 +8,7 @@
 class ParticleLink : public ParticleContactGenerator
 {
 protected:
-	Particle *particles[2];
+	Particle **particles;
 
 public:
 	/* CONSTRUCTEURS ET DESTRUCTEUR */
