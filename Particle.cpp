@@ -40,6 +40,10 @@ Particle::Particle(const Particle* other)
 	radius = other->radius;
 }
 
+Particle::~Particle()
+{
+	cout << "Particle destroyed" << endl;
+}
 
 // ============================================================
 // ASCESSEURS

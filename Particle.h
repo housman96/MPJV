@@ -10,12 +10,7 @@
 class Particle : public GameObject
 {
 private:
-	Vect3 position;
-	Vect3 velocity;
 	Vect3 acceleration;
-	Vect3 accumForce;
-	float mass;
-	float inverseMass;
 	float radius;
 
 public:
@@ -24,7 +19,19 @@ public:
 	Particle(const Particle &);     /* Constructeur de recopie */
 	Particle(const Particle *);     /* Constructeur par pointeur */
 
+	~Particle();
+
 	/* ASCESSEURS */
+	bool operator==(GameObject* a) {
+		if (a->t == Type::Particle) {
+			return this == &(*a);
+		}
+		else {
+			return false;
+		}
+
+	}
+
 	Vect3 getPosition();
 	Vect3 getVelocity();
 	Vect3 getAcceleration();
