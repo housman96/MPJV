@@ -40,9 +40,8 @@ Matrix33::Matrix33(const float* newTab)
 
 Matrix33::~Matrix33()
 {
-
 	if (tab) {
-		delete[]  tab;
+		delete[] tab;
 	}
 }
 
