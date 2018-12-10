@@ -12,13 +12,8 @@
 class Rigidbody : public GameObject
 {
 private:
-	float mass;
-	float inverseMass;
 	float linDamping;
 	float angDamping;
-	Vect3 position;
-	Vect3 velocity;
-	Vect3 accumForce;
 	Quaternion orientation;
 	Vect3 rotation;
 	Vect3 accumTorque;
@@ -30,6 +25,16 @@ private:
 	void clearAccum();
 
 public:
+	bool operator==(GameObject* a) {
+		if (a->t == Type::Rigibody) {
+			return this == &(*a);
+		}
+		else {
+			return false;
+		}
+
+	}
+
 	Rigidbody(float = 1, float = 1, float = 1);
 	Rigidbody(const Rigidbody&);
 	Rigidbody(const Rigidbody*);

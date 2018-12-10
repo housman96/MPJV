@@ -1,12 +1,12 @@
-#include "Vect3.h"
-#include "GameLoop.h"
-#include "Rigidbody.h"
-#include "GravityGenerator.h"
-#include <vector>
-
-using namespace std;
-
-
+//#include "Vect3.h"
+//#include "GameLoop.h"
+//#include "Rigidbody.h"
+//#include "GravityGenerator.h"
+//#include <vector>
+//
+//using namespace std;
+//
+//
 //RegisterForce::Register records;
 //vector<GameObject *> GameLoop::world = vector<GameObject *>();
 //vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
