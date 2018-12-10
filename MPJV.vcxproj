@@ -99,6 +99,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="CollisionData.cpp" />
     <ClCompile Include="Contact.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
@@ -131,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
+    <ClInclude Include="CollisionData.h" />
     <ClInclude Include="Contact.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="AnchoredSpringForceGenerator.h" />

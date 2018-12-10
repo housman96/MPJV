@@ -17,7 +17,6 @@ private:
 	Quaternion orientation;
 	Vect3 rotation;
 	Vect3 accumTorque;
-	Matrix34 transformMatrix;
 	Matrix33 localInverseInertiaTensor;
 	Matrix33 inverseInertiaTensor;
 
@@ -25,6 +24,7 @@ private:
 	void clearAccum();
 
 public:
+	Matrix34 transformMatrix;
 	bool operator==(GameObject* a) {
 		if (a->t == Type::Rigibody) {
 			return this == &(*a);
