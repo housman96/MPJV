@@ -12,5 +12,11 @@ public:
 	Sphere(Rigidbody*, const Matrix34&, float);
 };
 
+struct BoundingSphere
+{
+	Vect3 center;
+	float radius;
+};
+
 
 #endif
