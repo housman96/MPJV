@@ -37,6 +37,18 @@
     <Filter Include="Source Files\GameObjects">
       <UniqueIdentifier>{b59ac5be-d7d5-40bc-99cb-967f5a149e8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ContactHandlers\Particle">
+      <UniqueIdentifier>{71ded228-c239-4bd2-985c-253c3d4ffcdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ContactHandlers\Particle">
+      <UniqueIdentifier>{2f805151-4988-4ccf-9e0b-3794062484f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Primitives">
+      <UniqueIdentifier>{6f792450-3f92-4853-aae1-19d6296be411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Primitives">
+      <UniqueIdentifier>{ef37549e-cc00-4444-aa9d-d9b002f64673}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="moteurJeu.cpp">
@@ -62,24 +74,6 @@
     </ClCompile>
     <ClCompile Include="FloatingSpringForceGenerator.cpp">
       <Filter>Source Files\ForceGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleContact.cpp">
-      <Filter>Source Files\ContactHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleContactGenerator.cpp">
-      <Filter>Source Files\ContactHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleLink.cpp">
-      <Filter>Source Files\ContactHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleCable.cpp">
-      <Filter>Source Files\ContactHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="ParicleRod.cpp">
-      <Filter>Source Files\ContactHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleContactResolver.cpp">
-      <Filter>Source Files\ContactHandlers</Filter>
     </ClCompile>
     <ClCompile Include="GameLoop.cpp">
       <Filter>Source Files</Filter>
@@ -111,11 +105,44 @@
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Octree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OctreeTest.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParicleRod.cpp">
+      <Filter>Source Files\ContactHandlers\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleCable.cpp">
+      <Filter>Source Files\ContactHandlers\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContact.cpp">
+      <Filter>Source Files\ContactHandlers\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContactGenerator.cpp">
+      <Filter>Source Files\ContactHandlers\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContactResolver.cpp">
+      <Filter>Source Files\ContactHandlers\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleLink.cpp">
+      <Filter>Source Files\ContactHandlers\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Contact.cpp">
+      <Filter>Source Files\ContactHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Source Files\MathStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>Source Files\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Source Files\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Source Files\Primitives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,24 +176,6 @@
     <ClInclude Include="StiffSpringForceGenerator.h">
       <Filter>Header Files\ForceGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleContact.h">
-      <Filter>Header Files\ContactHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleContactGenerator.h">
-      <Filter>Header Files\ContactHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleLink.h">
-      <Filter>Header Files\ContactHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleCable.h">
-      <Filter>Header Files\ContactHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleRod.h">
-      <Filter>Header Files\ContactHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleContactResolver.h">
-      <Filter>Header Files\ContactHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="GameLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -194,8 +203,41 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleCable.h">
+      <Filter>Header Files\ContactHandlers\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContact.h">
+      <Filter>Header Files\ContactHandlers\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContactGenerator.h">
+      <Filter>Header Files\ContactHandlers\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContactResolver.h">
+      <Filter>Header Files\ContactHandlers\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleLink.h">
+      <Filter>Header Files\ContactHandlers\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRod.h">
+      <Filter>Header Files\ContactHandlers\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Contact.h">
+      <Filter>Header Files\ContactHandlers</Filter>
+    </ClInclude>
     <ClInclude Include="Octree.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MathStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Header Files\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

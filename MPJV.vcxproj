@@ -98,6 +98,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Contact.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="BungeeSpringForceGenerator.cpp" />
@@ -115,16 +117,21 @@
     <ClCompile Include="ParticleContactGenerator.cpp" />
     <ClCompile Include="ParticleContactResolver.cpp" />
     <ClCompile Include="ParticleLink.cpp" />
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="demo1.cpp" />
     <ClCompile Include="demo2.cpp" />
     <ClCompile Include="OctreeTest.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StiffSpringForceGenerator.cpp" />
     <ClCompile Include="Vect3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="Contact.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="AnchoredSpringForceGenerator.h" />
     <ClInclude Include="BungeeSpringForceGenerator.h" />
@@ -144,9 +151,12 @@
     <ClInclude Include="ParticleContactGenerator.h" />
     <ClInclude Include="ParticleForceGenerator.h" />
     <ClInclude Include="ParticleLink.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Primitive.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RegisterForce.h" />
     <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="StiffSpringForceGenerator.h" />
     <ClInclude Include="Vect3.h" />
