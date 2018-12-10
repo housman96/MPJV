@@ -141,17 +141,42 @@ void GameLoop::TimerPhysicsLoop(int value)
 	}
 
 	//Détection des contatcts
+	//for (int i = 0; i < GameLoop::world.size(); i++) {
+	//	for (int j = i + 1; j < GameLoop::world.size(); j++) {
+	//		if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
+	//			float dist = Vect3::dist(((Particle*)GameLoop::world[i])->getPosition(), ((Particle*)GameLoop::world[j])->getPosition());
+	//			float distColision = ((Particle*)GameLoop::world[i])->getRadius() + ((Particle*)GameLoop::world[j])->getRadius();
+	//			if (dist < distColision) {
+	//				GameLoop::listContact.push_back(new ParticleContact(((Particle*)GameLoop::world[i]), ((Particle*)GameLoop::world[j]), 0.5));
+	//			}
+	//		}
+	//	}
+	//}
+	Vect3 *tab = new Vect3[8];
+	CollisionData data = CollisionData();
+	tab[0] = Vect3(-10.f, -10.f, -10.f);
+	tab[1] = Vect3(10.f, -10.f, -10.f);
+	tab[2] = Vect3(-10.f, 10.f, -10.f);
+	tab[3] = Vect3(10.f, 10.f, -10.f);
+	tab[4] = Vect3(-10.f, -10.f, 10.f);
+	tab[5] = Vect3(10.f, -10.f, 10.f);
+	tab[6] = Vect3(-10.f, 10.f, 10.f);
+	tab[7] = Vect3(10.f, 10.f, 10.f);
+	Octree o = Octree(tab, 3, 10);
+
 	for (int i = 0; i < GameLoop::world.size(); i++) {
-		for (int j = i + 1; j < GameLoop::world.size(); j++) {
-			if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
-				float dist = Vect3::dist(((Particle*)GameLoop::world[i])->getPosition(), ((Particle*)GameLoop::world[j])->getPosition());
-				float distColision = ((Particle*)GameLoop::world[i])->getRadius() + ((Particle*)GameLoop::world[j])->getRadius();
-				if (dist < distColision) {
-					GameLoop::listContact.push_back(new ParticleContact(((Particle*)GameLoop::world[i]), ((Particle*)GameLoop::world[j]), 0.5));
-				}
+		o.insert(GameLoop::world[i]);
+	}
+	for (int i = 0; i < GameLoop::world.size(); i++) {
+		vector<GameObject*> tabO = o.retrieve(GameLoop::world[i]);
+		for (size_t j = 0; j < tabO.size(); j++)
+		{
+			if (tabO[j] != GameLoop::world[i]) {
+				CollisionData::generateContact(Box(), Plan(), data);
 			}
 		}
 	}
+
 
 	//Résolution des contacts
 	GameLoop::resolver.setIter(GameLoop::listContact.size());

@@ -8,6 +8,8 @@
 #include "ParticleContact.h"
 #include "ParticleContactGenerator.h"
 #include "ParticleContactResolver.h"
+#include "CollisionData.h"
+#include "Octree.h"
 #include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,6 +1,8 @@
 #pragma once
 #include "Contact.h"
 #include "Primitive.h"
+#include "Box.h"
+#include "Plane.h"
 
 class CollisionData
 {
@@ -9,8 +11,8 @@ public:
 	int contactsRestants;
 
 
-	virtual void generateContact(Primitive, Primitive, CollisionData*) = 0;
 	CollisionData();
+	static void generateContact(Box box, Plane plan, CollisionData * data);
 	CollisionData(CollisionData & collisions);
 	~CollisionData();
 };
