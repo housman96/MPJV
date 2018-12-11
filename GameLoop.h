@@ -33,7 +33,7 @@ public:
 	static vector<Primitive *> primitives; // Liste des primitives à afficher
 	static vector<ParticleContact*> listContact;
 	static vector<ParticleContactGenerator*> listContactGenerator;
-
+	static bool stop;
 	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	GameLoop(int, char **);
 	GameLoop(int, char **, GameObject &);

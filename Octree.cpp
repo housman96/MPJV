@@ -8,7 +8,7 @@ Octree::Octree()
 	maxDepth = 1;
 	bounds = new Vect3[8];
 	maxChildren = 1;
-	children = vector<GameObject*>();
+	children = vector<Primitive*>();
 	nodes = vector<Octree*>();
 }
 
@@ -39,7 +39,7 @@ Octree::Octree(Vect3* vectPtr, int maxChildren, int maxDepth)
 	this->maxDepth = maxDepth;
 	bounds = vectPtr;
 	this->maxChildren = maxChildren;
-	children = vector<GameObject*>();
+	children = vector<Primitive*>();
 	nodes = vector<Octree*>();
 }
 
@@ -78,9 +78,9 @@ void Octree::clear()
 	children.clear();
 }
 
-int Octree::findIndex(GameObject* obj) {
+int Octree::findIndex(Primitive* obj) {
 	int res = 0;
-	Vect3 pos = obj->position;
+	Vect3 pos = obj->body->position;
 	if (pos.getX() > (bounds[0].getX() + bounds[1].getX()) / 2) {
 		res++;
 	}
@@ -95,7 +95,7 @@ int Octree::findIndex(GameObject* obj) {
 
 
 
-void Octree::insert(GameObject* obj) {
+void Octree::insert(Primitive* obj) {
 	if ((children.size() < maxChildren) || maxDepth < depth) {
 		children.push_back(obj);
 	}
@@ -136,7 +136,7 @@ void Octree::subdivise() {
 }
 
 
-vector<GameObject*> Octree::retrieve(GameObject* obj) {
+vector<Primitive*> Octree::retrieve(Primitive* obj) {
 	if (nodes.size() != 0) {
 
 		return nodes[findIndex(obj)]->retrieve(obj);
@@ -148,7 +148,7 @@ vector<GameObject*> Octree::retrieve(GameObject* obj) {
 		}
 	}
 
-	return vector<GameObject*>();
+	return vector<Primitive*>();
 
 }
 

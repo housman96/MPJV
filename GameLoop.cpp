@@ -124,91 +124,101 @@ void GameLoop::TimerPhysicsLoop(int value)
 	// Lancement du timer physique
 	glutTimerFunc(deltaT / 10.f, TimerPhysicsLoop, 0);
 
-	// Récupération du temps écoulé
-	double now = glutGet(GLUT_ELAPSED_TIME);
-	double timeElapsedMs = (now - lastLoopTime);
-	lastLoopTime = now;
+	if (GameLoop::stop == false) {
+
+		// Récupération du temps écoulé
+		double now = glutGet(GLUT_ELAPSED_TIME);
+		double timeElapsedMs = (now - lastLoopTime);
+		lastLoopTime = now;
 
 
 
-	if (timeElapsedMs > deltaT / 10) {
-		timeElapsedMs = deltaT / 10;
-	}
-	timeAccumulatedMs += timeElapsedMs;
+		if (timeElapsedMs > deltaT / 10) {
+			timeElapsedMs = deltaT / 10;
+		}
+		timeAccumulatedMs += timeElapsedMs;
 
-	//Ajout des contacts
-	for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
-		GameLoop::listContactGenerator[i]->addContact();
-	}
+		//Ajout des contacts
+		for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
+			GameLoop::listContactGenerator[i]->addContact();
+		}
 
-	//Détection des contatcts
-	//for (int i = 0; i < GameLoop::world.size(); i++) {
-	//	for (int j = i + 1; j < GameLoop::world.size(); j++) {
-	//		if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
-	//			float dist = Vect3::dist(((Particle*)GameLoop::world[i])->getPosition(), ((Particle*)GameLoop::world[j])->getPosition());
-	//			float distColision = ((Particle*)GameLoop::world[i])->getRadius() + ((Particle*)GameLoop::world[j])->getRadius();
-	//			if (dist < distColision) {
-	//				GameLoop::listContact.push_back(new ParticleContact(((Particle*)GameLoop::world[i]), ((Particle*)GameLoop::world[j]), 0.5));
-	//			}
-	//		}
-	//	}
-	//}
-	Vect3 *tab = new Vect3[8];
-	CollisionData data = CollisionData();
-	tab[0] = Vect3(-10.f, -10.f, -10.f);
-	tab[1] = Vect3(10.f, -10.f, -10.f);
-	tab[2] = Vect3(-10.f, 10.f, -10.f);
-	tab[3] = Vect3(10.f, 10.f, -10.f);
-	tab[4] = Vect3(-10.f, -10.f, 10.f);
-	tab[5] = Vect3(10.f, -10.f, 10.f);
-	tab[6] = Vect3(-10.f, 10.f, 10.f);
-	tab[7] = Vect3(10.f, 10.f, 10.f);
-	Octree o = Octree(tab, 3, 10);
+		//Détection des contatcts
+		//for (int i = 0; i < GameLoop::world.size(); i++) {
+		//	for (int j = i + 1; j < GameLoop::world.size(); j++) {
+		//		if (GameLoop::world[i]->t == Type::Particle && GameLoop::world[j]->t == Type::Particle) {
+		//			float dist = Vect3::dist(((Particle*)GameLoop::world[i])->getPosition(), ((Particle*)GameLoop::world[j])->getPosition());
+		//			float distColision = ((Particle*)GameLoop::world[i])->getRadius() + ((Particle*)GameLoop::world[j])->getRadius();
+		//			if (dist < distColision) {
+		//				GameLoop::listContact.push_back(new ParticleContact(((Particle*)GameLoop::world[i]), ((Particle*)GameLoop::world[j]), 0.5));
+		//			}
+		//		}
+		//	}
+		//}
+		Vect3 *tab = new Vect3[8];
+		CollisionData data = CollisionData();
+		tab[0] = Vect3(-100.f, -100.f, -100.f);
+		tab[1] = Vect3(100.f, -100.f, -100.f);
+		tab[2] = Vect3(-100.f, 100.f, -100.f);
+		tab[3] = Vect3(100.f, 100.f, -100.f);
+		tab[4] = Vect3(-100.f, -100.f, 100.f);
+		tab[5] = Vect3(100.f, -100.f, 100.f);
+		tab[6] = Vect3(-100.f, 100.f, 100.f);
+		tab[7] = Vect3(100.f, 100.f, 100.f);
+		Octree o = Octree(tab, 3, 10);
 
-	for (int i = 0; i < GameLoop::world.size(); i++) {
-		o.insert(GameLoop::world[i]);
-	}
-	for (int i = 0; i < GameLoop::world.size(); i++) {
-		vector<GameObject*> tabO = o.retrieve(GameLoop::world[i]);
-		for (size_t j = 0; j < tabO.size(); j++) {
-			if (tabO[j] != GameLoop::world[i]) {
-				CollisionData::generateContact(Box(), Plan(), data);
+		for (int i = 0; i < GameLoop::primitives.size(); i++) {
+			o.insert(GameLoop::primitives[i]);
+		}
+		for (int i = 0; i < GameLoop::primitives.size(); i++) {
+			vector<Primitive*> tabO = o.retrieve(GameLoop::primitives[i]);
+			for (size_t j = 0; j < tabO.size(); j++) {
+				if (tabO[j] != GameLoop::primitives[i]) {
+					if (tabO[j]->type == PrimType::Box && GameLoop::primitives[i]->type == PrimType::Plane) {
+						CollisionData::generateContact(*(Box*)(tabO[j]), *(Plane*)GameLoop::primitives[i], &data);
+					}
+					if (tabO[j]->type == PrimType::Plane && GameLoop::primitives[i]->type == PrimType::Box) {
+						CollisionData::generateContact(*(Box*)GameLoop::primitives[i], *(Plane*)(tabO[j]), &data);
+					}
+				}
 			}
 		}
+		if (data.contactsRestants != 0) {
+			GameLoop::stop = true;
+			data.Log();
+		}
+
+		//Résolution des contacts
+		GameLoop::resolver.setIter(GameLoop::listContact.size());
+		GameLoop::resolver.setVector(GameLoop::listContact);
+		GameLoop::resolver.resolveContact();
+		for (std::vector< ParticleContact* >::iterator it = GameLoop::listContact.begin(); it != GameLoop::listContact.end(); ++it) {
+			delete (*it);
+		}
+		GameLoop::listContact.clear();
+
+		////ajout des forces pour le scénario crash
+		//if (timeAccumulatedMs >= 1000 && !crashDone) {
+
+		//	Rigidbody* car = (Rigidbody*)world[0];
+		//	Rigidbody* car2 = (Rigidbody*)world[1];
+		//	car->addForceAtPoint(Vect3(-50000, 0, 0), Vect3(0, 0, 0));
+		//	car2->addForceAtPoint(Vect3(50000, 0, 0), Vect3(0, 0, 0));
+		//	crashDone = true;
+
+		//}
+
+
+		// Prise en compte des forces
+		for (RegisterForce::ForceRecord record : records) {
+			record.pfg->updateForce(record.go, timeElapsedMs / 1000.);
+		}
+
+		//Mise à jour de la physique
+		for (GameObject *go : GameLoop::world) {
+			go->update(timeElapsedMs / 1000.);
+		}
 	}
-
-
-	//Résolution des contacts
-	GameLoop::resolver.setIter(GameLoop::listContact.size());
-	GameLoop::resolver.setVector(GameLoop::listContact);
-	GameLoop::resolver.resolveContact();
-	for (std::vector< ParticleContact* >::iterator it = GameLoop::listContact.begin(); it != GameLoop::listContact.end(); ++it) {
-		delete (*it);
-	}
-	GameLoop::listContact.clear();
-
-	////ajout des forces pour le scénario crash
-	//if (timeAccumulatedMs >= 1000 && !crashDone) {
-
-	//	Rigidbody* car = (Rigidbody*)world[0];
-	//	Rigidbody* car2 = (Rigidbody*)world[1];
-	//	car->addForceAtPoint(Vect3(-50000, 0, 0), Vect3(0, 0, 0));
-	//	car2->addForceAtPoint(Vect3(50000, 0, 0), Vect3(0, 0, 0));
-	//	crashDone = true;
-
-	//}
-
-
-	// Prise en compte des forces
-	for (RegisterForce::ForceRecord record : records) {
-		record.pfg->updateForce(record.go, timeElapsedMs / 1000.);
-	}
-
-	//Mise à jour de la physique
-	for (GameObject *go : GameLoop::world) {
-		go->update(timeElapsedMs / 1000.);
-	}
-
 }
 
 void GameLoop::TimerDrawLoop(int value)

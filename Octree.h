@@ -3,6 +3,7 @@
 #include "Vect3.h"
 #include "Rigidbody.h"
 #include "Particle.h"
+#include "Primitive.h"
 #include <vector>
 
 using namespace std;
@@ -11,7 +12,7 @@ class Octree
 {
 public:
 	Vect3* bounds;
-	vector<GameObject*> children;
+	vector<Primitive*> children;
 	vector<Octree*> nodes;
 	int maxChildren;
 	int maxDepth;
@@ -19,10 +20,10 @@ public:
 	Octree();
 	Octree(Octree & o);
 	Octree(Vect3 * vectPtr, int max, int maxDepth);
-	void insert(GameObject * obj);
-	int findIndex(GameObject* obj);
+	void insert(Primitive * obj);
+	int findIndex(Primitive* obj);
 	void subdivise();
-	vector<GameObject*> retrieve(GameObject * obj);
+	vector<Primitive*> retrieve(Primitive * obj);
 	~Octree();
 	void clear();
 };

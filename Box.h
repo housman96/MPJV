@@ -9,7 +9,6 @@ class Box : public Primitive
 {
 public:
 	Vect3 halfSizes;
-
 	Box(Rigidbody*, const Matrix34&, const Vect3&);
 };
 

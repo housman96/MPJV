@@ -14,6 +14,7 @@ vector<GameObject *> GameLoop::world = vector<GameObject *>();
 vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
 vector<ParticleContactGenerator*> GameLoop::listContactGenerator = vector<ParticleContactGenerator*>();
 ParticleContactResolver GameLoop::resolver = ParticleContactResolver();
+bool GameLoop::stop = false;
 
 float GameLoop::lastLoopTime = 0.;
 float GameLoop::timeAccumulatedMs = 0.;
@@ -82,7 +83,7 @@ int main(int argc, char** argv)
 	primitives.push_back(&p);
 
 	// Lancement de la boucle de jeu
-	GameLoop gl(argc, argv, objects);
+	GameLoop gl(argc, argv, objects, primitives);
 
 	return 0;
 }

@@ -14,5 +14,6 @@ public:
 	CollisionData();
 	static void generateContact(Box box, Plane plan, CollisionData * data);
 	CollisionData(CollisionData & collisions);
+	void Log();
 	~CollisionData();
 };

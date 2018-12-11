@@ -23,7 +23,7 @@ void CollisionData::generateContact(Box box, Plane plan, CollisionData* data) {
 		if (matTemp.mult(points[i]).dot(plan.normal) + plan.offset < 0) {
 			data->contactsRestants++;
 			if (!data->contacts) {
-				data->contacts = new Contact[];
+				data->contacts = new Contact[200];
 			}
 			data->contacts->contactNormal = plan.normal;
 			data->contacts->contactPoint = points[i];
@@ -36,6 +36,13 @@ CollisionData::CollisionData(CollisionData &collisions)
 {
 	contacts = collisions.contacts;
 	contactsRestants = collisions.contactsRestants;
+}
+
+void CollisionData::Log()
+{
+	for (int i = 0;i < contactsRestants;i++) {
+		contacts[i].Log();
+	}
 }
 
 
