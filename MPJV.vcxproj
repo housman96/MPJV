@@ -124,7 +124,7 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="demo1.cpp" />
     <ClCompile Include="demo2.cpp" />
-    <ClCompile Include="OctreeTest.cpp" />
+    <ClCompile Include="Phase4.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StiffSpringForceGenerator.cpp" />

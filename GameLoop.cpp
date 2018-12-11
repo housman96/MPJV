@@ -46,15 +46,16 @@ GameLoop::GameLoop(int argc, char** argv, GameObject* part)
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>& list)
+GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>& objects)
 {
-	GameLoop::world = list;
+	GameLoop::world = objects;
 	GameLoop(argc, argv);
 }
 
-GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>* list)
+GameLoop::GameLoop(int argc, char** argv, vector<GameObject*>& objects, vector<Primitive*>& prim)
 {
-	GameLoop::world = *list;
+	GameLoop::world = objects;
+	GameLoop::primitives = prim;
 	GameLoop(argc, argv);
 }
 
@@ -169,8 +170,7 @@ void GameLoop::TimerPhysicsLoop(int value)
 	}
 	for (int i = 0; i < GameLoop::world.size(); i++) {
 		vector<GameObject*> tabO = o.retrieve(GameLoop::world[i]);
-		for (size_t j = 0; j < tabO.size(); j++)
-		{
+		for (size_t j = 0; j < tabO.size(); j++) {
 			if (tabO[j] != GameLoop::world[i]) {
 				CollisionData::generateContact(Box(), Plan(), data);
 			}
@@ -182,8 +182,7 @@ void GameLoop::TimerPhysicsLoop(int value)
 	GameLoop::resolver.setIter(GameLoop::listContact.size());
 	GameLoop::resolver.setVector(GameLoop::listContact);
 	GameLoop::resolver.resolveContact();
-	for (std::vector< ParticleContact* >::iterator it = GameLoop::listContact.begin(); it != GameLoop::listContact.end(); ++it)
-	{
+	for (std::vector< ParticleContact* >::iterator it = GameLoop::listContact.begin(); it != GameLoop::listContact.end(); ++it) {
 		delete (*it);
 	}
 	GameLoop::listContact.clear();

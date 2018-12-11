@@ -29,7 +29,8 @@ private:
 
 public:
 	/* VARIABLES STATIQUES */
-	static vector<GameObject *> world; // Liste des particules à afficher
+	static vector<GameObject *> world; // Liste des GameObjects en mouvement
+	static vector<Primitive *> primitives; // Liste des primitives à afficher
 	static vector<ParticleContact*> listContact;
 	static vector<ParticleContactGenerator*> listContactGenerator;
 
@@ -38,7 +39,7 @@ public:
 	GameLoop(int, char **, GameObject &);
 	GameLoop(int, char **, GameObject *);
 	GameLoop(int, char **, vector<GameObject *> &);
-	GameLoop(int, char **, vector<GameObject *> *);
+	GameLoop(int, char **, vector<GameObject *> &, vector<Primitive *> &);
 	~GameLoop();
 
 	/* CALLBACKS D'AFFICHAGE */

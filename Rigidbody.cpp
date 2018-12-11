@@ -135,7 +135,7 @@ float Rigidbody::getMass()
 
 void Rigidbody::draw()
 {
-	float dx = 2.0f;
+	float dx = 1.0f;
 	float dy = 1.0f;
 	float dz = 1.0f;
 
