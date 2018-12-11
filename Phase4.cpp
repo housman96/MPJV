@@ -14,6 +14,7 @@ vector<GameObject *> GameLoop::world = vector<GameObject *>();
 vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
 vector<ParticleContactGenerator*> GameLoop::listContactGenerator = vector<ParticleContactGenerator*>();
 ParticleContactResolver GameLoop::resolver = ParticleContactResolver();
+vector<Primitive *> GameLoop::primitives = vector<Primitive *>();
 bool GameLoop::stop = false;
 
 float GameLoop::lastLoopTime = 0.;
@@ -50,7 +51,7 @@ int main(int argc, char** argv)
 	Box b = Box(&boxRb, identity, Vect3(1, 1, 1));
 
 	// Déclaration de la primitive pour le mur
-	Plane p = Plane(Vect3(1, 0, 0), -10.f);
+	Plane p = Plane(Vect3(0, 1, 0), 2.f);
 
 
 	// ==================================================

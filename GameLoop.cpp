@@ -84,7 +84,7 @@ void GameLoop::display()
 	glClearColor(1.f, 1.f, 1.f, 1.f);
 
 	// Affichage du sol
-	//GameLoop::drawGround();
+	GameLoop::drawGround();
 
 	//Affichage des particules
 	for (GameObject* part : GameLoop::world) {
@@ -104,7 +104,7 @@ void GameLoop::redim(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0., 10.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0., 3.0, 20.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/*Eclairage*/
 	//glEnable(GL_LIGHTING);
@@ -157,14 +157,14 @@ void GameLoop::TimerPhysicsLoop(int value)
 		//}
 		Vect3 *tab = new Vect3[8];
 		CollisionData data = CollisionData();
-		tab[0] = Vect3(-100.f, -100.f, -100.f);
-		tab[1] = Vect3(100.f, -100.f, -100.f);
-		tab[2] = Vect3(-100.f, 100.f, -100.f);
-		tab[3] = Vect3(100.f, 100.f, -100.f);
-		tab[4] = Vect3(-100.f, -100.f, 100.f);
-		tab[5] = Vect3(100.f, -100.f, 100.f);
-		tab[6] = Vect3(-100.f, 100.f, 100.f);
-		tab[7] = Vect3(100.f, 100.f, 100.f);
+		tab[0] = Vect3(-10.f, -10.f, -10.f);
+		tab[1] = Vect3(10.f, -10.f, -10.f);
+		tab[2] = Vect3(-10.f, 10.f, -10.f);
+		tab[3] = Vect3(10.f, 10.f, -10.f);
+		tab[4] = Vect3(-10.f, -10.f, 10.f);
+		tab[5] = Vect3(10.f, -10.f, 10.f);
+		tab[6] = Vect3(-10.f, 10.f, 10.f);
+		tab[7] = Vect3(10.f, 10.f, 10.f);
 		Octree o = Octree(tab, 3, 10);
 
 		for (int i = 0; i < GameLoop::primitives.size(); i++) {
@@ -237,10 +237,10 @@ void GameLoop::drawGround()
 	glPushMatrix();
 	glBegin(GL_POLYGON);
 	glColor3b(50, 50, 50);
-	glVertex3f(100, 0, 100);
-	glVertex3f(100, 0, -100.0);
-	glVertex3f(-100, 0, -100.0);
-	glVertex3f(-100, 0., 100.0);
+	glVertex3f(100, 2, 100);
+	glVertex3f(100, 2, -100.0);
+	glVertex3f(-100, 2, -100.0);
+	glVertex3f(-100, 2., 100.0);
 	glEnd();
 	glPopMatrix();
 }
