@@ -8,6 +8,8 @@
 #include "ParticleContact.h"
 #include "ParticleContactGenerator.h"
 #include "ParticleContactResolver.h"
+#include "CollisionData.h"
+#include "Octree.h"
 #include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,16 +29,18 @@ private:
 
 public:
 	/* VARIABLES STATIQUES */
-	static vector<GameObject *> world; // Liste des particules à afficher
+	static vector<GameObject *> world; // Liste des GameObjects en mouvement
+	static vector<Primitive *> primitives; // Liste des primitives à afficher
 	static vector<ParticleContact*> listContact;
 	static vector<ParticleContactGenerator*> listContactGenerator;
-
+	static bool stop;
+	
 	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	GameLoop(int, char **);
 	GameLoop(int, char **, GameObject &);
 	GameLoop(int, char **, GameObject *);
 	GameLoop(int, char **, vector<GameObject *> &);
-	GameLoop(int, char **, vector<GameObject *> *);
+	GameLoop(int, char **, vector<GameObject *> &, vector<Primitive *> &);
 	~GameLoop();
 
 	/* CALLBACKS D'AFFICHAGE */
@@ -46,7 +50,7 @@ public:
 	static void TimerDrawLoop(int);
 
 	/* METHODES DE DESSIN */
-	static void drawGround();
+	static void drawGround(); // Plan horizontal y = 2;
 };
 
 #endif

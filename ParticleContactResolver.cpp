@@ -15,7 +15,9 @@ ParticleContactResolver::ParticleContactResolver()
 
 ParticleContactResolver::~ParticleContactResolver()
 {
-	delete[] & listContact;
+	if (listContact.data()) {
+		delete[] & listContact;
+	}
 }
 
 // ============================================================

@@ -1,6 +1,8 @@
 #include "Vect3.h"
 #include "GameLoop.h"
 #include "Rigidbody.h"
+#include "Box.h"
+#include "Plane.h"
 #include "GravityGenerator.h"
 #include <vector>
 
@@ -12,6 +14,8 @@ vector<GameObject *> GameLoop::world = vector<GameObject *>();
 vector<ParticleContact*> GameLoop::listContact = vector<ParticleContact*>();
 vector<ParticleContactGenerator*> GameLoop::listContactGenerator = vector<ParticleContactGenerator*>();
 ParticleContactResolver GameLoop::resolver = ParticleContactResolver();
+vector<Primitive *> GameLoop::primitives = vector<Primitive *>();
+bool GameLoop::stop = false;
 
 float GameLoop::lastLoopTime = 0.;
 float GameLoop::timeAccumulatedMs = 0.;
@@ -23,16 +27,31 @@ int main(int argc, char** argv)
 	//      RIGIGBODY
 	// ==================================================
 
-	float mass = 1.0f;
-	float linD = 0.9f;
-	float angD = 0.9f;
+	float boxMass = 1.0f;
+	float boxLinD = 0.9f;
+	float boxAngD = 0.9f;
 
-	// Déclaration du corps rigide
-	Rigidbody rb = Rigidbody(mass, linD, angD);
+	// Déclaration du corps rigide de la boite
+	Rigidbody boxRb = Rigidbody(boxMass, boxLinD, boxAngD);
 
-	// Initialisation du corps rigide
-	rb.init(Vect3(0, 10, 0), Vect3(3, 5, 0), Quaternion(0, 0, 0, 1), Vect3(1, 2, 1));
-	rb.boxInertialTensor(mass, 2, 2, 2);
+	// Initialisation du corps rigide de la boîte
+	boxRb.init(Vect3(0, 10, 0), Vect3(3, 5, 0), Quaternion(0, 0, 0, 1), Vect3(1, 2, 1));
+	boxRb.boxInertialTensor(boxMass, 2, 2, 2);
+
+
+	// ==================================================
+	//      PRIMITIVE
+	// ==================================================
+
+	// Décralartion de la primitive boîte pour le rigidbody Box
+	Matrix34 identity;
+	identity.tab[0] = 1.0f;
+	identity.tab[5] = 1.0f;
+	identity.tab[10] = 1.0f;
+	Box b = Box(&boxRb, identity, Vect3(1, 1, 1));
+
+	// Déclaration de la primitive pour le mur
+	Plane p = Plane(Vect3(0, 1, 0), 2.f);
 
 
 	// ==================================================
@@ -46,7 +65,7 @@ int main(int argc, char** argv)
 
 	// Remplissage des registres de forces
 	RegisterForce::ForceRecord fr_rb_gg;
-	fr_rb_gg.go = &rb;
+	fr_rb_gg.go = &boxRb;
 	fr_rb_gg.pfg = &grav;
 	records.push_back(fr_rb_gg);
 
@@ -55,12 +74,17 @@ int main(int argc, char** argv)
 	//      BOUCLE DE JEU
 	// ==================================================
 
-	// Particules à afficher
+	// GameObjects en mouvement
 	vector<GameObject*> objects;
-	objects.push_back(&rb);
+	objects.push_back(&boxRb);
+
+	// Primitives à afficher
+	vector<Primitive*> primitives;
+	primitives.push_back(&b);
+	primitives.push_back(&p);
 
 	// Lancement de la boucle de jeu
-	GameLoop gl(argc, argv, objects);
+	GameLoop gl(argc, argv, objects, primitives);
 
 	return 0;
 }
