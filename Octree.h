@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 class Octree
 {
 public:
@@ -17,14 +18,18 @@ public:
 	int maxChildren;
 	int maxDepth;
 	int depth;
-	Octree();
-	Octree(Octree & o);
+
+	// CONSTRUCTEURS ET DESTRUCTEUR
+	Octree(); // Constructeur par défaut
+	Octree(Octree & o); // Constructeur par recopie
 	Octree(Vect3 * vectPtr, int max, int maxDepth);
-	void insert(Primitive * obj);
-	int findIndex(Primitive* obj);
+	~Octree(); // Destructeur
+
+	// METHODES
+	void insert(Primitive * obj); // Insère une primitive
+	int findIndex(Primitive* obj); // Trouve l'index de l'objet
 	void subdivise();
-	vector<Primitive*> retrieve(Primitive * obj);
-	~Octree();
-	void clear();
+	vector<Primitive*> retrieve(Primitive * obj); // Renvoie la liste des objets d'un octree
+	void clear(); // Vide l'arbre
 };
 

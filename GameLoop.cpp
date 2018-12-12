@@ -117,8 +117,6 @@ void GameLoop::redim(int width, int height)
 	gluPerspective(70.0, 1.7, 1.0, 100.0);
 }
 
-
-bool crashDone = false;
 void GameLoop::TimerPhysicsLoop(int value)
 {
 	// Lancement du timer physique
@@ -131,18 +129,17 @@ void GameLoop::TimerPhysicsLoop(int value)
 		double timeElapsedMs = (now - lastLoopTime);
 		lastLoopTime = now;
 
-
-
 		if (timeElapsedMs > deltaT / 10) {
 			timeElapsedMs = deltaT / 10;
 		}
 		timeAccumulatedMs += timeElapsedMs;
 
-		//Ajout des contacts
+		// Ajout des contacts
 		for (int i = 0; i < GameLoop::listContactGenerator.size(); i++) {
 			GameLoop::listContactGenerator[i]->addContact();
 		}
 
+		// ##### POUR LES PARTICULES #####
 		//Détection des contatcts
 		//for (int i = 0; i < GameLoop::world.size(); i++) {
 		//	for (int j = i + 1; j < GameLoop::world.size(); j++) {
@@ -155,34 +152,43 @@ void GameLoop::TimerPhysicsLoop(int value)
 		//		}
 		//	}
 		//}
-		Vect3 *tab = new Vect3[8];
-		CollisionData data = CollisionData();
-		tab[0] = Vect3(-10.f, -10.f, -10.f);
-		tab[1] = Vect3(10.f, -10.f, -10.f);
-		tab[2] = Vect3(-10.f, 10.f, -10.f);
-		tab[3] = Vect3(10.f, 10.f, -10.f);
-		tab[4] = Vect3(-10.f, -10.f, 10.f);
-		tab[5] = Vect3(10.f, -10.f, 10.f);
-		tab[6] = Vect3(-10.f, 10.f, 10.f);
-		tab[7] = Vect3(10.f, 10.f, 10.f);
-		Octree o = Octree(tab, 3, 10);
 
+		// Déclaration d'un octree de 20x20x20 centré en (0,0,0)
+		Vect3 *octreeInitValues = new Vect3[8];
+		CollisionData data = CollisionData();
+		octreeInitValues[0] = Vect3(-10.f, -10.f, -10.f);
+		octreeInitValues[1] = Vect3(10.f, -10.f, -10.f);
+		octreeInitValues[2] = Vect3(-10.f, 10.f, -10.f);
+		octreeInitValues[3] = Vect3(10.f, 10.f, -10.f);
+		octreeInitValues[4] = Vect3(-10.f, -10.f, 10.f);
+		octreeInitValues[5] = Vect3(10.f, -10.f, 10.f);
+		octreeInitValues[6] = Vect3(-10.f, 10.f, 10.f);
+		octreeInitValues[7] = Vect3(10.f, 10.f, 10.f);
+		Octree o = Octree(octreeInitValues, 3, 10);
+
+		// On insère toutes les primitives dans l'octree
 		for (int i = 0; i < GameLoop::primitives.size(); i++) {
 			o.insert(GameLoop::primitives[i]);
 		}
+
+		// Récupère les primitives voisines dans l'octree et cherche les vraies collisions
 		for (int i = 0; i < GameLoop::primitives.size(); i++) {
-			vector<Primitive*> tabO = o.retrieve(GameLoop::primitives[i]);
-			for (size_t j = 0; j < tabO.size(); j++) {
-				if (tabO[j] != GameLoop::primitives[i]) {
-					if (tabO[j]->type == PrimType::Box && GameLoop::primitives[i]->type == PrimType::Plane) {
-						CollisionData::generateContact(*(Box*)(tabO[j]), *(Plane*)GameLoop::primitives[i], &data);
+			vector<Primitive*> neighbourPrims = o.retrieve(GameLoop::primitives[i]);
+			for (int j = 0; j < neighbourPrims.size(); j++) {
+				if (neighbourPrims[j] != GameLoop::primitives[i]) {
+					// Si c'est une collision boîte - plan
+					if (neighbourPrims[j]->type == PrimType::Box && GameLoop::primitives[i]->type == PrimType::Plane) {
+						CollisionData::generateContact(*(Box*)(neighbourPrims[j]), *(Plane*)GameLoop::primitives[i], &data);
 					}
-					if (tabO[j]->type == PrimType::Plane && GameLoop::primitives[i]->type == PrimType::Box) {
-						CollisionData::generateContact(*(Box*)GameLoop::primitives[i], *(Plane*)(tabO[j]), &data);
+					// Si c'est une collision plan - boîte (dans l'autre sens)
+					if (neighbourPrims[j]->type == PrimType::Plane && GameLoop::primitives[i]->type == PrimType::Box) {
+						CollisionData::generateContact(*(Box*)GameLoop::primitives[i], *(Plane*)(neighbourPrims[j]), &data);
 					}
 				}
 			}
 		}
+
+		// Si on a un contact, on freeze l'animation
 		if (data.contactsRestants != 0) {
 			GameLoop::stop = true;
 			data.Log();
@@ -196,18 +202,6 @@ void GameLoop::TimerPhysicsLoop(int value)
 			delete (*it);
 		}
 		GameLoop::listContact.clear();
-
-		////ajout des forces pour le scénario crash
-		//if (timeAccumulatedMs >= 1000 && !crashDone) {
-
-		//	Rigidbody* car = (Rigidbody*)world[0];
-		//	Rigidbody* car2 = (Rigidbody*)world[1];
-		//	car->addForceAtPoint(Vect3(-50000, 0, 0), Vect3(0, 0, 0));
-		//	car2->addForceAtPoint(Vect3(50000, 0, 0), Vect3(0, 0, 0));
-		//	crashDone = true;
-
-		//}
-
 
 		// Prise en compte des forces
 		for (RegisterForce::ForceRecord record : records) {

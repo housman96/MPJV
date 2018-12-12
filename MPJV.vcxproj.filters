@@ -51,9 +51,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="moteurJeu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StiffSpringForceGenerator.cpp">
       <Filter>Source Files\ForceGenerators</Filter>
     </ClCompile>
@@ -95,12 +92,6 @@
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="demo1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="demo2.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Source Files\GameObjects</Filter>

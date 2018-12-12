@@ -1,6 +1,9 @@
 #include "Octree.h"
 
 
+// ============================================================
+// CONSTRUCTEURS ET DESTRUCTEUR
+// ============================================================
 
 Octree::Octree()
 {
@@ -12,22 +15,20 @@ Octree::Octree()
 	nodes = vector<Octree*>();
 }
 
-Octree::Octree(Octree &o) {
+Octree::Octree(Octree &o)
+{
 	maxChildren = o.maxChildren;
 	maxDepth = o.maxDepth;
 	depth = o.depth;
-	for (size_t i = 0; i < 8; i++)
-	{
+	for (size_t i = 0; i < 8; i++) {
 		bounds[i] = o.bounds[i];
 	}
 
-	for (size_t i = 0; i < o.children.size(); i++)
-	{
+	for (size_t i = 0; i < o.children.size(); i++) {
 		children[i] = o.children[i];
 	}
 
-	for (size_t i = 0; i < 8; i++)
-	{
+	for (size_t i = 0; i < 8; i++) {
 		nodes[i] = o.nodes[i];
 	}
 
@@ -49,36 +50,38 @@ Octree::~Octree()
 		delete[] bounds;
 	}
 	if (children.data()) {
-		for (size_t i = 0; i < children.size(); i++)
-		{
+		for (size_t i = 0; i < children.size(); i++) {
 			children[i] = NULL;
 			delete children[i];
 		}
 		children.clear();
 	}
 	if (nodes.data()) {
-		for (size_t i = 0; i < nodes.size(); i++)
-		{
+		for (size_t i = 0; i < nodes.size(); i++) {
 			nodes[i] = NULL;
 			delete nodes[i];
 		}
 		nodes.clear();
-		//delete[] & nodes;
 	}
 }
+
+
+// ============================================================
+// METHODES
+// ============================================================
 
 void Octree::clear()
 {
 	depth = 0;
-	for (size_t i = 0; i < nodes.size(); i++)
-	{
+	for (size_t i = 0; i < nodes.size(); i++) {
 		nodes[i]->clear();
 		delete nodes[i];
 	}
 	children.clear();
 }
 
-int Octree::findIndex(Primitive* obj) {
+int Octree::findIndex(Primitive* obj)
+{
 	int res = 0;
 	Vect3 pos = obj->body->position;
 	if (pos.getX() > (bounds[0].getX() + bounds[1].getX()) / 2) {
@@ -93,16 +96,14 @@ int Octree::findIndex(Primitive* obj) {
 	return res;
 }
 
-
-
-void Octree::insert(Primitive* obj) {
+void Octree::insert(Primitive* obj)
+{
 	if ((children.size() < maxChildren) || maxDepth < depth) {
 		children.push_back(obj);
-	}
-	else {
+	} else {
 		if (nodes.size() == 0) {
 			subdivise();
-			for (int i = 0; i < children.size();i++) {
+			for (int i = 0; i < children.size(); i++) {
 				nodes[findIndex(children[i])]->insert(children[i]);
 			}
 			children.clear();
@@ -112,20 +113,19 @@ void Octree::insert(Primitive* obj) {
 	}
 }
 
-void Octree::subdivise() {
+void Octree::subdivise()
+{
 	Vect3 **vec = new Vect3*[8];
 
-	for (int i = 0;i < 8;i++) {
+	for (int i = 0; i < 8; i++) {
 		vec[i] = new Vect3[8];
 	}
 
-	for (int i = 0;i < 8;i++) {
-		for (int j = 0; j < 8; j++)
-		{
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
 			if (i == j) {
 				vec[i][j] = bounds[i];
-			}
-			else {
+			} else {
 				vec[i][j] = bounds[i].add(bounds[j].sub(bounds[i]).scale(1.f / 2.f));
 			}
 		}
@@ -135,14 +135,13 @@ void Octree::subdivise() {
 	delete vec;
 }
 
-
-vector<Primitive*> Octree::retrieve(Primitive* obj) {
+vector<Primitive*> Octree::retrieve(Primitive* obj)
+{
 	if (nodes.size() != 0) {
 
 		return nodes[findIndex(obj)]->retrieve(obj);
 	}
-	for (size_t i = 0; i < children.size(); i++)
-	{
+	for (size_t i = 0; i < children.size(); i++) {
 		if (obj == children[i]) {
 			return children;
 		}
@@ -151,6 +150,3 @@ vector<Primitive*> Octree::retrieve(Primitive* obj) {
 	return vector<Primitive*>();
 
 }
-
-
-

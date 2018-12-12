@@ -10,10 +10,12 @@ public:
 	Contact *contacts;
 	int contactsRestants;
 
-
+	// CONSTRUCTEURS ET DESTRUCTEUR
 	CollisionData();
-	static void generateContact(Box box, Plane plan, CollisionData * data);
 	CollisionData(CollisionData & collisions);
-	void Log();
 	~CollisionData();
+	
+	// METHODES
+	static void generateContact(Box box, Plane plan, CollisionData * data);
+	void Log();
 };

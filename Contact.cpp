@@ -3,13 +3,10 @@
 
 void Contact::Log()
 {
-	std::cout << "contactPoint" << std::endl;
+	std::cout << "===== CONTACT =====" << std::endl;
+	std::cout << "contactPoint = ";
 	contactPoint.log();
-	std::cout << "contactNormal" << std::endl;
+	std::cout << "contactNormal = ";
 	contactNormal.log();
-	std::cout << "penetration=" << penetration << std::endl;
-}
-
-Contact::Contact()
-{
+	std::cout << "penetration = " << penetration << std::endl;
 }

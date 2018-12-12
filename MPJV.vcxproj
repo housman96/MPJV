@@ -109,7 +109,6 @@
     <ClCompile Include="GravityGenerator.cpp" />
     <ClCompile Include="Matrix33.cpp" />
     <ClCompile Include="Matrix34.cpp" />
-    <ClCompile Include="moteurJeu.cpp" />
     <ClCompile Include="Octree.cpp" />
     <ClCompile Include="ParicleRod.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -122,8 +121,6 @@
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
-    <ClCompile Include="demo1.cpp" />
-    <ClCompile Include="demo2.cpp" />
     <ClCompile Include="Phase4.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />

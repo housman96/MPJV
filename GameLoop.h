@@ -34,6 +34,7 @@ public:
 	static vector<ParticleContact*> listContact;
 	static vector<ParticleContactGenerator*> listContactGenerator;
 	static bool stop;
+	
 	/* CONSTRUCTEURS ET DESTRUCTEUR */
 	GameLoop(int, char **);
 	GameLoop(int, char **, GameObject &);
@@ -49,7 +50,7 @@ public:
 	static void TimerDrawLoop(int);
 
 	/* METHODES DE DESSIN */
-	static void drawGround();
+	static void drawGround(); // Plan horizontal y = 2;
 };
 
 #endif
